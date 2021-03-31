@@ -1,19 +1,17 @@
-import React from 'react';
+import React, {useContext} from 'react';
+import { SiteContext } from './TodoScreen'
 import {View,FlatList,StyleSheet} from 'react-native';
 import Task from '../objects/Task';
 import TaskCard from './TaskCard';
 
-type Props = {
-  taskList: Task[];
-}
 
-const TaskList: React.FC<Props> = (props: React.PropsWithChildren<Props>) => {
-  const {taskList} = props;
+const TaskList: React.FC = () => {
+  const {state} = useContext(SiteContext)
   return (
     <View  style={styles.taskWrap}>
       <FlatList
         showsVerticalScrollIndicator={false}
-        data={taskList}
+        data={ state }
         keyExtractor={(item) => item?.id?.toString()}
         renderItem={({item}) => {
           return <TaskCard task={item} />;

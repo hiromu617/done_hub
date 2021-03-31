@@ -1,4 +1,5 @@
-import React, {useCallback} from 'react';
+import React, {useReducer, useContext, useCallback} from 'react';
+import { SiteContext } from './TodoScreen'
 import { StyleSheet, Text, View ,TouchableOpacity} from 'react-native';
 import Task from '../objects/Task';
 import TaskCheckBox from './TaskCheckBox';
@@ -14,14 +15,30 @@ type Props = {
 
 const TaskCard: React.FC<Props> = (props) => {
   const {task} = props;
-  const checkTask = () => {
-
+  const { dispatch } = useContext(SiteContext);
+  const onPressTask = () => {
+    dispatch({type: 'checked', id: task.id})
   }
+  const checkTask = useCallback(
+    () => {
+      dispatch({type: 'checked', id: task.id})
+    },
+    [task],
+  );
+  const deleteTask = useCallback(
+    () => {
+      dispatch({type: 'delete', id: task.id})
+    },
+    [],
+  )
   return (
     <View style={styles.taskCard}>
       <TaskCheckBox checked={task.checked} onCheck={checkTask}/>
-      <TouchableOpacity>
+      <TouchableOpacity onPress={onPressTask}>
         <Text>{task.name}</Text>
+      </TouchableOpacity>
+      <TouchableOpacity onPress={deleteTask}>
+        <Text>削除</Text>
       </TouchableOpacity>
     </View>
   )
@@ -36,7 +53,7 @@ const styles = StyleSheet.create({
     flex: 1, 
     alignItems: 'center',
     flexDirection: 'row',
-    paddingBottom: '20',
+    paddingBottom: '10%',
     justifyContent: 'space-between',
   },
 })
