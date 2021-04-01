@@ -39,12 +39,29 @@ function reducer(state, action) {
         if(state[i].id !== action.id) deletedState.push(state[i])
       }
       return deletedState
+    case 'create':
+      let uniqueId: number = generateRandomNumber(10000)
+      while(state.find((t) => t.id === uniqueId) !== undefined){
+        uniqueId = generateRandomNumber(10000)
+      }
+      let newTask :Task = {
+        id: uniqueId,
+        name: action.data.name,
+        comment: action.data.comment,
+        checked: false
+      }
+      state.push(newTask)
+      return state
     default : 
       return state
   }
 }
 
-export const SiteContext = React.createContext();
+const generateRandomNumber = (range: number): number => {
+  return Math.floor(Math.random() * range);
+};
+
+export const SiteContext = React.createContext(null);
 
 const SiteProvider = ({children}) => {
   const [state, dispatch] = useReducer(reducer, initialState)

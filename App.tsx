@@ -13,7 +13,7 @@ const Tab = createBottomTabNavigator();
 function MyTabs() {
   return (
     <Tab.Navigator
-      initialRouteName="Feed"
+      initialRouteName="Todo"
       tabBarOptions={{
         activeTintColor: '#e91e63',
         showLabel: false
