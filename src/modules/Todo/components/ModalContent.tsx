@@ -14,6 +14,7 @@ const ModalContent: React.FC<Props> = (props) => {
   const {dispatch} = useContext(SiteContext);
   const onSubmit = (data: TaskForm) => {
     dispatch({type: 'create', data: data})
+    CloseModal()
   };
 
   return (
