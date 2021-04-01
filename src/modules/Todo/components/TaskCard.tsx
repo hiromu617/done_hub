@@ -17,7 +17,6 @@ const TaskCard: React.FC<Props> = (props) => {
   const {task} = props;
   const { dispatch } = useContext(SiteContext);
   const onPressTask = () => {
-    dispatch({type: 'checked', id: task.id})
   }
   const checkTask = useCallback(
     () => {
@@ -53,7 +52,11 @@ const styles = StyleSheet.create({
     flex: 1, 
     alignItems: 'center',
     flexDirection: 'row',
-    paddingBottom: '10%',
+    padding: '1%',
+    marginBottom: '1%',
     justifyContent: 'space-between',
+    borderWidth: 2,
+    borderRadius: 10,
+    borderColor: 'grey'
   },
 })

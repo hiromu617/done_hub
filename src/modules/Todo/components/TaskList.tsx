@@ -25,10 +25,10 @@ export default TaskList;
 
 const styles = StyleSheet.create({
   taskWrap: {
-    width: '100%',
-    flex: 1, 
-    alignItems: 'center',
-    paddingTop: '20%',
+    // width: '100%',
+    // flex: 1, 
+    // alignItems: 'center',
+    padding: '20%',
   },
   taskList: {
     width: '100%',

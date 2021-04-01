@@ -9,7 +9,7 @@ type Props = {
 
 const TaskCheckBox: React.FC<Props> = (props) => {
   const {checked, onCheck} = props
-  const color: string = checked ? 'red' : 'black';
+  const color: string = checked ? 'red' : 'grey';
   return (
     <TouchableOpacity style={styles.checkBox} onPress={onCheck}>
       <Entypo name="check" size={24} color={color} />
@@ -21,9 +21,7 @@ export default TaskCheckBox;
 
 const styles = StyleSheet.create({
   checkBox: {
-    borderWidth: '2px',
-    borderRadius: '10px',
-    padding: '8px',
+    padding: 8,
     marginRight: '1%',
   },
 })
