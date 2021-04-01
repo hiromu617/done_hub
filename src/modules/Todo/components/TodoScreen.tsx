@@ -1,8 +1,13 @@
-import React, {useReducer,useContext} from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import React, {useReducer,useContext, useState} from 'react';
+import { StyleSheet, Text, View, Button } from 'react-native';
 import {generateNewTask} from '../TaskUtil';
 import TaskList from './TaskList';
 import {Task} from '../'
+import CircleBtn from './CircleBtn'
+import ModalContent from './ModalContent'
+import Modal from 'react-native-modal';
+import { TouchableOpacity } from 'react-native-gesture-handler';
+import { AntDesign } from '@expo/vector-icons'; 
 
 let initialState: Task[] = [
   {
@@ -49,14 +54,29 @@ const SiteProvider = ({children}) => {
 }
 
 const TodoScreen: React.FC = () => {
+  const [isModalVisible, setModalVisible] = useState(true);
+  const toggleModal = () => {
+    setModalVisible(!isModalVisible);
+  };
+
   return (
     <SiteProvider>
-      <View style={{ width: '100%'}}>
+        <Modal
+         isVisible={isModalVisible}
+         hasBackdrop={true}
+        >
+          <ModalContent CloseModal={toggleModal}></ModalContent>
+        </Modal>
+
+      <View style={{ flex: 1, justifyContent: 'center'}}>
         <TaskList/>
+
+        <CircleBtn onPressBtn={toggleModal}></CircleBtn>
       </View>
     </SiteProvider>
   )
 }
 
 export default TodoScreen
+
 
