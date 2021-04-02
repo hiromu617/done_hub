@@ -22,6 +22,20 @@ function reducer(state, action) {
       storeTasks(checkedState)
       return checkedState
     case 'delete':
+      // リロード時はstorageからstateを取ってくる
+      if(state.length === 0){
+        getTasks().then((res) => {
+          state = res
+          let copy = state.slice()
+          let newDeletedState = []
+          for(let i = 0; i < state.length; i++){
+            if(copy[i].id !== action.id) newDeletedState.push(copy[i])
+          }
+          storeTasks(newDeletedState)
+          return newDeletedState  
+        })
+      }
+      // console.log(state)
       let copy = state.slice()
       let newDeletedState = []
       for(let i = 0; i < state.length; i++){
