@@ -37,6 +37,12 @@ const ModalContent: React.FC<Props> = (props) => {
             maxLength: 20,
           }}
         />
+        {errors.name && errors.name.type === 'required' && (
+          <Text style={styles.errorText}>タイトルは必須です。</Text>
+        )}
+        {errors.name && errors.name.type === 'maxLength' && (
+          <Text style={styles.errorText}>タイトルは20文字以内で入力してください。</Text>
+        )}
       <Text>コメント</Text>
       <Controller
           control={control}
@@ -72,5 +78,8 @@ const styles = StyleSheet.create({
     fontSize: 18,
     padding: '4%',
     margin: '4%',
+  },
+  errorText: {
+    color: 'red',
   }
 })

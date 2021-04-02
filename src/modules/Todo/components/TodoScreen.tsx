@@ -71,7 +71,7 @@ const SiteProvider = ({children}) => {
 }
 
 const TodoScreen: React.FC = () => {
-  const [isModalVisible, setModalVisible] = useState(true);
+  const [isModalVisible, setModalVisible] = useState(false);
   const toggleModal = () => {
     setModalVisible(!isModalVisible);
   };
