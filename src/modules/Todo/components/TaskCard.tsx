@@ -8,6 +8,7 @@ import {
   reflectEditToList,
 } from '../TaskUtil';
 import {Alert} from 'react-native';
+import { AntDesign } from '@expo/vector-icons'; 
 
 type Props = {
   task: Task;
@@ -36,8 +37,10 @@ const TaskCard: React.FC<Props> = (props) => {
       <TouchableOpacity onPress={onPressTask}>
         <Text>{task.name}</Text>
       </TouchableOpacity>
-      <TouchableOpacity onPress={deleteTask}>
-        <Text>削除</Text>
+      <TouchableOpacity 
+        onPress={deleteTask} 
+      >
+        <AntDesign name="close" size={24} color="grey" />
       </TouchableOpacity>
     </View>
   )

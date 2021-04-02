@@ -1,5 +1,5 @@
 import React, {useReducer,useContext, useState, useEffect} from 'react';
-import {Task} from '../'
+import {Task} from '.'
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 let initialState: Task[] = []
