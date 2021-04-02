@@ -4,14 +4,19 @@ import {View,FlatList,StyleSheet} from 'react-native';
 import Task from '../objects/Task';
 import TaskCard from './TaskCard';
 
+type Props = {
+  tasks: Task[];
+}
 
-const TaskList: React.FC = () => {
+const TaskList: React.FC<Props> = (props) => {
   const {state} = useContext(SiteContext)
+  const {tasks} = props
+
   return (
     <View  style={styles.taskWrap}>
       <FlatList
         showsVerticalScrollIndicator={false}
-        data={ state }
+        data={ tasks}
         keyExtractor={(item) => item?.id?.toString()}
         renderItem={({item}) => {
           return <TaskCard task={item} />;

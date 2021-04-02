@@ -1,4 +1,4 @@
-import React, {useReducer,useContext, useState} from 'react';
+import React, {useReducer,useContext, useState, useEffect} from 'react';
 import { StyleSheet, Text, View, Button } from 'react-native';
 import {generateNewTask} from '../TaskUtil';
 import TaskList from './TaskList';
@@ -8,6 +8,7 @@ import ModalContent from './ModalContent'
 import Modal from 'react-native-modal';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { AntDesign } from '@expo/vector-icons'; 
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 let initialState: Task[] = [
   {
@@ -32,12 +33,14 @@ function reducer(state, action) {
       checkedState.map((t) => {
         if(t.id === action.id) t.checked = !t.checked
       })
+      storeTasks(checkedState)
       return checkedState
     case 'delete':
       let deletedState = []
       for(let i = 0; i < state.length; i++){
         if(state[i].id !== action.id) deletedState.push(state[i])
       }
+      storeTasks(deletedState)
       return deletedState
     case 'create':
       let uniqueId: number = generateRandomNumber(10000)
@@ -51,9 +54,33 @@ function reducer(state, action) {
         checked: false
       }
       state.push(newTask)
+      storeTasks(state)
       return state
     default : 
       return state
+  }
+}
+const storeTasks = async (tasks: Task[]) => {
+  try {
+    const jsonValue = JSON.stringify(tasks)
+    console.log(jsonValue)
+    await AsyncStorage.setItem('@storage_Key', jsonValue)
+  } catch (e) {
+    // saving error
+    console.log(e)
+  }
+}
+const getTasks = async () => {
+  try {
+    const value = await AsyncStorage.getItem('@storage_Key')
+    if(value !== null) {
+      // value previously stored
+    }
+    let tasksState = JSON.parse(value)
+    return tasksState
+  } catch(e) {
+    // error reading value
+    return 'error'
   }
 }
 
@@ -75,7 +102,15 @@ const TodoScreen: React.FC = () => {
   const toggleModal = () => {
     setModalVisible(!isModalVisible);
   };
+  const [tasksData, setData] = useState(initialState);
 
+  useEffect(() => {
+    // console.log(getTasks())
+    getTasks().then((data) => {
+      console.log(data)
+      setData(data);
+    })
+  });
   return (
     <SiteProvider>
         <Modal
@@ -86,7 +121,7 @@ const TodoScreen: React.FC = () => {
         </Modal>
 
       <View style={{ flex: 1, justifyContent: 'center'}}>
-        <TaskList/>
+        <TaskList tasks={tasksData}/>
 
         <CircleBtn onPressBtn={toggleModal}></CircleBtn>
       </View>
