@@ -1,22 +1,40 @@
-import React, {useContext} from 'react';
+import React, {useContext, useState, useEffect} from 'react';
 import { SiteContext } from './TodoScreen'
 import {View,FlatList,StyleSheet} from 'react-native';
 import Task from '../objects/Task';
 import TaskCard from './TaskCard';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
-type Props = {
-  tasks: Task[];
+const getTasks = async () => {
+  try {
+    const value = await AsyncStorage.getItem('@storage_Key')
+    if(value !== null) {
+      // value previously stored
+    }
+    let tasksState = JSON.parse(value)
+    return tasksState
+  } catch(e) {
+    // error reading value
+    return 'error'
+  }
 }
-
-const TaskList: React.FC<Props> = (props) => {
+const TaskList: React.FC= () => {
   const {state} = useContext(SiteContext)
-  const {tasks} = props
+  // console.log(state)
+  const [tasksData, setData] = useState();
+  
+  useEffect(() => {
+    getTasks().then((data) => {
+      // console.log(data)
+      setData(data);
+    })
+  },[state]);
 
   return (
     <View  style={styles.taskWrap}>
       <FlatList
         showsVerticalScrollIndicator={false}
-        data={ tasks}
+        data={ tasksData}
         keyExtractor={(item) => item?.id?.toString()}
         renderItem={({item}) => {
           return <TaskCard task={item} />;

@@ -10,20 +10,7 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 import { AntDesign } from '@expo/vector-icons'; 
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-let initialState: Task[] = [
-  {
-    id: 12434,
-    name: "taskName",
-    comment: "taskComment",
-    checked: false
-  },
-  {
-    id: 12484,
-    name: "taskName2",
-    comment: "taskComment2",
-    checked: false
-  },
-]
+let initialState: Task[] = []
 
 function reducer(state, action) {
   switch (action.type) {
@@ -36,12 +23,13 @@ function reducer(state, action) {
       storeTasks(checkedState)
       return checkedState
     case 'delete':
-      let deletedState = []
+      let copy = state.slice()
+      let newDeletedState = []
       for(let i = 0; i < state.length; i++){
-        if(state[i].id !== action.id) deletedState.push(state[i])
+        if(copy[i].id !== action.id) newDeletedState.push(copy[i])
       }
-      storeTasks(deletedState)
-      return deletedState
+      storeTasks(newDeletedState)
+      return newDeletedState
     case 'create':
       let uniqueId: number = generateRandomNumber(10000)
       while(state.find((t) => t.id === uniqueId) !== undefined){
@@ -53,9 +41,10 @@ function reducer(state, action) {
         comment: action.data.comment,
         checked: false
       }
-      state.push(newTask)
-      storeTasks(state)
-      return state
+      let newState = state.slice()
+      newState.push(newTask)
+      storeTasks(newState)
+      return newState
     default : 
       return state
   }
@@ -83,7 +72,6 @@ const getTasks = async () => {
     return 'error'
   }
 }
-
 const generateRandomNumber = (range: number): number => {
   return Math.floor(Math.random() * range);
 };
@@ -91,6 +79,8 @@ const generateRandomNumber = (range: number): number => {
 export const SiteContext = React.createContext(null);
 
 const SiteProvider = ({children}) => {
+  let loadedState: Task[];
+  
   const [state, dispatch] = useReducer(reducer, initialState)
   return <SiteContext.Provider value={{state, dispatch}}>
     {children}
@@ -102,15 +92,7 @@ const TodoScreen: React.FC = () => {
   const toggleModal = () => {
     setModalVisible(!isModalVisible);
   };
-  const [tasksData, setData] = useState(initialState);
-
-  useEffect(() => {
-    // console.log(getTasks())
-    getTasks().then((data) => {
-      console.log(data)
-      setData(data);
-    })
-  });
+ 
   return (
     <SiteProvider>
         <Modal
@@ -121,7 +103,7 @@ const TodoScreen: React.FC = () => {
         </Modal>
 
       <View style={{ flex: 1, justifyContent: 'center'}}>
-        <TaskList tasks={tasksData}/>
+        <TaskList/>
 
         <CircleBtn onPressBtn={toggleModal}></CircleBtn>
       </View>
