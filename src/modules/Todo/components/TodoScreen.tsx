@@ -9,8 +9,7 @@ import Modal from 'react-native-modal';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { AntDesign } from '@expo/vector-icons'; 
 import AsyncStorage from '@react-native-async-storage/async-storage';
-
-let initialState: Task[] = []
+import { initialState, storeTasks, getTasks } from './Storage'
 
 function reducer(state, action) {
   switch (action.type) {
@@ -49,29 +48,7 @@ function reducer(state, action) {
       return state
   }
 }
-const storeTasks = async (tasks: Task[]) => {
-  try {
-    const jsonValue = JSON.stringify(tasks)
-    console.log(jsonValue)
-    await AsyncStorage.setItem('@storage_Key', jsonValue)
-  } catch (e) {
-    // saving error
-    console.log(e)
-  }
-}
-const getTasks = async () => {
-  try {
-    const value = await AsyncStorage.getItem('@storage_Key')
-    if(value !== null) {
-      // value previously stored
-    }
-    let tasksState = JSON.parse(value)
-    return tasksState
-  } catch(e) {
-    // error reading value
-    return 'error'
-  }
-}
+
 const generateRandomNumber = (range: number): number => {
   return Math.floor(Math.random() * range);
 };
