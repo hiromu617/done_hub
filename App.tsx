@@ -7,9 +7,23 @@ import HomeScreen from './src/modules/Home/components/HomeScreen'
 import ProfileScreen from './src/modules/Profile/components/ProfileScreen'
 import SearchScreen from './src/modules/Search/components/SearchScreen'
 import TodoScreen from './src/modules/Todo/components/TodoScreen'
+import { createSwitchNavigator} from '@react-navigation/compat';
+import DashboardScreen from './src/modules/Auth/DashboardScreen'
+import LoginScreen from './src/modules/Auth/LoginScreen'
+import LoadingScreen from './src/modules/Auth/LoadingScreen'
+import {firebaseConfig} from './config'
+import firebase from 'firebase'
+
+firebase.initializeApp(firebaseConfig);
+
+const AppSwitchNavigator = createSwitchNavigator({
+  LoadingScreen: LoadingScreen,
+  LoginScreen: LoginScreen,
+  DashboardScreen: DashboardScreen,
+  MyTabs: MyTabs,
+})
 
 const Tab = createBottomTabNavigator();
-
 function MyTabs() {
   return (
     <Tab.Navigator
@@ -66,7 +80,10 @@ function MyTabs() {
 export default function App() {
   return (
     <NavigationContainer>
-      <MyTabs/>
+      <AppSwitchNavigator/>
     </NavigationContainer>
+    // <NavigationContainer>
+    //   <MyTabs/>
+    // </NavigationContainer>
   );
 }
