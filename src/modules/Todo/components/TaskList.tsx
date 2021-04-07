@@ -7,7 +7,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const getTasks = async () => {
   try {
-    const value = await AsyncStorage.getItem('@storage_Key')
+    const value = await AsyncStorage.getItem('@tasks_Key')
     if(value !== null) {
       // value previously stored
     }
@@ -21,12 +21,12 @@ const getTasks = async () => {
 const TaskList: React.FC= () => {
   const {state} = useContext(SiteContext)
   // console.log(state)
-  const [tasksData, setData] = useState();
-  
+  const [tasksData, setTask] = useState();
+  console.log(tasksData)
   useEffect(() => {
     getTasks().then((data) => {
       // console.log(data)
-      setData(data);
+      setTask(data);
     })
   },[state]);
 
