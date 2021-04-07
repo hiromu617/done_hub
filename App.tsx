@@ -20,7 +20,6 @@ const initialUser: User = {
   uid: null,
   name: null
 }
-
 function userReducer(state, action) {
   switch (action.type) {
     case 'SET_USER':
@@ -29,7 +28,7 @@ function userReducer(state, action) {
         name: action.data.displayName
       }
       alert(newUser)
-      console.log(newUser)
+      // console.log(newUser)
       storeUser(newUser)
       state = newUser
       return newUser;

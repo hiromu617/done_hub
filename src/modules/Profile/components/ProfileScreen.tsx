@@ -14,7 +14,7 @@ function ProfileScreen() {
     getUser().then((data) => {
       if(data.uid !== undefined) {
         setData(data);
-        console.log(data)
+        // console.log(data)
       }
     })
   },[]);

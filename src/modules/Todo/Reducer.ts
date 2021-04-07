@@ -1,6 +1,7 @@
 import {Task} from '.'
 import { initialState, storeTasks, getTasks } from './Storage'
-
+import {getUser} from './Storage'
+import axios from '../../constants/axios'
 function reducer(state: Task[], action) {
   // リロード時はstorageからstateを取ってくる
   if(state.length === 0){
@@ -48,9 +49,34 @@ function reducer(state: Task[], action) {
     case 'checked':
       // alert(action.id)
       let checkedState: Task[] = state.slice()
+      let checkedTask: Task;
+      let usersUid: string;
       checkedState.map((t) => {
-        if(t.id === action.id) t.checked = !t.checked
+        if(t.id === action.id){
+          t.checked = !t.checked
+          checkedTask = t
+          // console.log(t)
+        }
       })
+      console.log('this')
+      console.log(checkedTask)
+      getUser().then((data) => {
+        if(data.uid !== undefined) {
+          // console.log(data)
+          usersUid = data.uid
+        }
+        console.log(usersUid)
+        axios.post('/api/done_posts/' + usersUid, { 
+          done_post: {
+            title: checkedTask.name,
+            uid: usersUid,
+            comment: 'this is comment'
+          }
+        }).then(res => console.log(res))
+        .catch(e => console.log(e))
+      })
+      
+
       storeTasks(checkedState)
       return checkedState
     case 'delete':

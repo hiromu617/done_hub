@@ -7,7 +7,7 @@ let initialState: Task[] = []
 const storeTasks = async (tasks: Task[]) => {
   try {
     const jsonValue = JSON.stringify(tasks)
-    console.log(jsonValue)
+    // console.log(jsonValue)
     await AsyncStorage.setItem('@tasks_Key', jsonValue)
   } catch (e) {
     // saving error
@@ -31,7 +31,7 @@ const getTasks = async () => {
 const storeUser = async (user: User) => {
   try {
     const jsonValue = JSON.stringify(user)
-    console.log(jsonValue)
+    // console.log(jsonValue)
     await AsyncStorage.setItem('@user_Key', jsonValue)
   } catch (e) {
     // saving error

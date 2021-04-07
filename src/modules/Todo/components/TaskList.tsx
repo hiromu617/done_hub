@@ -22,7 +22,7 @@ const TaskList: React.FC= () => {
   const {state} = useContext(SiteContext)
   // console.log(state)
   const [tasksData, setTask] = useState();
-  console.log(tasksData)
+  // console.log(tasksData)
   useEffect(() => {
     getTasks().then((data) => {
       // console.log(data)
