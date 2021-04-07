@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useReducer, useContext} from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
@@ -13,6 +13,51 @@ import LoginScreen from './src/modules/Auth/LoginScreen'
 import LoadingScreen from './src/modules/Auth/LoadingScreen'
 import {firebaseConfig} from './config'
 import firebase from 'firebase'
+import User from './src/modules/Profile/objects/User'
+import { storeUser, getUser } from './src/modules/Todo/Storage'
+
+const initialUser: User = {
+  uid: null,
+  name: null
+}
+
+function userReducer(state, action) {
+  switch (action.type) {
+    case 'SET_USER':
+      let newUser: User = {
+        uid: action.data.uid,
+        name: action.data.displayName
+      }
+      alert(newUser)
+      console.log(newUser)
+      storeUser(newUser)
+      state = newUser
+      return newUser;
+    default : 
+      return state
+  }
+
+}
+// function createCtx<ContextType>() {
+//   const ctx = React.createContext<ContextType | undefined>(undefined);
+//   const useCtx = () => {
+//     const c = React.useContext(ctx);
+//     if (!c) throw new Error("useCtx must be inside a Provider with a value");
+//     return c;
+//   };
+//   return [useCtx, ctx.Provider] as const;
+// }
+
+export const UserContext = React.createContext({});
+
+const SiteProvider = ({children}) => {
+  const [state, dispatch] = useReducer(userReducer, initialUser)
+  return <UserContext.Provider value={{state, dispatch}}>
+    {children}
+  </UserContext.Provider>
+}
+
+
 
 firebase.initializeApp(firebaseConfig);
 
@@ -79,9 +124,11 @@ function MyTabs() {
 
 export default function App() {
   return (
-    <NavigationContainer>
-      <AppSwitchNavigator/>
-    </NavigationContainer>
+    <SiteProvider>
+      <NavigationContainer>
+        <AppSwitchNavigator/>
+      </NavigationContainer>
+    </SiteProvider>
     // <NavigationContainer>
     //   <MyTabs/>
     // </NavigationContainer>

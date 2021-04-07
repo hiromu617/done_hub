@@ -33,7 +33,7 @@ class LoginScreen extends Component{
   
         // Sign in with credential from the Google user.
         firebase.auth().signInWithCredential(credential)
-        .then((result) => console.log(result))
+        // .then((result) => console.log(result))
         .catch((error) => {
           // Handle Errors here.
           var errorCode = error.code;
@@ -58,7 +58,7 @@ class LoginScreen extends Component{
         iosClientId: '964059427466-3cv0o83gfa1lrhc9he6ngfu9js5lhavi.apps.googleusercontent.com',
         scopes: ['profile', 'email'],
       });
-      console.log(result)
+      // console.log(result)
       if (result.type === 'success') {
         this.onSignIn(result)
         return result.accessToken;
