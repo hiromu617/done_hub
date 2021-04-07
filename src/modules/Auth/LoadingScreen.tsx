@@ -45,6 +45,7 @@ import {View, Text, StyleSheet, ActivityIndicator } from 'react-native';
 import firebase from 'firebase'
 import {UserContext} from '../../../App'
 import { useNavigation } from '@react-navigation/native';
+import axios from '../../constants/axios'
 
 function LoadingScreen(){
   const {dispatch} = useContext(UserContext);
@@ -60,8 +61,17 @@ function LoadingScreen(){
     firebase.auth().onAuthStateChanged(
       function(user){
         if(user){
-          console.log(user.providerData[0])
+          // console.log(user.providerData[0].uid)
           navigation.navigate('MyTabs')
+
+          axios.post('/api/users', { 
+            user: {
+              name: user.providerData[0].displayName, 
+              uid: user.providerData[0].uid
+            }
+          }).then(res => console.log(res))
+          .catch(e => console.log(e))
+
           dispatch({type: 'SET_USER', data: user.providerData[0]})
         }else {
           navigation.navigate('LoginScreen')
