@@ -47,7 +47,8 @@ function reducer(state: Task[], action) {
   }
   switch (action.type) {
     case 'checked':
-      // console.log(action.comment.name)
+      console.log("=======------------------=")
+      console.log(action.comment)
       // alert(action.id)
       let checkedState: Task[] = state.slice()
       let checkedTask: Task;
@@ -71,9 +72,10 @@ function reducer(state: Task[], action) {
           done_post: {
             title: checkedTask.name,
             uid: usersUid,
-            comment: action.comment.name
+            comment: action.comment
           }
-        }).then(res => console.log(res))
+        })
+        // .then(res => console.log(res))
         .catch(e => console.log(e))
       })
       
