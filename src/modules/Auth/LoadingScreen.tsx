@@ -41,7 +41,7 @@ const styles = StyleSheet.create({
 })
 
 import React, { Component, useContext, useEffect } from 'react';
-import {View, Text, StyleSheet, ActivityIndicator } from 'react-native';
+import {View, Text, StyleSheet, ActivityIndicator,SafeAreaView } from 'react-native';
 import firebase from 'firebase'
 import {UserContext} from '../../../App'
 import { useNavigation } from '@react-navigation/native';
@@ -81,8 +81,8 @@ function LoadingScreen(){
   }
 
     return(
-      <View style={styles.container}>
+      <SafeAreaView style={styles.container}>
         <ActivityIndicator size='large'/>
-      </View>
+      </SafeAreaView>
     )
 }

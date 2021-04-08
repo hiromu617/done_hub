@@ -51,11 +51,11 @@ const styles = StyleSheet.create({
     // width: '100%',
     // flex: 1, 
     // alignItems: 'center',
-    padding: '20%',
+    padding: '5%',
   },
   taskList: {
     width: '100%',
     flex: 1, 
-    alignItems: 'center' 
+    // alignItems: 'center' 
   },
 })

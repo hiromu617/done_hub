@@ -1,5 +1,5 @@
 import React, {useReducer, useState} from 'react';
-import { View } from 'react-native';
+import { View,SafeAreaView } from 'react-native';
 import TaskList from './TaskList';
 import {Task} from '../'
 import CircleBtn from './CircleBtn'
@@ -32,11 +32,11 @@ const TodoScreen: React.FC = () => {
           <ModalContent CloseModal={toggleModal}></ModalContent>
         </Modal>
 
-      <View style={{ flex: 1, justifyContent: 'center'}}>
+      <SafeAreaView style={{ flex: 1, justifyContent: 'center'}}>
         <TaskList/>
 
         <CircleBtn onPressBtn={toggleModal}></CircleBtn>
-      </View>
+      </SafeAreaView>
     </SiteProvider>
   )
 }

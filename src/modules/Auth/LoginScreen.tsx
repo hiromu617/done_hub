@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {View, Text, StyleSheet, Button } from 'react-native';
+import {View, Text, StyleSheet, Button,SafeAreaView } from 'react-native';
 import * as Google from 'expo-google-app-auth';
 import firebase from 'firebase';
 
@@ -72,12 +72,12 @@ class LoginScreen extends Component{
 
   render() {
     return(
-      <View style={styles.container}>
+      <SafeAreaView style={styles.container}>
         <Button 
           title='Sign In With Google'
           onPress={() => this.signInWithGoogleAsync()}
         />
-      </View>
+      </SafeAreaView>
     )
   }
 }

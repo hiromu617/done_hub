@@ -1,5 +1,5 @@
 import React, {useReducer, useContext, useState, useEffect} from 'react';
-import { StyleSheet, Text, View, Button, ActivityIndicator , ScrollView, RefreshControl } from 'react-native';
+import { StyleSheet, Text, View, Button, ActivityIndicator , ScrollView, RefreshControl,SafeAreaView } from 'react-native';
 import firebase from 'firebase'
 import UserContext from '../../../../App'
 import { storeUser, getUser } from '../../Todo/Storage'
@@ -43,7 +43,7 @@ function ProfileScreen() {
     )
   }
   return (
-      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', paddingTop: '20%' }}>
+      <SafeAreaView style={{ flex: 1, justifyContent: 'center', alignItems: 'center'}}>
         <Text>{userData.name}</Text>
         {/* <Text>{userData.uid}</Text> */}
         <Button title="sign out" onPress={() =>{
@@ -61,7 +61,7 @@ function ProfileScreen() {
         >
           <UserPostList posts={userPostsData}/>
         </ScrollView>
-      </View>
+      </SafeAreaView>
   );
 }
 
