@@ -1,4 +1,4 @@
-import React, {useReducer, useContext, useCallback} from 'react';
+import React, {useReducer, useContext, useCallback, useState} from 'react';
 import { SiteContext } from './TodoScreen'
 import { StyleSheet, Text, View ,TouchableOpacity} from 'react-native';
 import Task from '../objects/Task';
@@ -9,6 +9,10 @@ import {
 } from '../TaskUtil';
 import {Alert} from 'react-native';
 import { AntDesign } from '@expo/vector-icons'; 
+import CheckTaskModal from './CheckTaskModal'
+import Modal from 'react-native-modal';
+
+
 
 type Props = {
   task: Task;
@@ -19,9 +23,17 @@ const TaskCard: React.FC<Props> = (props) => {
   const { dispatch } = useContext(SiteContext);
   const onPressTask = () => {
   }
+  const [isModalVisible, setModalVisible] = useState(false);
+  const toggleModal = () => {
+    setModalVisible(!isModalVisible);
+  };
+
   const checkTask = useCallback(
     () => {
-      dispatch({type: 'checked', id: task.id})
+      if(task.checked) return
+      
+      setModalVisible(!isModalVisible);
+      // dispatch({type: 'checked', id: task.id})
     },
     [task],
   );
@@ -31,17 +43,26 @@ const TaskCard: React.FC<Props> = (props) => {
     },
     [],
   )
+
   return (
-    <View style={styles.taskCard}>
-      <TaskCheckBox checked={task.checked} onCheck={checkTask}/>
-      <TouchableOpacity onPress={onPressTask}>
-        <Text>{task.name}</Text>
-      </TouchableOpacity>
-      <TouchableOpacity 
-        onPress={deleteTask} 
-      >
-        <AntDesign name="close" size={24} color="grey" />
-      </TouchableOpacity>
+    <View>
+      <Modal
+         isVisible={isModalVisible}
+         hasBackdrop={true}
+        >
+          <CheckTaskModal CloseModal={toggleModal} TaskObj={task}></CheckTaskModal>
+        </Modal>
+      <View style={styles.taskCard}>
+        <TaskCheckBox checked={task.checked} onCheck={checkTask}/>
+        <TouchableOpacity onPress={onPressTask}>
+          <Text>{task.name}</Text>
+        </TouchableOpacity>
+        <TouchableOpacity 
+          onPress={deleteTask} 
+        >
+          <AntDesign name="close" size={24} color="grey" />
+        </TouchableOpacity>
+      </View>
     </View>
   )
 }
