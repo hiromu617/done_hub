@@ -1,10 +1,11 @@
 import React, {useReducer,useContext, useState} from 'react';
-import { Alert,StyleSheet, Text, View, Button, TextInput, TouchableOpacity } from 'react-native';
+import { Alert,StyleSheet, Text, View, TextInput, TouchableOpacity } from 'react-native';
 import TaskForm from '../objects/TaskForm'
 import Task from '../objects/Task'
 import {useForm, Controller} from 'react-hook-form';
 import { SiteContext } from './TodoScreen'
 import { AntDesign } from '@expo/vector-icons'; 
+import { Input, Button, Icon} from 'react-native-elements';
 
 type Props = {
   CloseModal: () => void;
@@ -27,17 +28,15 @@ const ModalContent: React.FC<Props> = (props) => {
             style={styles.btn}
             onPress={CloseModal} 
           >
-            <AntDesign name="close" size={30} color="black" />
+            <AntDesign name="close" size={30} color="grey" />
           </TouchableOpacity>
       </View>
-      <Text>{TaskObj.id}</Text>
-      <Text>{TaskObj.name}</Text>
-      <Text>コメント</Text>
       <Controller
           control={control}
           render={({onChange, value}) => (
-            <TextInput
-              style={styles.input}
+            <Input
+              label='コメント'
+              placeholder='comment'
               onChangeText={(value) => onChange(value)}
               value={value}
             />
@@ -51,7 +50,17 @@ const ModalContent: React.FC<Props> = (props) => {
         {errors.name && errors.name.type === 'maxLength' && (
           <Text style={styles.errorText}>タイトルは140文字以内で入力してください。</Text>
         )}
-      <Button title="Done" onPress={handleSubmit(onSubmit)}/>
+      <Button 
+        icon={
+        <Icon
+          name="check"
+          color='#3B82F6'
+        />
+        }
+        title="DONE" 
+        type='outline'
+        onPress={handleSubmit(onSubmit)}
+      />
     </View>
   )
 }

@@ -7,6 +7,7 @@ import ModalContent from './ModalContent'
 import Modal from 'react-native-modal';
 import { initialState, storeTasks, getTasks } from '../Storage'
 import reducer from '../Reducer'
+import { Button, Overlay } from 'react-native-elements';
 
 export const SiteContext = React.createContext(null);
 
@@ -24,13 +25,15 @@ const TodoScreen: React.FC = () => {
   };
  
   return (
+    
     <SiteProvider>
-        <Modal
+        <Overlay
          isVisible={isModalVisible}
-         hasBackdrop={true}
+         onBackdropPress={toggleModal}
+         overlayStyle={{width: '80%'}}
         >
           <ModalContent CloseModal={toggleModal}></ModalContent>
-        </Modal>
+        </Overlay>
 
       <SafeAreaView style={{ flex: 1, justifyContent: 'center'}}>
         <TaskList/>

@@ -1,9 +1,10 @@
 import React, {useReducer,useContext, useState} from 'react';
-import { Alert,StyleSheet, Text, View, Button, TextInput, TouchableOpacity } from 'react-native';
+import { Alert,StyleSheet, Text, View, TextInput, TouchableOpacity } from 'react-native';
 import TaskForm from '../objects/TaskForm'
 import {useForm, Controller} from 'react-hook-form';
 import { SiteContext } from './TodoScreen'
 import { AntDesign } from '@expo/vector-icons'; 
+import { Input,Button} from 'react-native-elements';
 
 type Props = {
   CloseModal: () => void;
@@ -17,7 +18,7 @@ const ModalContent: React.FC<Props> = (props) => {
     dispatch({type: 'create', data: data})
     CloseModal()
   };
-
+ 
   return (
     <View  style={{ justifyContent: 'center', alignItems: 'center', backgroundColor: "#fff", height:300, borderRadius: 20, padding: 20}}>
       <View style={styles.btnWrap}>
@@ -25,15 +26,15 @@ const ModalContent: React.FC<Props> = (props) => {
             style={styles.btn}
             onPress={CloseModal} 
           >
-            <AntDesign name="close" size={30} color="black" />
+            <AntDesign name="close" size={30} color="grey" />
           </TouchableOpacity>
       </View>
-      <Text>タイトル(必須)</Text>
       <Controller
           control={control}
           render={({onChange, value}) => (
-            <TextInput
-              style={styles.input}
+            <Input
+            label='タイトル'
+              placeholder='title'
               onChangeText={(value) => onChange(value)}
               value={value}
             />
@@ -51,7 +52,7 @@ const ModalContent: React.FC<Props> = (props) => {
         {errors.name && errors.name.type === 'maxLength' && (
           <Text style={styles.errorText}>タイトルは20文字以内で入力してください。</Text>
         )}
-      <Button title="add todo" onPress={handleSubmit(onSubmit)}/>
+      <Button type='outline' title="ADD TO LIST" onPress={handleSubmit(onSubmit)}/>
     </View>
   )
 }

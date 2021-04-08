@@ -4,6 +4,7 @@ import {View,FlatList,StyleSheet} from 'react-native';
 import Task from '../objects/Task';
 import TaskCard from './TaskCard';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { Card, ListItem, Button, Icon } from 'react-native-elements'
 
 const getTasks = async () => {
   try {
@@ -31,16 +32,23 @@ const TaskList: React.FC= () => {
   },[state]);
 
   return (
-    <View  style={styles.taskWrap}>
+    <Card>
+      <Card.Title>TODO LIST  {new Date().getMonth() + 1}/{new Date().getDate()}</Card.Title>
+      <Card.Divider/>
       <FlatList
         showsVerticalScrollIndicator={false}
         data={ tasksData}
         keyExtractor={(item) => item?.id?.toString()}
         renderItem={({item}) => {
-          return <TaskCard task={item} />;
+          return (
+            <View>
+              <TaskCard task={item} />
+              <Card.Divider/>
+            </View>
+          );
         }}
       />
-    </View>
+    </Card>
   )
 }
 

@@ -2,6 +2,7 @@ import React from 'react';
 import { StyleSheet, View} from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { AntDesign } from '@expo/vector-icons'; 
+import { Icon } from 'react-native-elements'
 
 type Props = {
   onPressBtn: () => void;
@@ -11,12 +12,21 @@ const CircleBtn: React.FC<Props> = (props) => {
   const {onPressBtn} = props
   return (
         <View style={styles.btnWrap}>
-          <TouchableOpacity 
+          <Icon 
+            reverse
+            raised={true}
+            size={30}
+            type="ant-design"
+            name="plus"
+            color='#60A5FA'
+            onPress={onPressBtn} 
+          />
+          {/* <TouchableOpacity 
             style={styles.btn}
             onPress={onPressBtn} 
           >
             <AntDesign name="plus" size={24} color="black" />
-          </TouchableOpacity>
+          </TouchableOpacity> */}
       </View>
   )
 }
