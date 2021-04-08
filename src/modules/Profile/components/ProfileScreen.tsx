@@ -1,5 +1,5 @@
 import React, {useReducer, useContext, useState, useEffect} from 'react';
-import { StyleSheet, Text, View, Button, ActivityIndicator } from 'react-native';
+import { StyleSheet, Text, View, Button, ActivityIndicator , ScrollView, RefreshControl } from 'react-native';
 import firebase from 'firebase'
 import UserContext from '../../../../App'
 import { storeUser, getUser } from '../../Todo/Storage'
@@ -11,9 +11,15 @@ import { SiteContext } from '../../Todo/components/TodoScreen'
 function ProfileScreen() {
   // const {state} = useContext(SiteContext);
   const [userData, setData] = useState();
+  const [refreshState, setRefreshData] = useState(false);
   const [userPostsData, setUserPostData] = useState();
   const navigation = useNavigation()
   useEffect(() => {
+    fetchData()
+  },[]);
+
+  const fetchData = () => {
+    setRefreshData(true)
     getUser().then((data) => {
       if(data.uid !== undefined) {
         setData(data);
@@ -24,9 +30,10 @@ function ProfileScreen() {
         console.log("----------------------")
         let postsData = res.data.done_posts.reverse()
         setUserPostData(postsData)
+        setRefreshData(false)
       })
     })
-  },[]);
+  }
 
   if(!userData){
     return (
@@ -43,7 +50,17 @@ function ProfileScreen() {
           firebase.auth().signOut()
           navigation.navigate('LoadingScreen')
         }}/>
-        <UserPostList posts={userPostsData}/>
+        
+        <ScrollView
+          refreshControl={
+            <RefreshControl
+              refreshing={refreshState}
+              onRefresh={() => fetchData()}
+            />
+          }
+        >
+          <UserPostList posts={userPostsData}/>
+        </ScrollView>
       </View>
   );
 }
