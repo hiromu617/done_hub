@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
-import {View, Text, StyleSheet, Button,SafeAreaView } from 'react-native';
+import {View, StyleSheet, Button,SafeAreaView } from 'react-native';
 import * as Google from 'expo-google-app-auth';
 import firebase from 'firebase';
+import { SocialIcon, Text } from 'react-native-elements'
 
 class LoginScreen extends Component{
   isUserEqual = (googleUser, firebaseUser) => {
@@ -73,8 +74,11 @@ class LoginScreen extends Component{
   render() {
     return(
       <SafeAreaView style={styles.container}>
-        <Button 
-          title='Sign In With Google'
+        <Text h1 style={{fontWeight: 'bold', textAlign: 'center', marginBottom: 50}}>DONE HUB</Text>
+        <SocialIcon
+          title='Login With Google'
+          button
+          type='google'
           onPress={() => this.signInWithGoogleAsync()}
         />
       </SafeAreaView>
@@ -87,7 +91,7 @@ export default LoginScreen
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center'
+    justifyContent: 'center',
+    paddingHorizontal: 10
   }
 })
