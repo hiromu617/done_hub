@@ -1,14 +1,12 @@
-import React, {useReducer, useContext, useState, useEffect} from 'react';
+import React, {useState, useEffect} from 'react';
 import { StyleSheet, View, ActivityIndicator , ScrollView, RefreshControl,SafeAreaView } from 'react-native';
-import firebase from 'firebase'
-import UserContext from '../../../../App'
-import { storeUser, getUser } from '../../Todo/Storage'
+import { getUser } from '../../Todo/Storage'
 import { useNavigation } from '@react-navigation/native';
 import axios from '../../../constants/axios';
 import UserPostList from './UserPostList'
 import ProfileInfo from './ProfileInfo'
-import { SiteContext } from '../../Todo/components/TodoScreen'
-import { Avatar,Divider, Text, Button, Badge, Icon} from 'react-native-elements';
+import EditProfile from './EditProfile'
+import { Divider,Overlay} from 'react-native-elements';
 
 function ProfileScreen() {
   // const {state} = useContext(SiteContext);
@@ -17,6 +15,11 @@ function ProfileScreen() {
   const [userPostsData, setUserPostData] = useState();
   const [pageData, setPageData] = useState(2);
   const navigation = useNavigation()
+  const [isModalVisible, setModalVisible] = useState(false);
+  const toggleModal = () => {
+    setModalVisible(!isModalVisible);
+  };
+
   useEffect(() => {
     refreshData()
   },[]);
@@ -73,10 +76,12 @@ function ProfileScreen() {
   }
   return (
       <SafeAreaView style={{ flex: 1}}>
-        <ProfileInfo userData={userData}/>
-        <Divider style={{ marginTop: 10}} />
-        {/* <Text>{userData.uid}</Text> */}
-        
+        <Overlay
+         isVisible={isModalVisible}
+         fullScreen
+        >
+          <EditProfile toggleModal={toggleModal}/>        
+        </Overlay>
         <ScrollView
           refreshControl={
             <RefreshControl
@@ -85,6 +90,10 @@ function ProfileScreen() {
             />
           }
         >
+        <ProfileInfo userData={userData} toggleModal={toggleModal}/>
+        <Divider style={{ marginTop: 10}} />
+        {/* <Text>{userData.uid}</Text> */}
+        
           <UserPostList posts={userPostsData} fetchData={fetchData} />
         </ScrollView>
       </SafeAreaView>

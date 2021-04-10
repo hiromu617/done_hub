@@ -6,7 +6,7 @@ import { useNavigation } from '@react-navigation/native';
 
 
 function ProfileInfo(props) {
-  const {userData} = props;
+  const {userData, toggleModal} = props;
   const navigation = useNavigation()
   if(!userData){
     return (
@@ -34,7 +34,7 @@ function ProfileInfo(props) {
               buttonStyle={{ borderRadius: 18, paddingHorizontal: 10}}
               titleStyle={{fontSize: 16}}
               type='outline'
-              onPress={() => alert("hello")}
+              onPress={toggleModal}
             />
           </View>
           

@@ -35,6 +35,7 @@ const ModalContent: React.FC<Props> = (props) => {
           control={control}
           render={({onChange, value}) => (
             <Input
+              multiline = {true}
               label='コメント'
               placeholder='comment'
               onChangeText={(value) => onChange(value)}

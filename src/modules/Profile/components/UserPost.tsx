@@ -24,7 +24,7 @@ const UserPost: React.FC<Props> = (props) => {
           title={post.user.name[0]}
           containerStyle={{backgroundColor: 'gray', marginRight: 10}}
         />
-        <ListItem.Title  style={{paddingBottom: 5,fontWeight: 'bold'}}>ひろ</ListItem.Title>
+        <ListItem.Title  style={{paddingBottom: 5,fontWeight: 'bold'}}>{post.user.name}</ListItem.Title>
       </View>
       <View  style={{paddingLeft: 40, width: '100%'}}>
         <Text style={{backgroundColor: '#EFF6FF', width: '100%', padding: 8, borderRadius: 10}}>{post.comment}</Text>
