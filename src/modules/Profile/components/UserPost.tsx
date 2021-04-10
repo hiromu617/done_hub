@@ -1,5 +1,6 @@
 import React, {useReducer, useContext, useCallback, useState} from 'react';
 import { StyleSheet, Text, View ,TouchableOpacity} from 'react-native';
+import { ListItem, Avatar, Icon } from 'react-native-elements'
 
 type Props = {
   post
@@ -7,33 +8,46 @@ type Props = {
 
 const UserPost: React.FC<Props> = (props) => {
   const {post} = props;
+  console.log(post)
+
+  const parseDate = (val) => {
+    return val.toString().replace(/([0-9]{4})-([0-9]{2})-([0-9]{2})T([0-9]{2}):([0-9]{2})([\w|:|.|+]*)/, "$4:$5")
+  }
 
   return (
-    <View>
-      <View style={styles.Card}>
-        <TouchableOpacity>
-          <Text>comment: {post.comment}</Text>
-          <Text>{post.title} DONE!</Text>
-        </TouchableOpacity>
+    <ListItem bottomDivider>
+    <ListItem.Content>
+      <View style={{flexDirection: 'row', alignItems: 'center'}}>
+        <Avatar 
+        // source={{uri: l.avatar_url}} 
+          rounded
+          title={post.user.name[0]}
+          containerStyle={{backgroundColor: 'gray', marginRight: 10}}
+        />
+        <ListItem.Title  style={{paddingBottom: 5,fontWeight: 'bold'}}>ひろ</ListItem.Title>
       </View>
-    </View>
+      <View  style={{paddingLeft: 40, width: '100%'}}>
+        <Text style={{backgroundColor: '#EFF6FF', width: '100%', padding: 8, borderRadius: 10}}>{post.comment}</Text>
+        <ListItem.Title  style={{paddingVertical: 15,fontWeight: 'bold'}}>「{post.title}」 DONE！✨</ListItem.Title>
+        <View style={{flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
+          <Icon
+          name='comment'
+          type="font-awesome-5"
+          size={20}
+          color='gray' />
+          <Text style={{color: 'gray', marginHorizontal: 7}}>0</Text>
+          <Icon
+          name='heart'
+          type="font-awesome-5"
+          size={20}
+          color='#F87171' />
+          <Text style={{color: '#F87171', marginHorizontal: 7}}>5</Text>
+          <Text style={{fontSize: 10, color: 'gray', width: '70%', textAlign: 'right'}}>{parseDate(post.created_at)}</Text>
+        </View>
+      </View>
+    </ListItem.Content>
+  </ListItem>
   )
 }
 
 export default UserPost
-
-const styles = StyleSheet.create({
-  Card: {
-    width: '100%',
-    // height: '100%',
-    // flex: 1, 
-    // alignItems: 'center',
-    // flexDirection: 'row',
-    padding: '5%',
-    marginBottom: '1%',
-    // justifyContent: 'space-between',
-    borderWidth: 2,
-    borderRadius: 10,
-    borderColor: 'grey'
-  },
-})

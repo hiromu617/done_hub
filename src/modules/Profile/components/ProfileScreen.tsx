@@ -14,26 +14,53 @@ function ProfileScreen() {
   const [userData, setData] = useState();
   const [refreshState, setRefreshData] = useState(false);
   const [userPostsData, setUserPostData] = useState();
+  const [pageData, setPageData] = useState(2);
   const navigation = useNavigation()
   useEffect(() => {
-    fetchData()
+    refreshData()
   },[]);
 
-  const fetchData = () => {
+  const refreshData = () => {
     setRefreshData(true)
     getUser().then((data) => {
       if(data.uid !== undefined) {
         setData(data);
-        console.log(data)
+        // console.log(data)
       }
-      axios.get('/api/users/' + data.uid)
+      axios.get('/api/done_posts', {
+        params: {
+          page: 1,
+          uid: data.uid
+        }
+      })
       .then(res => {
+        setPageData(2)
         console.log("----------------------")
-        let postsData = res.data.done_posts.reverse()
-        setUserPostData(postsData)
+        // let postsData = res.data.done_posts.reverse()
+        // setUserPostData(postsData)
+        setUserPostData(res.data)
         setRefreshData(false)
       })
     })
+  }
+
+  const fetchData = () => {
+      axios.get('/api/done_posts', {
+        params: {
+          page: pageData,
+          uid: userData.uid
+        }
+      })
+      .then(res => {
+        if(res.data.length === 0 ) return
+        setPageData(pageData + 1)
+        console.log("----------------------")
+        // let postsData = res.data.done_posts.reverse()
+        // setUserPostData(postsData)
+        let Data = userPostsData
+        let newData = Data.concat(res.data)
+        setUserPostData(newData)
+      })
   }
 
   if(!userData){
@@ -105,11 +132,11 @@ function ProfileScreen() {
           refreshControl={
             <RefreshControl
               refreshing={refreshState}
-              onRefresh={() => fetchData()}
+              onRefresh={() => refreshData()}
             />
           }
         >
-          <UserPostList posts={userPostsData}/>
+          <UserPostList posts={userPostsData} fetchData={fetchData} />
         </ScrollView>
       </SafeAreaView>
   );

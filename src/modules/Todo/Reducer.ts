@@ -48,7 +48,7 @@ function reducer(state: Task[], action) {
   switch (action.type) {
     case 'checked':
       console.log("=======------------------=")
-      console.log(action.comment)
+      // console.log(action.comment)
       // alert(action.id)
       let checkedState: Task[] = state.slice()
       let checkedTask: Task;

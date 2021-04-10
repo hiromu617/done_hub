@@ -69,8 +69,9 @@ function LoadingScreen(){
               name: user.providerData[0].displayName, 
               uid: user.providerData[0].uid
             }
-          }).then(res => console.log(res))
-          .catch(e => console.log(e))
+          })
+          // .then(res => console.log(res))
+          // .catch(e => console.log(e))
 
           dispatch({type: 'SET_USER', data: user.providerData[0]})
         }else {
