@@ -29,8 +29,9 @@ function ProfileScreen() {
     getUser().then((data) => {
       if(data.uid !== undefined) {
         setData(data);
-        // console.log(data)
       }
+      console.log("----------------------")
+      console.log(data)
       axios.get('/api/done_posts', {
         params: {
           page: 1,
@@ -39,12 +40,13 @@ function ProfileScreen() {
       })
       .then(res => {
         setPageData(2)
-        console.log("----------------------")
+        // console.log("----------------------")
         // let postsData = res.data.done_posts.reverse()
         // setUserPostData(postsData)
         setUserPostData(res.data)
         setRefreshData(false)
       })
+      .catch(e => console.log(e))
     })
   }
 
@@ -58,7 +60,7 @@ function ProfileScreen() {
       .then(res => {
         if(res.data.length === 0 ) return
         setPageData(pageData + 1)
-        console.log("----------------------")
+        // console.log("----------------------")
         // let postsData = res.data.done_posts.reverse()
         // setUserPostData(postsData)
         let Data = userPostsData
@@ -80,7 +82,7 @@ function ProfileScreen() {
          isVisible={isModalVisible}
          fullScreen
         >
-          <EditProfile toggleModal={toggleModal}/>        
+          <EditProfile toggleModal={toggleModal} userData={userData}/>        
         </Overlay>
         <ScrollView
           refreshControl={

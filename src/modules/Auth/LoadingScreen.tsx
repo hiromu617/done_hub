@@ -46,6 +46,7 @@ import firebase from 'firebase'
 import {UserContext} from '../../../App'
 import { useNavigation } from '@react-navigation/native';
 import axios from '../../constants/axios'
+import {storeUser} from '../Todo/Storage'
 
 function LoadingScreen(){
   const {dispatch} = useContext(UserContext);
@@ -70,10 +71,12 @@ function LoadingScreen(){
               uid: user.providerData[0].uid
             }
           })
-          // .then(res => console.log(res))
+          .then(res => {
+            storeUser(res.data)
+          })
           // .catch(e => console.log(e))
 
-          dispatch({type: 'SET_USER', data: user.providerData[0]})
+          // dispatch({type: 'SET_USER', data: user.providerData[0]})
         }else {
           navigation.navigate('LoginScreen')
         }

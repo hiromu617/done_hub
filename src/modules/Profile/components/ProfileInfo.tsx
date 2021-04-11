@@ -56,7 +56,7 @@ function ProfileInfo(props) {
             />
           </Text>
           <Text  style={{paddingBottom: 15, paddingHorizontal: 10}}>
-            プロフィール、プロフィール、プロフィール、プロフィール、
+            {userData.profile}
           </Text>
           <Text  style={{paddingLeft: 10}}>
             <Text style={{fontWeight: 'bold'}}>100</Text>フォロー <Text style={{fontWeight: 'bold'}}>100</Text>フォロワー

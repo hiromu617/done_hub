@@ -18,14 +18,16 @@ import { storeUser, getUser } from './src/modules/Todo/Storage'
 
 const initialUser: User = {
   uid: null,
-  name: null
+  name: null,
+  profile: null,
 }
 function userReducer(state, action) {
   switch (action.type) {
     case 'SET_USER':
       let newUser: User = {
         uid: action.data.uid,
-        name: action.data.displayName
+        name: action.data.displayName,
+        profile: ''
       }
       alert(newUser)
       // console.log(newUser)

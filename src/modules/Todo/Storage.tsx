@@ -29,9 +29,10 @@ const getTasks = async () => {
 }
 
 const storeUser = async (user: User) => {
+  await AsyncStorage.removeItem('@user_Key')
   try {
     const jsonValue = JSON.stringify(user)
-    // console.log(jsonValue)
+    console.log(jsonValue)
     await AsyncStorage.setItem('@user_Key', jsonValue)
   } catch (e) {
     // saving error
@@ -51,6 +52,7 @@ const getUser = async () => {
     return 'error'
   }
 }
+
 
 export {
   initialState, storeTasks, getTasks, storeUser, getUser
