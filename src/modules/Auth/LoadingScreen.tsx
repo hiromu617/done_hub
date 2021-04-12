@@ -66,10 +66,8 @@ function LoadingScreen(){
           navigation.navigate('MyTabs')
 
           axios.post('/api/users', { 
-            user: {
               name: user.providerData[0].displayName, 
               uid: user.providerData[0].uid
-            }
           })
           .then(res => {
             storeUser(res.data)

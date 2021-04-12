@@ -3,11 +3,12 @@ import { StyleSheet, Text, View ,TouchableOpacity} from 'react-native';
 import { ListItem, Avatar, Icon } from 'react-native-elements'
 
 type Props = {
-  post
+  post,
+  imageSrc
 }
 
 const UserPost: React.FC<Props> = (props) => {
-  const {post} = props;
+  const {post, imageSrc} = props;
   console.log(post)
 
   const parseDate = (val) => {
@@ -18,12 +19,18 @@ const UserPost: React.FC<Props> = (props) => {
     <ListItem bottomDivider>
     <ListItem.Content>
       <View style={{flexDirection: 'row', alignItems: 'center'}}>
-        <Avatar 
-        // source={{uri: l.avatar_url}} 
-          rounded
-          title={post.user.name[0]}
-          containerStyle={{backgroundColor: 'gray', marginRight: 10}}
-        />
+            {imageSrc && <Avatar 
+              rounded
+              source={{
+                uri: imageSrc
+              }}
+              containerStyle={{backgroundColor: 'gray', marginRight: 10}}
+            />}
+            {!imageSrc && <Avatar 
+              rounded
+              title={post.user.name[0]} 
+              containerStyle={{backgroundColor: 'gray', marginRight: 10}}
+            />}
         <ListItem.Title  style={{paddingBottom: 5,fontWeight: 'bold'}}>{post.user.name}</ListItem.Title>
       </View>
       <View  style={{paddingLeft: 40, width: '100%'}}>

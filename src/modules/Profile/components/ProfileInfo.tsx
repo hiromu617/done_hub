@@ -4,9 +4,8 @@ import firebase from 'firebase'
 import { Avatar,Text, Button,Icon} from 'react-native-elements';
 import { useNavigation } from '@react-navigation/native';
 
-
 function ProfileInfo(props) {
-  const {userData, toggleModal} = props;
+  const {userData, toggleModal, imageSrc} = props;
   const navigation = useNavigation()
   if(!userData){
     return (
@@ -19,12 +18,20 @@ function ProfileInfo(props) {
     <View>
       <View  style={{ padding: 10, display: 'flex', flexDirection: 'row', justifyContent: 'space-between'}}>
           <View style={{}}>
-            <Avatar 
+            {imageSrc && <Avatar 
+              rounded
+              source={{
+                uri: imageSrc
+              }}
+              size="large"
+              containerStyle={{backgroundColor: 'gray'}}
+            />}
+            {!imageSrc && <Avatar 
               rounded
               title={userData.name[0]} 
               size="large"
               containerStyle={{backgroundColor: 'gray'}}
-            />
+            />}
             <Text h4 style={{fontWeight: 'bold', margin: 5}}>{userData.name}</Text>
           </View>
           <View>

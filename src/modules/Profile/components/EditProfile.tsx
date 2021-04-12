@@ -5,8 +5,10 @@ import {useForm, Controller} from 'react-hook-form';
 import axios from '../../../constants/axios'
 import {storeUser} from '../../Todo/Storage'
 import User from '../../Profile/objects/User'
+import ImagePick from './ImagePick'
+
 function EditProfile(props) {
-  const {toggleModal, userData} = props;
+  const {toggleModal, userData, imageSrc} = props;
   const {control, handleSubmit, errors, setValue} = useForm();
   const onSubmit = (data) => {
     console.log(data)
@@ -35,7 +37,7 @@ function EditProfile(props) {
     <SafeAreaView>
       <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
         <Button 
-          title='キャンセル' 
+          title='閉じる' 
           type='clear'
           onPress={toggleModal}/>
         <Button 
@@ -47,9 +49,11 @@ function EditProfile(props) {
         <Avatar 
           rounded
           title={userData.name[0]} 
+          source={{uri: imageSrc}} 
           size="large"
           containerStyle={{backgroundColor: 'gray',margin: 10}}
         />
+        <ImagePick userData={userData} toggleModal={toggleModal}/>
         <Controller
           control={control}
           render={({onChange, value}) => (

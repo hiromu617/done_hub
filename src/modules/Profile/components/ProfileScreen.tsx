@@ -7,6 +7,7 @@ import UserPostList from './UserPostList'
 import ProfileInfo from './ProfileInfo'
 import EditProfile from './EditProfile'
 import { Divider,Overlay} from 'react-native-elements';
+import firebase from 'firebase'
 
 function ProfileScreen() {
   // const {state} = useContext(SiteContext);
@@ -16,15 +17,43 @@ function ProfileScreen() {
   const [pageData, setPageData] = useState(2);
   const navigation = useNavigation()
   const [isModalVisible, setModalVisible] = useState(false);
+  const [imageSrc, setImageSrc] = useState(null);
+
   const toggleModal = () => {
     setModalVisible(!isModalVisible);
   };
 
   useEffect(() => {
     refreshData()
+    getSource(userData)
   },[]);
 
+  const getAvatar =  (userData) => {
+    return new Promise((resolve) => {
+      var storage = firebase.storage();
+      var storageRef = storage.ref();
+      var spaceRef = storageRef.child(`images/${userData.uid}.jpg`);
+      spaceRef.getDownloadURL().then(function(url){
+        console.log("ファイルURLを取得")
+        console.log(url)
+        resolve(url);
+      }).catch(function(error) {
+        // Handle any errors
+        console.log("getTokoImage 画像を取得する");
+        console.log(error);
+      });
+    });
+  };
+  const getSource = (userData) => {
+    getAvatar(userData)
+    .then(res => {
+      setImageSrc(res)
+    })
+  }
   const refreshData = () => {
+    setImageSrc(null)
+    getSource(userData)
+
     setRefreshData(true)
     getUser().then((data) => {
       if(data.uid !== undefined) {
@@ -69,6 +98,8 @@ function ProfileScreen() {
       })
   }
 
+
+
   if(!userData){
     return (
       <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
@@ -82,7 +113,7 @@ function ProfileScreen() {
          isVisible={isModalVisible}
          fullScreen
         >
-          <EditProfile toggleModal={toggleModal} userData={userData}/>        
+          <EditProfile toggleModal={toggleModal} userData={userData} imageSrc={imageSrc}/>        
         </Overlay>
         <ScrollView
           refreshControl={
@@ -92,11 +123,10 @@ function ProfileScreen() {
             />
           }
         >
-        <ProfileInfo userData={userData} toggleModal={toggleModal}/>
+        <ProfileInfo userData={userData} toggleModal={toggleModal} imageSrc={imageSrc}/>
         <Divider style={{ marginTop: 10}} />
         {/* <Text>{userData.uid}</Text> */}
-        
-          <UserPostList posts={userPostsData} fetchData={fetchData} />
+          <UserPostList posts={userPostsData} fetchData={fetchData} imageSrc={imageSrc}/>
         </ScrollView>
       </SafeAreaView>
   );
