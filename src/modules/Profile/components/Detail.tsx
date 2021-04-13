@@ -1,28 +1,18 @@
 import React, {useReducer, useContext, useCallback, useState} from 'react';
 import { StyleSheet, Text, View ,TouchableOpacity} from 'react-native';
 import { ListItem, Avatar, Icon } from 'react-native-elements'
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { useNavigation } from '@react-navigation/native';
 
-type Props = {
-  post,
-  imageSrc
-}
-
-const UserPost: React.FC<Props> = (props) => {
-  const {post, imageSrc} = props;
+const Detail: React.FC = ({route}) => {
   const navigation = useNavigation()
-  console.log(post)
-
+  const { post, imageSrc  } = route.params;
   const parseDate = (val) => {
-    return val.toString().replace(/([0-9]{4})-([0-9]{2})-([0-9]{2})T([0-9]{2}):([0-9]{2})([\w|:|.|+]*)/, "$4:$5")
+    return val.toString().replace(/([0-9]{4})-([0-9]{2})-([0-9]{2})T([0-9]{2}):([0-9]{2})([\w|:|.|+]*)/, "$2/$3 $4:$5")
   }
-
   return (
-    <ListItem bottomDivider onPress={() => navigation.navigate('Detail', 
-    {
-      post: post,
-      imageSrc: imageSrc
-    })}>
+    <View>
+      <ListItem bottomDivider>
     <ListItem.Content>
       <View style={{flexDirection: 'row', alignItems: 'center'}}>
             {imageSrc && <Avatar 
@@ -39,9 +29,9 @@ const UserPost: React.FC<Props> = (props) => {
             />}
         <ListItem.Title  style={{paddingBottom: 5,fontWeight: 'bold'}}>{post.user.name}</ListItem.Title>
       </View>
-      <View  style={{paddingLeft: 40, width: '100%'}}>
-        {post.comment.length > 0 && <Text style={{backgroundColor: '#EFF6FF', width: '100%', padding: 8, borderRadius: 10}}>{post.comment}</Text>}
-        <ListItem.Title  style={{paddingVertical: 15,fontWeight: 'bold'}}>「{post.title}」 DONE！✨</ListItem.Title>
+      <View  style={{width: '100%', paddingTop: 10}}>
+        {post.comment.length > 0 && <Text style={{backgroundColor: '#EFF6FF', width: '100%', padding: 8, borderRadius: 10, fontSize: 16}}>{post.comment}</Text>}
+        <ListItem.Title  style={{paddingVertical: 20,fontWeight: 'bold', fontSize: 24}}>「{post.title}」 DONE！✨</ListItem.Title>
         <View style={{flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
           <Icon
           name='comment'
@@ -60,7 +50,8 @@ const UserPost: React.FC<Props> = (props) => {
       </View>
     </ListItem.Content>
   </ListItem>
+  </View>
   )
 }
 
-export default UserPost
+export default Detail
