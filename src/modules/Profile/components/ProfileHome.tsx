@@ -11,13 +11,14 @@ import firebase from 'firebase'
 
 function ProfileHome() {
   // const {state} = useContext(SiteContext);
+  const navigation = useNavigation()
   const [userData, setData] = useState();
   const [refreshState, setRefreshData] = useState(false);
   const [userPostsData, setUserPostData] = useState();
   const [pageData, setPageData] = useState(2);
-  const navigation = useNavigation()
   const [isModalVisible, setModalVisible] = useState(false);
   const [imageSrc, setImageSrc] = useState(null);
+  const [followData, setFollowData] = useState({following: 0, follower: 0});
 
   const toggleModal = () => {
     setModalVisible(!isModalVisible);
@@ -61,6 +62,10 @@ function ProfileHome() {
       }
       console.log("----------------------")
       console.log(data)
+      axios.get('/api/users/following/' + data.uid)
+      .then(res => {
+        setFollowData(res.data)
+      })
       axios.get('/api/done_posts', {
         params: {
           page: 1,
@@ -121,7 +126,7 @@ function ProfileHome() {
             />
           }
         >
-        <ProfileInfo userData={userData} toggleModal={toggleModal} imageSrc={imageSrc}/>
+        <ProfileInfo userData={userData} followData={followData} toggleModal={toggleModal} imageSrc={imageSrc}/>
         <Divider style={{ marginTop: 10}} />
         {/* <Text>{userData.uid}</Text> */}
           <UserPostList posts={userPostsData} fetchData={fetchData} imageSrc={imageSrc}/>

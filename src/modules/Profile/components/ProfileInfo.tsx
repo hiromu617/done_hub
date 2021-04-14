@@ -1,11 +1,14 @@
 import React, {useReducer, useContext, useState, useEffect} from 'react';
-import { StyleSheet, View, ActivityIndicator , ScrollView, RefreshControl,SafeAreaView } from 'react-native';
+import { StyleSheet,View, ActivityIndicator , ScrollView, RefreshControl,SafeAreaView } from 'react-native';
 import firebase from 'firebase'
-import { Avatar,Text, Button,Icon} from 'react-native-elements';
+import { Text, Avatar,Button,Icon} from 'react-native-elements';
 import { useNavigation } from '@react-navigation/native';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
 function ProfileInfo(props) {
-  const {userData, toggleModal, imageSrc} = props;
+  const {userData, toggleModal, imageSrc, followData} = props;
+  console.log(followData.following)
+  console.log(followData.follower)
   const navigation = useNavigation()
   if(!userData){
     return (
@@ -65,8 +68,18 @@ function ProfileInfo(props) {
           <Text  style={{paddingBottom: 15, paddingHorizontal: 10}}>
             {userData.profile}
           </Text>
-          <Text  style={{paddingLeft: 10}}>
-            <Text style={{fontWeight: 'bold'}}>100</Text>フォロー <Text style={{fontWeight: 'bold'}}>100</Text>フォロワー
+          <Text  style={{marginLeft: 10}}>
+            <TouchableOpacity
+             onPress={() => navigation.navigate('Following', 
+             {
+               following: followData.following
+             })}
+            >
+              <Text style={{fontWeight: 'bold', marginRight: 10}}>{followData.following.length} フォロー</Text>
+            </TouchableOpacity>  
+            <TouchableOpacity onPress={() => navigation.navigate('Follower', {follower: followData.follower})}>
+              <Text style={{fontWeight: 'bold'}}>{followData.follower.length} フォロワー</Text>
+            </TouchableOpacity>
           </Text>
           <Button 
             title="sign out" 
