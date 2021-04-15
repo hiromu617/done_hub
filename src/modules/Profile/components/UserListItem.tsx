@@ -1,14 +1,18 @@
-import React, {useReducer, useContext, useCallback, useState} from 'react';
-import { StyleSheet,FlatList, Text, View ,TouchableOpacity} from 'react-native';
+import React from 'react';
 import { ListItem, Avatar, Icon, Button } from 'react-native-elements'
-import { SafeAreaView } from 'react-native-safe-area-context';
 import { useNavigation } from '@react-navigation/native';
-import { ScrollView } from 'react-native-gesture-handler';
 
 const UserListItem: React.FC = (props) => {
+  const navigation = useNavigation()
   const { user } = props
+  // console.log(user)
   return (
-      <ListItem>
+      <ListItem
+        onPress={() => navigation.navigate('UserPage', 
+        {
+          user: user
+        })}
+      >
         <Avatar
           title={user.name[0]}
           rounded
@@ -17,12 +21,6 @@ const UserListItem: React.FC = (props) => {
         <ListItem.Content>
           <ListItem.Title>{user.name}</ListItem.Title>
         </ListItem.Content>
-        <Button
-          title='フォロー中'
-          buttonStyle={{ borderRadius: 18, paddingHorizontal: 10}}
-          titleStyle={{fontSize: 16}}
-          onPress={() => alert('follow')}
-        />
       </ListItem>
   )
 }

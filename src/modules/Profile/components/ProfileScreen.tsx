@@ -4,6 +4,7 @@ import ProfileHome from './ProfileHome'
 import Detail from './Detail'
 import Following from './Following'
 import Follower from './Follower'
+import UserPage from '../../common/UserPage'
 
 const Stack = createStackNavigator();
 
@@ -14,6 +15,7 @@ function ProfileScreen() {
       <Stack.Screen name="Detail" component={Detail} />
       <Stack.Screen name="Following" component={Following} />
       <Stack.Screen name="Follower" component={Follower} />
+      <Stack.Screen name="UserPage" component={UserPage} />
     </Stack.Navigator>
   );
 }
