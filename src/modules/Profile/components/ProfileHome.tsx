@@ -61,7 +61,7 @@ function ProfileHome() {
         setData(data);
       }
       console.log("----------------------")
-      console.log(data)
+      // console.log(data)
       axios.get('/api/users/following/' + data.uid)
       .then(res => {
         setFollowData(res.data)

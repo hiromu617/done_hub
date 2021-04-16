@@ -7,8 +7,8 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 
 function ProfileInfo(props) {
   const {userData, toggleModal, imageSrc, followData} = props;
-  console.log(followData.following)
-  console.log(followData.follower)
+  // console.log(followData.following)
+  // console.log(followData.follower)
   const navigation = useNavigation()
   if(!userData){
     return (

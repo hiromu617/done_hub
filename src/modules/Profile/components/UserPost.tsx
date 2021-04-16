@@ -11,7 +11,7 @@ type Props = {
 const UserPost: React.FC<Props> = (props) => {
   const {post, imageSrc} = props;
   const navigation = useNavigation()
-  console.log(post)
+  // console.log(post)
 
   const parseDate = (val) => {
     return val.toString().replace(/([0-9]{4})-([0-9]{2})-([0-9]{2})T([0-9]{2}):([0-9]{2})([\w|:|.|+]*)/, "$4:$5")

@@ -1,14 +1,34 @@
 import React, {useState, useEffect} from 'react';
+import { createStackNavigator } from '@react-navigation/stack';
 import { StyleSheet, Text, View ,StatusBar, FlatList, ScrollView, RefreshControl,} from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
 import axios from '../../../constants/axios';
 import { getUser } from '../../Todo/Storage'
 import { useNavigation } from '@react-navigation/native';
-import firebase from 'firebase'
 import DonePost from './DonePost'
+import DetailOfFeed from './DetailOfFeed'
+import UserPage from '../../common/UserPage'
+import Following from './Follower'
+import Follower from './Follower'
+
+const FeedOfFollowStack = createStackNavigator();
+
 function FeedOfFollow() {
+  return (
+    <FeedOfFollowStack.Navigator
+      headerMode="none" 
+    >
+      <FeedOfFollowStack.Screen name="Feed" component={FeedOfFollowScreen} />
+      <FeedOfFollowStack.Screen name="Detail" component={DetailOfFeed} />
+      <FeedOfFollowStack.Screen name="UserPage" component={UserPage} />
+      <FeedOfFollowStack.Screen name="Following" component={Following} />
+      <FeedOfFollowStack.Screen name="Follower" component={Follower} />
+    </FeedOfFollowStack.Navigator>
+  );
+}
+
+function FeedOfFollowScreen() {
   const navigation = useNavigation()
-  const [userData, setData] = useState();
+  const [userData, setData] = useState(null);
   const [refreshState, setRefreshData] = useState(false);
   const [feed, setFeed] = useState();
   const [pageData, setPageData] = useState(2);
@@ -26,7 +46,7 @@ function FeedOfFollow() {
         setData(data);
       }
       console.log("----------------------")
-      console.log(data)
+      // console.log(data)
       axios.get('/api/users/' + data.uid + '/feed', {
         params: {
           page: 1,
@@ -45,7 +65,7 @@ function FeedOfFollow() {
   }
 
   const fetchData = () => {
-    console.log(userData)
+    // console.log(userData)
       axios.get('/api/users/' + userData.uid + '/feed', {
         params: {
           page: pageData,
@@ -55,10 +75,12 @@ function FeedOfFollow() {
         if(res.data.length === 0 ) return
         setPageData(pageData + 1)
         console.log("----------------------")
-        console.log(res.data)
+        // console.log(res.data)
         let Data = feed
-        let newData = Data.concat(res.data)
-        setFeed(newData)
+        if(Data !== undefined){
+          let newData = Data.concat(res.data)
+          setFeed(newData)
+        }
       })
   }
 

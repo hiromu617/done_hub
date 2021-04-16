@@ -11,7 +11,7 @@ function EditProfile(props) {
   const {toggleModal, userData, imageSrc} = props;
   const {control, handleSubmit, errors, setValue} = useForm();
   const onSubmit = (data) => {
-    console.log(data)
+    // console.log(data)
     axios.post('/api/users/' + userData.uid, { 
       user: {
         name: data.name,
@@ -20,14 +20,14 @@ function EditProfile(props) {
     })
     .then(res => {
       console.log('--------------------')
-      console.log(res.data)
+      // console.log(res.data)
       let newUser: User = {
         uid: res.data.uid,
         name: res.data.name,
         profile: res.data.profile
       }
       console.log('--------------------')
-      console.log(newUser)
+      // console.log(newUser)
       storeUser(newUser)
       toggleModal()
     })

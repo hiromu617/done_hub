@@ -6,8 +6,8 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 import axios from 'axios';
 
 function OtherProfileInfo(props) {
-  const {userData, imageSrc, followData, isFollowed, follow, unfollow} = props;
-  console.log(userData)
+  const {userData, imageSrc, followData, isFollowed, follow, unfollow, isCurrentUser} = props;
+  console.log(followData)
   const navigation = useNavigation()
   if(!userData){
     return (
@@ -37,7 +37,7 @@ function OtherProfileInfo(props) {
             <Text h4 style={{fontWeight: 'bold', margin: 5}}>{userData.name}</Text>
           </View>
           <View>
-            {isFollowed && <Button 
+            {!isCurrentUser && isFollowed && <Button 
               title='follow中'
               style={{margin: 10}} 
               buttonStyle={{ borderRadius: 18, paddingHorizontal: 10}}
@@ -45,7 +45,7 @@ function OtherProfileInfo(props) {
               type='solid'
               onPress={() => unfollow()}
             />}
-            {!isFollowed && <Button 
+            {!isCurrentUser && !isFollowed && <Button 
               title='followする'
               style={{margin: 10}} 
               buttonStyle={{ borderRadius: 18, paddingHorizontal: 10}}
@@ -85,7 +85,8 @@ function OtherProfileInfo(props) {
             >
               <Text style={{fontWeight: 'bold', marginRight: 10}}>{followData.following.length} フォロー</Text>
             </TouchableOpacity>  
-            <TouchableOpacity onPress={() => navigation.navigate('Follower', {follower: followData.follower})}>
+            <TouchableOpacity 
+            onPress={() => navigation.navigate('Follower', {follower: followData.follower})}>
               <Text style={{fontWeight: 'bold'}}>{followData.follower.length} フォロワー</Text>
             </TouchableOpacity>
           </Text>

@@ -19,12 +19,12 @@ function UserPage({route}) {
   const [followData, setFollowData] = useState({following: [], follower: []});
   const [isFollowed, setIsFollowed] = useState(false);
   const [currentUserUid, setCurrentUserUid] = useState(0);
+  const [isCurrentUser, setisCurrentUser] = useState(false)
 
   useEffect(() => {
     refreshData()
     getSource(userData)
   },[]);
-
   const getAvatar =  (userData) => {
     return new Promise((resolve) => {
       var storage = firebase.storage();
@@ -61,9 +61,9 @@ function UserPage({route}) {
       })
       .then(res => {
         setCurrentUserUid(data.uid)
-        console.log(res.data)
         setIsFollowed(res.data.isFollowed)
         setData(res.data.user)
+        if(user.uid === currentUserUid) setisCurrentUser(true)
         setFollowData({following: res.data.following, follower: res.data.follower})
       })
       .catch(e => console.log(e))
@@ -112,6 +112,7 @@ function UserPage({route}) {
     console.log('succsess unfollow')
   }
   const follow = async () => {
+    if(user.uid === currentUserUid) return
     axios.get('/api/relationships', {
       params: {
         currentUserUid: currentUserUid,
@@ -138,7 +139,7 @@ function UserPage({route}) {
             />
           }
         >
-        <OtherProfileInfo userData={userData} followData={followData} imageSrc={imageSrc} isFollowed={isFollowed} follow={follow} unfollow={unfollow}/>
+        <OtherProfileInfo userData={userData} followData={followData} imageSrc={imageSrc} isFollowed={isFollowed} follow={follow} unfollow={unfollow} isCurrentUser={isCurrentUser}/>
         <Divider style={{ marginTop: 10}} />
         {/* <Text>{userData.uid}</Text> */}
           <UserPostList posts={userPostsData} fetchData={fetchData} imageSrc={imageSrc}/>
