@@ -5,7 +5,7 @@ import { StyleSheet, Text, View } from 'react-native';
 function FeedOfTag() {
   return (
     <View>
-      <Text>tag</Text>
+      <Text>TBD!</Text>
     </View>
   );
 }
