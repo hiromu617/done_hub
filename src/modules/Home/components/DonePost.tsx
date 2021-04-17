@@ -3,19 +3,24 @@ import { StyleSheet, Text, View ,TouchableOpacity} from 'react-native';
 import { ListItem, Avatar, Icon } from 'react-native-elements'
 import { useNavigation } from '@react-navigation/native';
 import firebase from 'firebase'
+import axios from '../../../constants/axios';
 
 type Props = {
   post,
+  userData
 }
 
 const DonePost: React.FC<Props> = (props) => {
-  const {post} = props;
+  const {post, userData} = props;
   const [imageSrc, setImageSrc] = useState(null)
+  const [likeState, setLikeState] = useState(false)
+  const [likeNum, setLikeNum] = useState(0)
   const navigation = useNavigation()
-  console.log(post)
+  // console.log(post)
 
   useEffect(() => {
     getSource(post)
+    isLike()
   },[]);
 
   const getAvatar =  (post) => {
@@ -44,12 +49,50 @@ const DonePost: React.FC<Props> = (props) => {
   const parseDate = (val) => {
     return val.toString().replace(/([0-9]{4})-([0-9]{2})-([0-9]{2})T([0-9]{2}):([0-9]{2})([\w|:|.|+]*)/, "$4:$5")
   }
+  const isLike = () => {
+    setLikeNum(post.likes.length)
+    post.likes.map(p => {
+      if(p.user_id === userData.id){
+        setLikeState(true)
+        return
+      }
+    })
+  }
+  const like = async () => {
+    axios.post('/api/likes/', {
+      like: {
+        user_id: userData.id,
+        done_post_id: post.id
+      }
+    })
+    .then(() => {
+      setLikeNum(likeNum+1)
+      setLikeState(true)
+    })
+  }
+
+  const unlike = async () => {
+    axios.delete('/api/likes/', {
+      params: {
+        user_id: userData.id,
+        done_post_id: post.id
+      }
+    })
+    .then(() => {
+      setLikeNum(likeNum-1)
+      setLikeState(false)
+    })
+  }
+
 
   return (
     <ListItem bottomDivider onPress={() => navigation.navigate('Detail', 
     {
       post: post,
-      imageSrc: imageSrc
+      imageSrc: imageSrc,
+      userData: userData,
+      likeState: likeState,
+      likeNum: likeNum
     })}>
     <ListItem.Content>
       <View style={{flexDirection: 'row', alignItems: 'center'}}>
@@ -85,12 +128,22 @@ const DonePost: React.FC<Props> = (props) => {
           size={20}
           color='gray' />
           <Text style={{color: 'gray', marginHorizontal: 7}}>0</Text>
-          <Icon
+          {!likeState && <Icon
           name='heart'
           type="font-awesome-5"
           size={20}
-          color='#F87171' />
-          <Text style={{color: '#F87171', marginHorizontal: 7}}>5</Text>
+          color='#F87171' 
+          onPress={() => like()}
+          />}
+          {likeState && <Icon
+          name='heart'
+          type="font-awesome-5"
+          size={20}
+          color='#F87171' 
+          solid
+          onPress={() => unlike()}
+          />}
+          <Text style={{color: '#F87171', marginHorizontal: 7}}>{likeNum}</Text>
           <Text style={{fontSize: 10, color: 'gray', width: '70%', textAlign: 'right'}}>{parseDate(post.created_at)}</Text>
         </View>
       </View>

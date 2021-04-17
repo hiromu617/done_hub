@@ -55,7 +55,6 @@ function FeedOfFollowScreen() {
   const [feed, setFeed] = useState();
   const [pageData, setPageData] = useState(2);
   const [imageSrc, setImageSrc] = useState(null);
-
   useEffect(() => {
     refreshData()
   },[]);
@@ -120,7 +119,7 @@ function FeedOfFollowScreen() {
         data={ feed }
         keyExtractor={(item) => item?.id?.toString()}
         renderItem={({item}) => {
-          return <DonePost post={item}/>;
+          return <DonePost post={item} userData={userData}/>;
         }}
         onEndReached={fetchData}
         onEndReachedThreshold={0.5}
