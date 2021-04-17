@@ -7,21 +7,21 @@ import { useNavigation } from '@react-navigation/native';
 import DonePost from './DonePost'
 import DetailOfFeed from './DetailOfFeed'
 import UserPage from '../../common/UserPage'
-import Following from './Follower'
-import Follower from './Follower'
+import Following from '../../Profile/components/Following'
+import Follower from '../../Profile/components/Follower'
 
 const FeedOfFollowStack = createStackNavigator();
 
 function FeedOfFollow() {
   return (
     <FeedOfFollowStack.Navigator
-      headerMode="none" 
+      // headerMode="none" 
     >
       <FeedOfFollowStack.Screen name="Feed" component={FeedOfFollowScreen} />
       <FeedOfFollowStack.Screen name="Detail" component={DetailOfFeed} />
-      <FeedOfFollowStack.Screen name="UserPage" component={UserPage} />
       <FeedOfFollowStack.Screen name="Following" component={Following} />
       <FeedOfFollowStack.Screen name="Follower" component={Follower} />
+      <FeedOfFollowStack.Screen name="UserPage" component={UserPage} />
     </FeedOfFollowStack.Navigator>
   );
 }

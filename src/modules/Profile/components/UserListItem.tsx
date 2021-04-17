@@ -5,7 +5,8 @@ import { useNavigation } from '@react-navigation/native';
 const UserListItem: React.FC = (props) => {
   const navigation = useNavigation()
   const { user } = props
-  // console.log(user)
+  console.log(111111111111)
+  console.log(user)
   return (
       <ListItem
         onPress={() => navigation.navigate('UserPage', 
