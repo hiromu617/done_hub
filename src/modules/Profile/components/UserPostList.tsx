@@ -5,11 +5,12 @@ import { ListItem, Avatar, Icon } from 'react-native-elements'
 type Props = {
   posts,
   fetchData,
-  imageSrc
+  imageSrc,
+  userData
 }
 
 const UserPostList: React.FC<Props>= (props) => {
-  const {posts, fetchData, imageSrc} = props;
+  const {posts, fetchData, imageSrc, userData} = props;
   // console.log(posts)
   if(posts == undefined){
     return (
@@ -24,7 +25,7 @@ const UserPostList: React.FC<Props>= (props) => {
         data={ posts}
         keyExtractor={(item) => item?.id?.toString()}
         renderItem={({item}) => {
-          return <UserPost post={item} imageSrc={imageSrc}/>;
+          return <UserPost post={item} imageSrc={imageSrc} userData={userData}/>;
         }}
         onEndReached={fetchData}
         onEndReachedThreshold={0.5}

@@ -20,7 +20,6 @@ function UserPage({route}) {
   const [isFollowed, setIsFollowed] = useState(false);
   const [currentUserUid, setCurrentUserUid] = useState(0);
   const [isCurrentUser, setisCurrentUser] = useState(false)
-
   useEffect(() => {
     refreshData()
     getSource(userData)
@@ -142,7 +141,7 @@ function UserPage({route}) {
         <OtherProfileInfo userData={userData} followData={followData} imageSrc={imageSrc} isFollowed={isFollowed} follow={follow} unfollow={unfollow} isCurrentUser={isCurrentUser}/>
         <Divider style={{ marginTop: 10}} />
         {/* <Text>{userData.uid}</Text> */}
-          <UserPostList posts={userPostsData} fetchData={fetchData} imageSrc={imageSrc}/>
+          <UserPostList posts={userPostsData} fetchData={fetchData} imageSrc={imageSrc} userData={userData}/>
         </ScrollView>
       </SafeAreaView>
   );

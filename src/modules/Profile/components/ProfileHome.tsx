@@ -129,7 +129,7 @@ function ProfileHome() {
         <ProfileInfo userData={userData} followData={followData} toggleModal={toggleModal} imageSrc={imageSrc}/>
         <Divider style={{ marginTop: 10}} />
         {/* <Text>{userData.uid}</Text> */}
-          <UserPostList posts={userPostsData} fetchData={fetchData} imageSrc={imageSrc}/>
+          <UserPostList posts={userPostsData} fetchData={fetchData} imageSrc={imageSrc} userData={userData}/>
         </ScrollView>
       </SafeAreaView>
   );
