@@ -7,8 +7,8 @@ import { useNavigation } from '@react-navigation/native';
 import DonePost from './DonePost'
 import DetailOfFeed from './DetailOfFeed'
 import UserPage from '../../common/UserPage'
-import Following from '../../Profile/components/Following'
-import Follower from '../../Profile/components/Follower'
+import Following from '../../common/Following'
+import Follower from '../../common/Follower'
 
 const FeedOfFollowStack = createStackNavigator();
 

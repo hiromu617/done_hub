@@ -2,8 +2,8 @@ import React, {useState, useEffect} from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 import ProfileHome from './ProfileHome'
 import Detail from './Detail'
-import Following from './Following'
-import Follower from './Follower'
+import Following from '../../common/Following'
+import Follower from '../../common/Follower'
 import UserPage from '../../common/UserPage'
 
 const Stack = createStackNavigator();
