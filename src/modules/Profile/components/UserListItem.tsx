@@ -9,7 +9,7 @@ const UserListItem: React.FC = (props) => {
   console.log(user)
   return (
       <ListItem
-        onPress={() => navigation.navigate('UserPage', 
+        onPress={() => navigation.push('UserPage', 
         {
           user: user
         })}

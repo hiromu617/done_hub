@@ -15,13 +15,35 @@ const FeedOfFollowStack = createStackNavigator();
 function FeedOfFollow() {
   return (
     <FeedOfFollowStack.Navigator
-      // headerMode="none" 
+      headerMode="none" 
     >
       <FeedOfFollowStack.Screen name="Feed" component={FeedOfFollowScreen} />
-      <FeedOfFollowStack.Screen name="Detail" component={DetailOfFeed} />
-      <FeedOfFollowStack.Screen name="Following" component={Following} />
-      <FeedOfFollowStack.Screen name="Follower" component={Follower} />
-      <FeedOfFollowStack.Screen name="UserPage" component={UserPage} />
+      <FeedOfFollowStack.Screen 
+        name="Detail" 
+        component={DetailOfFeed} 
+        options={{
+          gestureDirection: 'horizontal'
+        }}
+      />
+      <FeedOfFollowStack.Screen 
+        name="Following" 
+        component={Following} 
+        options={{
+          gestureDirection: 'horizontal'
+        }}
+      />
+      <FeedOfFollowStack.Screen 
+        name="Follower" component={Follower} 
+        options={{
+          gestureDirection: 'horizontal'
+        }}
+      />
+      <FeedOfFollowStack.Screen 
+        name="UserPage" component={UserPage} 
+        options={{
+          gestureDirection: 'horizontal'
+        }}
+      />
     </FeedOfFollowStack.Navigator>
   );
 }
