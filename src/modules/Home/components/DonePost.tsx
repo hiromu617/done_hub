@@ -65,8 +65,8 @@ const DonePost: React.FC<Props> = (props) => {
         done_post_id: post.id
       }
     })
-    .then(() => {
-      setLikeNum(likeNum+1)
+    .then((res) => {
+      setLikeNum(res.data.length)
       setLikeState(true)
     })
   }
@@ -78,8 +78,8 @@ const DonePost: React.FC<Props> = (props) => {
         done_post_id: post.id
       }
     })
-    .then(() => {
-      setLikeNum(likeNum-1)
+    .then((res) => {
+      setLikeNum(res.data.length)
       setLikeState(false)
     })
   }
