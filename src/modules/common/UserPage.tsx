@@ -47,6 +47,7 @@ function UserPage({route}) {
     })
   }
   const refreshData = () => {
+    setUserPostData(null)
     setImageSrc(null)
     getSource(userData)
 

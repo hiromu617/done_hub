@@ -7,12 +7,12 @@ import axios from '../../../constants/axios';
 
 const DetailOfFeed: React.FC = ({route}) => {
   const navigation = useNavigation()
-  const { post, imageSrc, userData  } = route.params;
-  const [likeState, setLikeState] = useState(false)
-  const [likeNum, setLikeNum] = useState(0)
+  const { post, imageSrc, userData, initialLikeState, initialLikeNum } = route.params;
+  const [likeState, setLikeState] = useState(initialLikeState)
+  const [likeNum, setLikeNum] = useState(initialLikeNum)
 
   useEffect(() => {
-    isLike()
+    // isLike()
   },[]);
 
   const parseDate = (val) => {

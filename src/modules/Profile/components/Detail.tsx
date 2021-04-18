@@ -7,12 +7,12 @@ import axios from '../../../constants/axios';
 
 const Detail: React.FC = ({route}) => {
   const navigation = useNavigation()
-  const { post, imageSrc, userData  } = route.params;
-  const [likeState, setLikeState] = useState(false)
-  const [likeNum, setLikeNum] = useState(0)
+  const { post, imageSrc, userData ,initialLikeNum, initialLikeState } = route.params;
+  const [likeState, setLikeState] = useState(initialLikeState)
+  const [likeNum, setLikeNum] = useState(initialLikeNum)
 
   useEffect(() => {
-    isLike()
+    // isLike()
   },[]);
   const parseDate = (val) => {
     return val.toString().replace(/([0-9]{4})-([0-9]{2})-([0-9]{2})T([0-9]{2}):([0-9]{2})([\w|:|.|+]*)/, "$2/$3 $4:$5")

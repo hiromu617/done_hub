@@ -91,8 +91,8 @@ const DonePost: React.FC<Props> = (props) => {
       post: post,
       imageSrc: imageSrc,
       userData: userData,
-      likeState: likeState,
-      likeNum: likeNum
+      initialLikeState: likeState,
+      initialLikeNum: likeNum
     })}>
     <ListItem.Content>
       <View style={{flexDirection: 'row', alignItems: 'center'}}>

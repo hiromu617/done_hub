@@ -52,6 +52,7 @@ function ProfileHome() {
     })
   }
   const refreshData = () => {
+    setUserPostData(null)
     setImageSrc(null)
     getSource(userData)
 
@@ -59,6 +60,7 @@ function ProfileHome() {
     getUser().then((data) => {
       if(data.uid !== undefined) {
         setData(data);
+        console.log(data)
       }
       console.log("----------------------")
       // console.log(data)

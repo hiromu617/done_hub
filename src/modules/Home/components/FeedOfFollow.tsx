@@ -60,6 +60,7 @@ function FeedOfFollowScreen() {
   },[]);
 
   const refreshData = () => {
+    setFeed(null)
     setImageSrc(null)
     setRefreshData(true)
     getUser().then((data) => {
