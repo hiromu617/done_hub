@@ -130,7 +130,7 @@ const DonePost: React.FC<Props> = (props) => {
           type="font-awesome-5"
           size={20}
           color='gray' />
-          <Text style={{color: 'gray', marginHorizontal: 7}}>0</Text>
+          <Text style={{color: 'gray', marginHorizontal: 0}}>{post.replys.length}</Text>
           {!likeState && <Icon
           name='heart'
           type="font-awesome-5"
@@ -146,7 +146,7 @@ const DonePost: React.FC<Props> = (props) => {
           solid
           onPress={() => unlike()}
           />}
-          <Text style={{color: '#F87171', marginHorizontal: 7}}>{likeNum}</Text>
+          <Text style={{color: '#F87171', marginHorizontal: 0}}>{likeNum}</Text>
           <Text style={{fontSize: 10, color: 'gray', width: '70%', textAlign: 'right'}}>{parseDate(post.created_at)}</Text>
         </View>
       </View>

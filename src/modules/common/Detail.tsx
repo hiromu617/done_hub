@@ -1,9 +1,10 @@
 import React, {useEffect, useState} from 'react';
-import { StyleSheet, Text, View ,TouchableOpacity} from 'react-native';
+import { StyleSheet, Text, View ,TouchableOpacity, FlatList} from 'react-native';
 import { ListItem, Avatar, Icon } from 'react-native-elements'
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useNavigation } from '@react-navigation/native';
 import axios from '../../constants/axios';
+import Reply from './Reply'
 
 const Detail: React.FC = ({route}) => {
   const navigation = useNavigation()
@@ -61,6 +62,7 @@ const Detail: React.FC = ({route}) => {
       <View style={{flexDirection: 'row', alignItems: 'center'}}>
             {imageSrc && <Avatar 
               rounded
+              size='medium'
               source={{
                 uri: imageSrc
               }}
@@ -72,6 +74,7 @@ const Detail: React.FC = ({route}) => {
             />}
             {!imageSrc && <Avatar 
               rounded
+              size='medium'
               title={post.user.name[0]} 
               containerStyle={{backgroundColor: 'gray', marginRight: 10}}
               onPress={() => navigation.navigate('UserPage', 
@@ -90,7 +93,7 @@ const Detail: React.FC = ({route}) => {
           type="font-awesome-5"
           size={20}
           color='gray' />
-          <Text style={{color: 'gray', marginHorizontal: 7}}>0</Text>
+          <Text style={{color: 'gray', marginHorizontal: 7}}>{post.replys.length}</Text>
           {!likeState && <Icon
           name='heart'
           type="font-awesome-5"
@@ -112,6 +115,16 @@ const Detail: React.FC = ({route}) => {
       </View>
     </ListItem.Content>
   </ListItem>
+
+        {post.replys && <FlatList
+          showsVerticalScrollIndicator={false}
+          data={ post.replys}
+          keyExtractor={(item) => item?.id?.toString()}
+          renderItem={({item}) => {
+            return(<Reply reply={item}/>);
+          }}
+        />}
+
   </View>
   )
 }
