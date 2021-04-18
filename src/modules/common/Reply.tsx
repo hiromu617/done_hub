@@ -11,7 +11,7 @@ type Props = {
 }
 
 const Reply: React.FC<Props> = (props) => {
-  const { reply } = props
+  const { reply, toggleModal } = props
   const [imageSrc, setImageSrc] = useState(null)
   const navigation = useNavigation()
 
@@ -46,7 +46,10 @@ const Reply: React.FC<Props> = (props) => {
     return val.toString().replace(/([0-9]{4})-([0-9]{2})-([0-9]{2})T([0-9]{2}):([0-9]{2})([\w|:|.|+]*)/, "$2/$3 $4:$5")
   }
   return (
-    <ListItem>
+    <ListItem 
+      bottomDivider
+      onPress={() => toggleModal()}
+    >
       <ListItem.Content>
         <View style={{flexDirection: 'row', alignItems: 'center'}}>
         {imageSrc && <Avatar 

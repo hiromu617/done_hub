@@ -1,20 +1,26 @@
 import React, {useEffect, useState} from 'react';
 import { StyleSheet, Text, View ,TouchableOpacity, FlatList} from 'react-native';
-import { ListItem, Avatar, Icon } from 'react-native-elements'
+import { ListItem, Avatar, Icon, Overlay } from 'react-native-elements'
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useNavigation } from '@react-navigation/native';
 import axios from '../../constants/axios';
 import Reply from './Reply'
+import ReplyForm from './ReplyForm'
 
 const Detail: React.FC = ({route}) => {
   const navigation = useNavigation()
   const { post, imageSrc, userData, initialLikeState, initialLikeNum } = route.params;
   const [likeState, setLikeState] = useState(initialLikeState)
   const [likeNum, setLikeNum] = useState(initialLikeNum)
+  const [isModalVisible, setModalVisible] = useState(false);
 
   useEffect(() => {
     // isLike()
   },[]);
+
+  const toggleModal = () => {
+    setModalVisible(!isModalVisible);
+  };
 
   const parseDate = (val) => {
     return val.toString().replace(/([0-9]{4})-([0-9]{2})-([0-9]{2})T([0-9]{2}):([0-9]{2})([\w|:|.|+]*)/, "$2/$3 $4:$5")
@@ -92,7 +98,9 @@ const Detail: React.FC = ({route}) => {
           name='comment'
           type="font-awesome-5"
           size={20}
-          color='gray' />
+          color='gray' 
+          onPress={() => toggleModal()}
+          />
           <Text style={{color: 'gray', marginHorizontal: 7}}>{post.replys.length}</Text>
           {!likeState && <Icon
           name='heart'
@@ -115,13 +123,18 @@ const Detail: React.FC = ({route}) => {
       </View>
     </ListItem.Content>
   </ListItem>
-
+  <Overlay
+    isVisible={isModalVisible}
+    onBackdropPress={toggleModal}
+  >
+    <ReplyForm CloseModal={toggleModal} post={post} userData={userData}/>
+  </Overlay>
         {post.replys && <FlatList
           showsVerticalScrollIndicator={false}
           data={ post.replys}
           keyExtractor={(item) => item?.id?.toString()}
           renderItem={({item}) => {
-            return(<Reply reply={item}/>);
+            return(<Reply reply={item} toggleModal={toggleModal}/>);
           }}
         />}
 
