@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import { StyleSheet, Text, View ,TouchableOpacity, FlatList} from 'react-native';
+import { StyleSheet, Text, View ,TouchableOpacity, FlatList, ScrollView, RefreshControl} from 'react-native';
 import { ListItem, Avatar, Icon, Overlay } from 'react-native-elements'
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useNavigation } from '@react-navigation/native';
@@ -13,11 +13,24 @@ const Detail: React.FC = ({route}) => {
   const [likeState, setLikeState] = useState(initialLikeState)
   const [likeNum, setLikeNum] = useState(initialLikeNum)
   const [isModalVisible, setModalVisible] = useState(false);
+  const [refreshState, setRefreshData] = useState(false);
+  const [postData, setPostData] = useState(post)
+  const [replyData, setReplyData] = useState(post.replys)
 
   useEffect(() => {
     // isLike()
+    // refreshData()
   },[]);
-
+  const refreshData = () => {
+    setRefreshData(true)
+    setReplyData([])
+    axios.get('/api/done_posts/' + post.id)
+    .then((res) => {
+      setPostData(res.data)
+      setReplyData(res.data.replys)
+      setRefreshData(false)
+    })
+  }
   const toggleModal = () => {
     setModalVisible(!isModalVisible);
   };
@@ -27,8 +40,8 @@ const Detail: React.FC = ({route}) => {
   }
 
   const isLike = () => {
-    setLikeNum(post.likes.length)
-    post.likes.map(p => {
+    setLikeNum(postData.likes.length)
+    postData.likes.map(p => {
       if(p.user_id === userData.id){
         setLikeState(true)
         return
@@ -40,7 +53,7 @@ const Detail: React.FC = ({route}) => {
     axios.post('/api/likes/', {
       like: {
         user_id: userData.id,
-        done_post_id: post.id
+        done_post_id: postData.id
       }
     })
     .then(() => {
@@ -53,7 +66,7 @@ const Detail: React.FC = ({route}) => {
     axios.delete('/api/likes/', {
       params: {
         user_id: userData.id,
-        done_post_id: post.id
+        done_post_id: postData.id
       }
     })
     .then(() => {
@@ -62,7 +75,15 @@ const Detail: React.FC = ({route}) => {
     })
   }
   return (
-    <View>
+    <ScrollView
+      refreshControl={
+      <RefreshControl
+        refreshing={refreshState}
+        onRefresh={() => refreshData()}
+      />
+      }
+    >
+     <View>
       <ListItem bottomDivider>
     <ListItem.Content>
       <View style={{flexDirection: 'row', alignItems: 'center'}}>
@@ -75,7 +96,7 @@ const Detail: React.FC = ({route}) => {
               containerStyle={{backgroundColor: 'gray', marginRight: 10}}
               onPress={() => navigation.navigate('UserPage', 
               {
-                user: post.user
+                user: postData.user
               })}
             />}
             {!imageSrc && <Avatar 
@@ -85,14 +106,14 @@ const Detail: React.FC = ({route}) => {
               containerStyle={{backgroundColor: 'gray', marginRight: 10}}
               onPress={() => navigation.navigate('UserPage', 
               {
-                user: post.user
+                user: postData.user
               })}
             />}
         <ListItem.Title  style={{paddingBottom: 5,fontWeight: 'bold'}}>{post.user.name}</ListItem.Title>
       </View>
       <View  style={{width: '100%', paddingTop: 10}}>
-        {post.comment.length > 0 && <Text style={{backgroundColor: '#EFF6FF', width: '100%', padding: 8, borderRadius: 10, fontSize: 16}}>{post.comment}</Text>}
-        <ListItem.Title  style={{paddingVertical: 20,fontWeight: 'bold', fontSize: 24}}>「{post.title}」 DONE！✨</ListItem.Title>
+        {postData.comment.length > 0 && <Text style={{backgroundColor: '#EFF6FF', width: '100%', padding: 8, borderRadius: 10, fontSize: 16}}>{post.comment}</Text>}
+        <ListItem.Title  style={{paddingVertical: 20,fontWeight: 'bold', fontSize: 24}}>「{postData.title}」 DONE！✨</ListItem.Title>
         <View style={{flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
           <Icon
           name='comment'
@@ -101,7 +122,7 @@ const Detail: React.FC = ({route}) => {
           color='gray' 
           onPress={() => toggleModal()}
           />
-          <Text style={{color: 'gray', marginHorizontal: 7}}>{post.replys.length}</Text>
+          <Text style={{color: 'gray', marginHorizontal: 7}}>{replyData.length}</Text>
           {!likeState && <Icon
           name='heart'
           type="font-awesome-5"
@@ -127,11 +148,11 @@ const Detail: React.FC = ({route}) => {
     isVisible={isModalVisible}
     onBackdropPress={toggleModal}
   >
-    <ReplyForm CloseModal={toggleModal} post={post} userData={userData}/>
+    <ReplyForm CloseModal={toggleModal} post={postData} userData={userData}/>
   </Overlay>
-        {post.replys && <FlatList
+        {replyData && <FlatList
           showsVerticalScrollIndicator={false}
-          data={ post.replys}
+          data={ replyData}
           keyExtractor={(item) => item?.id?.toString()}
           renderItem={({item}) => {
             return(<Reply reply={item} toggleModal={toggleModal}/>);
@@ -139,6 +160,8 @@ const Detail: React.FC = ({route}) => {
         />}
 
   </View>
+    </ScrollView>
+    
   )
 }
 

@@ -7,7 +7,8 @@ import axios from '../../constants/axios';
 import firebase from 'firebase'
 
 type Props = {
-  reply
+  reply,
+  toggleModal
 }
 
 const Reply: React.FC<Props> = (props) => {
