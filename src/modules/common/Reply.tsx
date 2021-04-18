@@ -8,11 +8,10 @@ import firebase from 'firebase'
 
 type Props = {
   reply,
-  toggleModal
 }
 
 const Reply: React.FC<Props> = (props) => {
-  const { reply, toggleModal } = props
+  const { reply } = props
   const [imageSrc, setImageSrc] = useState(null)
   const navigation = useNavigation()
 
@@ -49,7 +48,6 @@ const Reply: React.FC<Props> = (props) => {
   return (
     <ListItem 
       bottomDivider
-      onPress={() => toggleModal()}
     >
       <ListItem.Content>
         <View style={{flexDirection: 'row', alignItems: 'center'}}>
@@ -78,7 +76,7 @@ const Reply: React.FC<Props> = (props) => {
         <ListItem.Title  style={{paddingBottom: 5,fontWeight: 'bold', fontSize: 16}}>{reply.user.name}</ListItem.Title>
         </View>
         <View style={{width: '100%', paddingTop: 10, paddingLeft: '12%'}}>
-          <ListItem.Title>{reply.content}</ListItem.Title>
+          <ListItem.Title  style={{fontSize: 14}}>{reply.content}</ListItem.Title>
           <Text style={{fontSize: 10, color: 'gray', width: '100%', textAlign: 'right'}}>{parseDate(reply.created_at)}</Text>
         </View>
       </ListItem.Content>
