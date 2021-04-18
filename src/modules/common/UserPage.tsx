@@ -3,27 +3,36 @@ import { StyleSheet, View, ActivityIndicator , ScrollView, RefreshControl,SafeAr
 import { getUser } from '../Todo/Storage'
 import { useNavigation } from '@react-navigation/native';
 import axios from '../../constants/axios';
-import UserPostList from '../Profile/components/UserPostList'
+import UserPostList from './UserPostList'
 import { Divider,Overlay,Button} from 'react-native-elements';
 import firebase from 'firebase'
 import OtherProfileInfo from './OtherProfileInfo'
+import ProfileInfo from '../Profile/components/ProfileInfo'
+import EditProfile from '../Profile/components/EditProfile'
 
 function UserPage({route}) {
   const {user} = route.params;
   const navigation = useNavigation()
-  const [userData, setData] = useState();
+  const [userData, setData] = useState(user);
   const [refreshState, setRefreshData] = useState(false);
   const [userPostsData, setUserPostData] = useState();
   const [pageData, setPageData] = useState(2);
-  const [imageSrc, setImageSrc] = useState(null);
-  const [followData, setFollowData] = useState({following: [], follower: []});
   const [isFollowed, setIsFollowed] = useState(false);
   const [currentUserUid, setCurrentUserUid] = useState(0);
   const [isCurrentUser, setisCurrentUser] = useState(false)
+  const [isModalVisible, setModalVisible] = useState(false);
+  const [imageSrc, setImageSrc] = useState(null);
+  const [followData, setFollowData] = useState({following: [], follower: []});
+
+  const toggleModal = () => {
+    setModalVisible(!isModalVisible);
+  };
+
   useEffect(() => {
     refreshData()
     getSource(userData)
   },[]);
+
   const getAvatar =  (userData) => {
     return new Promise((resolve) => {
       var storage = firebase.storage();
@@ -131,6 +140,12 @@ function UserPage({route}) {
   }
   return (
       <SafeAreaView style={{ flex: 1}}>
+        <Overlay
+         isVisible={isModalVisible}
+         fullScreen
+        >
+          <EditProfile toggleModal={toggleModal} userData={userData} imageSrc={imageSrc}/>        
+        </Overlay>
         <ScrollView
           refreshControl={
             <RefreshControl
@@ -139,8 +154,10 @@ function UserPage({route}) {
             />
           }
         >
-        <OtherProfileInfo userData={userData} followData={followData} imageSrc={imageSrc} isFollowed={isFollowed} follow={follow} unfollow={unfollow} isCurrentUser={isCurrentUser}/>
+          {isCurrentUser && <ProfileInfo  userData={userData} followData={followData} toggleModal={toggleModal} imageSrc={imageSrc}/>}
+          {!isCurrentUser && <OtherProfileInfo userData={userData} followData={followData} imageSrc={imageSrc} isFollowed={isFollowed} follow={follow} unfollow={unfollow} isCurrentUser={isCurrentUser}/>}
         <Divider style={{ marginTop: 10}} />
+
         {/* <Text>{userData.uid}</Text> */}
           <UserPostList posts={userPostsData} fetchData={fetchData} imageSrc={imageSrc} userData={userData}/>
         </ScrollView>

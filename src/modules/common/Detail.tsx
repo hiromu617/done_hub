@@ -3,20 +3,22 @@ import { StyleSheet, Text, View ,TouchableOpacity} from 'react-native';
 import { ListItem, Avatar, Icon } from 'react-native-elements'
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useNavigation } from '@react-navigation/native';
-import axios from '../../../constants/axios';
+import axios from '../../constants/axios';
 
 const Detail: React.FC = ({route}) => {
   const navigation = useNavigation()
-  const { post, imageSrc, userData ,initialLikeNum, initialLikeState } = route.params;
+  const { post, imageSrc, userData, initialLikeState, initialLikeNum } = route.params;
   const [likeState, setLikeState] = useState(initialLikeState)
   const [likeNum, setLikeNum] = useState(initialLikeNum)
 
   useEffect(() => {
     // isLike()
   },[]);
+
   const parseDate = (val) => {
     return val.toString().replace(/([0-9]{4})-([0-9]{2})-([0-9]{2})T([0-9]{2}):([0-9]{2})([\w|:|.|+]*)/, "$2/$3 $4:$5")
   }
+
   const isLike = () => {
     setLikeNum(post.likes.length)
     post.likes.map(p => {
@@ -63,11 +65,19 @@ const Detail: React.FC = ({route}) => {
                 uri: imageSrc
               }}
               containerStyle={{backgroundColor: 'gray', marginRight: 10}}
+              onPress={() => navigation.navigate('UserPage', 
+              {
+                user: post.user
+              })}
             />}
             {!imageSrc && <Avatar 
               rounded
               title={post.user.name[0]} 
               containerStyle={{backgroundColor: 'gray', marginRight: 10}}
+              onPress={() => navigation.navigate('UserPage', 
+              {
+                user: post.user
+              })}
             />}
         <ListItem.Title  style={{paddingBottom: 5,fontWeight: 'bold'}}>{post.user.name}</ListItem.Title>
       </View>

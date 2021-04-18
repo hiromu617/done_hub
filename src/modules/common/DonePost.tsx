@@ -2,23 +2,52 @@ import React, {useEffect, useState} from 'react';
 import { StyleSheet, Text, View ,TouchableOpacity} from 'react-native';
 import { ListItem, Avatar, Icon } from 'react-native-elements'
 import { useNavigation } from '@react-navigation/native';
-import axios from '../../../constants/axios';
+import firebase from 'firebase'
+import axios from '../../constants/axios';
 
 type Props = {
   post,
-  imageSrc,
-  userData
+  userData,
+  image
 }
 
-const UserPost: React.FC<Props> = (props) => {
-  const {post, imageSrc, userData} = props;
+const DonePost: React.FC<Props> = (props) => {
+  const {post, userData, image} = props;
+  const [imageSrc, setImageSrc] = useState(image)
   const [likeState, setLikeState] = useState(false)
   const [likeNum, setLikeNum] = useState(0)
   const navigation = useNavigation()
-  // console.log(post)
+  console.log(post)
+
   useEffect(() => {
+    if(!image){
+      getSource(post)
+    }
     isLike()
   },[]);
+
+  const getAvatar =  (post) => {
+    return new Promise((resolve) => {
+      var storage = firebase.storage();
+      var storageRef = storage.ref();
+      var spaceRef = storageRef.child(`images/${post.user.uid}.jpg`);
+      spaceRef.getDownloadURL().then(function(url){
+        console.log("ファイルURLを取得")
+        console.log(url)
+        resolve(url);
+      }).catch(function(error) {
+        // Handle any errors
+        console.log("getTokoImage 画像を取得する");
+        console.log(error);
+      });
+    });
+  };
+  const getSource = (userData) => {
+    getAvatar(userData)
+    .then(res => {
+      setImageSrc(res)
+    })
+  }
 
   const parseDate = (val) => {
     return val.toString().replace(/([0-9]{4})-([0-9]{2})-([0-9]{2})T([0-9]{2}):([0-9]{2})([\w|:|.|+]*)/, "$4:$5")
@@ -39,8 +68,8 @@ const UserPost: React.FC<Props> = (props) => {
         done_post_id: post.id
       }
     })
-    .then(() => {
-      setLikeNum(likeNum+1)
+    .then((res) => {
+      setLikeNum(res.data.length)
       setLikeState(true)
     })
   }
@@ -52,8 +81,8 @@ const UserPost: React.FC<Props> = (props) => {
         done_post_id: post.id
       }
     })
-    .then(() => {
-      setLikeNum(likeNum-1)
+    .then((res) => {
+      setLikeNum(res.data.length)
       setLikeState(false)
     })
   }
@@ -65,8 +94,8 @@ const UserPost: React.FC<Props> = (props) => {
       post: post,
       imageSrc: imageSrc,
       userData: userData,
-      likeState: likeState,
-      likeNum: likeNum
+      initialLikeState: likeState,
+      initialLikeNum: likeNum
     })}>
     <ListItem.Content>
       <View style={{flexDirection: 'row', alignItems: 'center'}}>
@@ -126,4 +155,4 @@ const UserPost: React.FC<Props> = (props) => {
   )
 }
 
-export default UserPost
+export default DonePost

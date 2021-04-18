@@ -1,7 +1,7 @@
 import React, {useContext, useState, useEffect} from 'react';
 import {View,FlatList,StyleSheet, Text, ActivityIndicator,ScrollView} from 'react-native';
-import UserPost from './UserPost'
 import { ListItem, Avatar, Icon } from 'react-native-elements'
+import DonePost from './DonePost'
 type Props = {
   posts,
   fetchData,
@@ -25,7 +25,8 @@ const UserPostList: React.FC<Props>= (props) => {
         data={ posts}
         keyExtractor={(item) => item?.id?.toString()}
         renderItem={({item}) => {
-          return <UserPost post={item} imageSrc={imageSrc} userData={userData}/>;
+          return <DonePost post={item} userData={userData} image={imageSrc}/>;
+          // return <UserPost post={item} imageSrc={imageSrc} userData={userData}/>;
         }}
         onEndReached={fetchData}
         onEndReachedThreshold={0.5}

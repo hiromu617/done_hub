@@ -3,7 +3,7 @@ import { StyleSheet, View, ActivityIndicator , ScrollView, RefreshControl,SafeAr
 import { getUser } from '../../Todo/Storage'
 import { useNavigation } from '@react-navigation/native';
 import axios from '../../../constants/axios';
-import UserPostList from './UserPostList'
+import UserPostList from '../../common/UserPostList'
 import ProfileInfo from './ProfileInfo'
 import EditProfile from './EditProfile'
 import { Divider,Overlay} from 'react-native-elements';

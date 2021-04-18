@@ -4,8 +4,8 @@ import { StyleSheet, Text, View ,StatusBar, FlatList, ScrollView, RefreshControl
 import axios from '../../../constants/axios';
 import { getUser } from '../../Todo/Storage'
 import { useNavigation } from '@react-navigation/native';
-import DonePost from './DonePost'
-import DetailOfFeed from './DetailOfFeed'
+import DonePost from '../../common/DonePost'
+import Detail from '../../common/Detail'
 import UserPage from '../../common/UserPage'
 import Following from '../../common/Following'
 import Follower from '../../common/Follower'
@@ -20,7 +20,7 @@ function FeedOfFollow() {
       <FeedOfFollowStack.Screen name="Feed" component={FeedOfFollowScreen} />
       <FeedOfFollowStack.Screen 
         name="Detail" 
-        component={DetailOfFeed} 
+        component={Detail} 
         options={{
           gestureDirection: 'horizontal'
         }}
@@ -120,7 +120,7 @@ function FeedOfFollowScreen() {
         data={ feed }
         keyExtractor={(item) => item?.id?.toString()}
         renderItem={({item}) => {
-          return <DonePost post={item} userData={userData}/>;
+          return <DonePost post={item} userData={userData} image={null}/>;
         }}
         onEndReached={fetchData}
         onEndReachedThreshold={0.5}

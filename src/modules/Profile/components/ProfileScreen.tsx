@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 import ProfileHome from './ProfileHome'
-import Detail from './Detail'
+import Detail from '../../common/Detail'
 import Following from '../../common/Following'
 import Follower from '../../common/Follower'
 import UserPage from '../../common/UserPage'
