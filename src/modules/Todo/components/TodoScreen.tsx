@@ -27,13 +27,15 @@ const TodoScreen: React.FC = () => {
   return (
     
     <SiteProvider>
-        <Overlay
+        <Modal
          isVisible={isModalVisible}
          onBackdropPress={toggleModal}
-         overlayStyle={{width: '80%'}}
+         animationIn='zoomInUp'
+         animationOut='zoomOut'
+         avoidKeyboard
         >
           <ModalContent CloseModal={toggleModal}></ModalContent>
-        </Overlay>
+        </Modal>
 
       <SafeAreaView style={{ flex: 1, justifyContent: 'center'}}>
         <TaskList/>

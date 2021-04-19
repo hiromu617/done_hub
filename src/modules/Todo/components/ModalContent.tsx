@@ -4,7 +4,7 @@ import TaskForm from '../objects/TaskForm'
 import {useForm, Controller} from 'react-hook-form';
 import { SiteContext } from './TodoScreen'
 import { AntDesign } from '@expo/vector-icons'; 
-import { Input,Button} from 'react-native-elements';
+import { Input,Button, Icon} from 'react-native-elements';
 
 type Props = {
   CloseModal: () => void;
@@ -20,21 +20,22 @@ const ModalContent: React.FC<Props> = (props) => {
   };
  
   return (
-    <View  style={{ justifyContent: 'center', alignItems: 'center', backgroundColor: "#fff", height:300, borderRadius: 20, padding: 20}}>
-      <View style={styles.btnWrap}>
-          <TouchableOpacity 
+    <View style={{borderRadius: 20}}>
+      <View  style={{ justifyContent: 'center', alignItems: 'center', backgroundColor: "#fff", height:170,  padding: 20, borderTopStartRadius: 10, borderTopEndRadius: 10}}>
+        <View style={styles.btnWrap}>
+          {/* <TouchableOpacity 
             style={styles.btn}
             onPress={CloseModal} 
           >
             <AntDesign name="close" size={30} color="grey" />
-          </TouchableOpacity>
+          </TouchableOpacity> */}
       </View>
       <Controller
           control={control}
           render={({onChange, value}) => (
             <Input
-            label='タイトル'
-              placeholder='title'
+            // label='タイトル'
+              placeholder='タイトル'
               onChangeText={(value) => onChange(value)}
               value={value}
             />
@@ -52,7 +53,22 @@ const ModalContent: React.FC<Props> = (props) => {
         {errors.name && errors.name.type === 'maxLength' && (
           <Text style={styles.errorText}>タイトルは20文字以内で入力してください。</Text>
         )}
-      <Button type='outline' title="ADD TO LIST" onPress={handleSubmit(onSubmit)}/>
+      </View>
+      
+        <TouchableOpacity 
+          style={{ backgroundColor: '#3B82F6', width: '100%', padding: 20, borderBottomEndRadius: 10, borderBottomStartRadius: 10}}
+          onPress={handleSubmit(onSubmit)}
+        >
+          <View style={{flexDirection: 'row',justifyContent: 'center', alignItems: 'center'}}>
+            <Text style={{textAlign: 'center', color: 'white', fontWeight: 'bold', marginRight: 5}}>リストに追加する</Text>
+            <Icon
+              name='plus'
+              size={17}
+              type='font-awesome'
+              color='white'
+            />
+          </View>
+        </TouchableOpacity>
     </View>
   )
 }

@@ -110,8 +110,8 @@ const Detail: React.FC = ({route}) => {
         <ListItem.Title  style={{paddingBottom: 5,fontWeight: 'bold'}}>{post.user.name}</ListItem.Title>
       </View>
       <View  style={{width: '100%', paddingTop: 10}}>
-        {postData.comment.length > 0 && <Text style={{backgroundColor: '#EFF6FF', width: '100%', padding: 8, borderRadius: 10, fontSize: 16}}>{post.comment}</Text>}
-        <ListItem.Title  style={{paddingVertical: 20,fontWeight: 'bold', fontSize: 24}}>「{postData.title}」 DONE！✨</ListItem.Title>
+        {postData.comment.length > 0 && <Text style={{backgroundColor: '#EFF6FF', width: '100%', padding: 8, borderRadius: 10, fontSize: 14}}>{post.comment}</Text>}
+        <ListItem.Title  style={{paddingVertical: 20,fontWeight: 'bold', fontSize: 18}}>「{postData.title}」 DONE！✨</ListItem.Title>
         <View style={{flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
           <Icon
           name='comment'

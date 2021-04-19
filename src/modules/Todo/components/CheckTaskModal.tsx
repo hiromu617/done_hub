@@ -22,22 +22,23 @@ const ModalContent: React.FC<Props> = (props) => {
   };
 
   return (
-    <View  style={{ justifyContent: 'center', alignItems: 'center', backgroundColor: "#fff", height:300, borderRadius: 20, padding: 20}}>
-      <View style={styles.btnWrap}>
-          <TouchableOpacity 
+    <View style={{borderRadius: 20}}>
+      <View  style={{ justifyContent: 'center', alignItems: 'center', backgroundColor: "#fff", height:170,  padding: 20, borderTopStartRadius: 10, borderTopEndRadius: 10}}>
+        <View style={styles.btnWrap}>
+          {/* <TouchableOpacity 
             style={styles.btn}
             onPress={CloseModal} 
           >
             <AntDesign name="close" size={30} color="grey" />
-          </TouchableOpacity>
+          </TouchableOpacity> */}
       </View>
       <Controller
           control={control}
           render={({onChange, value}) => (
             <Input
               multiline = {true}
-              label='コメント'
-              placeholder='comment'
+              // label='コメント'
+              placeholder='コメント'
               onChangeText={(value) => onChange(value)}
               value={value}
             />
@@ -51,7 +52,22 @@ const ModalContent: React.FC<Props> = (props) => {
         {errors.name && errors.name.type === 'maxLength' && (
           <Text style={styles.errorText}>タイトルは140文字以内で入力してください。</Text>
         )}
-      <Button 
+      </View>
+      <TouchableOpacity 
+          style={{ backgroundColor: '#EF4444', width: '100%', padding: 20, borderBottomEndRadius: 10, borderBottomStartRadius: 10}}
+          onPress={handleSubmit(onSubmit)}
+        >
+          <View style={{flexDirection: 'row',justifyContent: 'center', alignItems: 'center'}}>
+            <Text style={{textAlign: 'center', color: 'white', fontWeight: 'bold', marginRight: 5, fontSize: 18}}>完了</Text>
+            <Icon
+              name='check'
+              size={17}
+              type='font-awesome'
+              color='white'
+            />
+          </View>
+        </TouchableOpacity>
+      {/* <Button 
         icon={
         <Icon
           name="check"
@@ -61,7 +77,7 @@ const ModalContent: React.FC<Props> = (props) => {
         title="DONE" 
         type='outline'
         onPress={handleSubmit(onSubmit)}
-      />
+      /> */}
     </View>
   )
 }

@@ -11,6 +11,7 @@ import {Alert} from 'react-native';
 import { AntDesign } from '@expo/vector-icons'; 
 import CheckTaskModal from './CheckTaskModal'
 import { Button, Overlay } from 'react-native-elements';
+import Modal from 'react-native-modal';
 
 
 
@@ -46,13 +47,15 @@ const TaskCard: React.FC<Props> = (props) => {
 
   return (
     <View>
-      <Overlay
+      <Modal
          isVisible={isModalVisible}
          onBackdropPress={toggleModal}
-         overlayStyle={{width: '80%'}}
+         animationIn='zoomInUp'
+         animationOut='zoomOut'
+         avoidKeyboard
         >
           <CheckTaskModal CloseModal={toggleModal} TaskObj={task}></CheckTaskModal>
-        </Overlay>
+        </Modal>
       <View style={styles.taskCard}>
         <TaskCheckBox checked={task.checked} onCheck={checkTask}/>
         <TouchableOpacity onPress={onPressTask}>

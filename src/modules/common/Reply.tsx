@@ -73,10 +73,10 @@ const Reply: React.FC<Props> = (props) => {
             user: reply.user
           })}
         />}
-        <ListItem.Title  style={{paddingBottom: 5,fontWeight: 'bold', fontSize: 16}}>{reply.user.name}</ListItem.Title>
+        <ListItem.Title  style={{paddingBottom: 0,fontWeight: 'bold', fontSize: 16}}>{reply.user.name}</ListItem.Title>
         </View>
-        <View style={{width: '100%', paddingTop: 10, paddingLeft: '12%'}}>
-          <ListItem.Title  style={{fontSize: 14}}>{reply.content}</ListItem.Title>
+        <View style={{width: '100%', paddingLeft: '12%'}}>
+          <ListItem.Title  style={{fontSize: 13}}>{reply.content}</ListItem.Title>
           <Text style={{fontSize: 10, color: 'gray', width: '100%', textAlign: 'right'}}>{parseDate(reply.created_at)}</Text>
         </View>
       </ListItem.Content>
