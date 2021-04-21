@@ -111,14 +111,34 @@ const Detail: React.FC = ({route}) => {
       </View>
       <View  style={{width: '100%', paddingTop: 10}}>
         {postData.comment.length > 0 && <Text style={{backgroundColor: '#EFF6FF', width: '100%', padding: 8, borderRadius: 10, fontSize: 14}}>{post.comment}</Text>}
-        <ListItem.Title  style={{paddingVertical: 20,fontWeight: 'bold', fontSize: 18}}>「{postData.title}」 DONE！✨</ListItem.Title>
+        {postData.title && <ListItem.Title style={{paddingVertical: 20,fontWeight: 'bold', fontSize: 18}} >「{post.title}」 DONE！✨</ListItem.Title>}
+        {!postData.title && 
+          <FlatList
+          showsVerticalScrollIndicator={false}
+          style={{padding: 3, margin: 20, backgroundColor: '#F4F4F5'}}
+          data={ JSON.parse(postData.tasks[0])}
+          renderItem={({item}) => {
+            const color: string = item.checked ? '#1D4ED8' : '#BFDBFE';
+            return (
+              <ListItem 
+                bottomDivider
+              >
+                <Icon
+                  name='check'
+                  color={color}
+                />
+                <Text>{item.name}</Text>  
+              </ListItem>
+            );
+          }}
+        />
+        }
         <View style={{flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
           <Icon
           name='comment'
           type="font-awesome-5"
           size={20}
           color='gray' 
-          onPress={() => toggleModal()}
           />
           <Text style={{color: 'gray', marginHorizontal: 7}}>{replyData.length}</Text>
           {!likeState && <Icon

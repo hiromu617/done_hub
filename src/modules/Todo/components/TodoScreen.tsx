@@ -1,13 +1,16 @@
 import React, {useReducer, useState} from 'react';
-import { View,SafeAreaView } from 'react-native';
+import { View,SafeAreaView, Text } from 'react-native';
 import TaskList from './TaskList';
 import {Task} from '../'
 import CircleBtn from './CircleBtn'
+import ShareBtn from './ShareBtn'
 import ModalContent from './ModalContent'
+import ShareModal from './ShareModal'
 import Modal from 'react-native-modal';
 import { initialState, storeTasks, getTasks } from '../Storage'
 import reducer from '../Reducer'
 import { Button, Overlay } from 'react-native-elements';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
 export const SiteContext = React.createContext(null);
 
@@ -20,8 +23,13 @@ const SiteProvider = ({children}) => {
 
 const TodoScreen: React.FC = () => {
   const [isModalVisible, setModalVisible] = useState(false);
+  const [isShareModalVisible, setShareModalVisible] = useState(false);
   const toggleModal = () => {
     setModalVisible(!isModalVisible);
+  };
+
+  const toggleShareModal = () => {
+    setShareModalVisible(!isShareModalVisible);
   };
  
   return (
@@ -37,9 +45,20 @@ const TodoScreen: React.FC = () => {
           <ModalContent CloseModal={toggleModal}></ModalContent>
         </Modal>
 
+        <Modal
+         isVisible={isShareModalVisible}
+         onBackdropPress={toggleShareModal}
+         animationIn='zoomInUp'
+         animationOut='zoomOut'
+         avoidKeyboard
+        >
+          <ShareModal CloseModal={toggleShareModal}></ShareModal>
+        </Modal>
+
       <SafeAreaView style={{ flex: 1, justifyContent: 'center'}}>
         <TaskList/>
 
+        <ShareBtn onPressBtn={toggleShareModal}/>
         <CircleBtn onPressBtn={toggleModal}></CircleBtn>
       </SafeAreaView>
     </SiteProvider>

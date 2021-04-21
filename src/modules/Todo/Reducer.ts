@@ -81,6 +81,28 @@ function reducer(state: Task[], action) {
       
       storeTasks(checkedState)
       return checkedState
+    case 'share':
+      console.log('----')
+      console.log(JSON.stringify(state))
+      console.log(state)
+      getUser().then((data) => {
+        if(data.uid !== undefined) {
+          // console.log(data)
+          usersUid = data.uid
+        }
+        axios.post('/api/done_posts/' + usersUid, { 
+          done_post: {
+            comment: action.comment,
+            tasks: state
+          }
+        },
+        // { headers: { 'content-type': 'application/json' } }
+        )
+        // .then(res => console.log(res))
+        .catch(e => console.log(e))
+      })
+      
+      return state
     case 'delete':
       // // リロード時はstorageからstateを取ってくる
       // if(state.length === 0){

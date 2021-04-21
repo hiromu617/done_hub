@@ -4,6 +4,7 @@ import { ListItem, Avatar, Icon } from 'react-native-elements'
 import { useNavigation } from '@react-navigation/native';
 import firebase from 'firebase'
 import axios from '../../constants/axios';
+import { FlatList } from 'react-native-gesture-handler';
 
 type Props = {
   post,
@@ -123,7 +124,28 @@ const DonePost: React.FC<Props> = (props) => {
       </View>
       <View  style={{paddingLeft: 40, width: '100%'}}>
         {post.comment.length > 0 && <Text style={{backgroundColor: '#EFF6FF', width: '100%', padding: 8, borderRadius: 10}}>{post.comment}</Text>}
-        <ListItem.Title  style={{paddingVertical: 15,fontWeight: 'bold'}}>「{post.title}」 DONE！✨</ListItem.Title>
+        {post.title && <ListItem.Title  style={{paddingVertical: 15,fontWeight: 'bold'}}>「{post.title}」 DONE！✨</ListItem.Title>}
+        {!post.title && 
+          <FlatList
+          showsVerticalScrollIndicator={false}
+          style={{padding: 3, margin: 20, backgroundColor: '#F4F4F5'}}
+          data={ JSON.parse(post.tasks[0])}
+          renderItem={({item}) => {
+            const color: string = item.checked ? '#1D4ED8' : '#BFDBFE';
+            return (
+              <ListItem 
+                bottomDivider
+              >
+                <Icon
+                  name='check'
+                  color={color}
+                />
+                <Text>{item.name}</Text>  
+              </ListItem>
+            );
+          }}
+        />
+        }
         <View style={{flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
           <Icon
           name='comment'

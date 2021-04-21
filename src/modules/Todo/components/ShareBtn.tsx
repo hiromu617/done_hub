@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, View} from 'react-native';
+import { StyleSheet, View,Text} from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { AntDesign } from '@expo/vector-icons'; 
 import { Icon } from 'react-native-elements'
@@ -8,38 +8,36 @@ type Props = {
   onPressBtn: () => void;
 }
 
-const CircleBtn: React.FC<Props> = (props) => {
+const ShareBtn: React.FC<Props> = (props) => {
   const {onPressBtn} = props
   return (
         <View style={styles.btnWrap}>
-          <Icon 
-            reverse
-            raised={true}
-            size={30}
-            type="ant-design"
-            name="plus"
-            color='#1D4ED8'
-            onPress={onPressBtn} 
-          />
-          {/* <TouchableOpacity 
+          <TouchableOpacity 
             style={styles.btn}
             onPress={onPressBtn} 
           >
-            <AntDesign name="plus" size={24} color="black" />
-          </TouchableOpacity> */}
+          <Icon 
+            size={20}
+            name="share"
+            type='font-awesome'
+            color='white'
+          />
+          <Text style={{color: 'white', fontWeight: 'bold'}} >Todoリストをシェアする</Text>
+          </TouchableOpacity>
       </View>
   )
 }
 
-export default CircleBtn
+export default ShareBtn
 
 const styles = StyleSheet.create({
   btn: {
-    backgroundColor: '#fff',
-    width: 60,
+    backgroundColor: '#3B82F6',
+    width: 210,
     height: 60,
     borderRadius: 60,
-    justifyContent: 'center',
+    flexDirection: 'row',
+    justifyContent: 'space-evenly',
     alignItems: 'center',
     shadowColor: "#000",
     shadowOffset: {
@@ -52,7 +50,7 @@ const styles = StyleSheet.create({
   },
   btnWrap: {
     position: 'absolute',
-    bottom: '5%',
-    right: '5%',
+    bottom: '6%',
+    left: '20%'
   },
 })
