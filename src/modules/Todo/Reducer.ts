@@ -93,10 +93,10 @@ function reducer(state: Task[], action) {
         axios.post('/api/done_posts/' + usersUid, { 
           done_post: {
             comment: action.comment,
-            tasks: state
+            tasks: JSON.stringify(state)
           }
         },
-        // { headers: { 'content-type': 'application/json' } }
+        { headers: { 'content-type': 'application/json' } }
         )
         // .then(res => console.log(res))
         .catch(e => console.log(e))
