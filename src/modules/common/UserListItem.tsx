@@ -11,6 +11,7 @@ const UserListItem: React.FC = (props) => {
         {
           user: user
         })}
+        bottomDivider
       >
         <Avatar
           title={user.name[0]}

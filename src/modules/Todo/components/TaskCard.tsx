@@ -59,7 +59,7 @@ const TaskCard: React.FC<Props> = (props) => {
       <View style={styles.taskCard}>
         <TaskCheckBox checked={task.checked} onCheck={checkTask}/>
         <TouchableOpacity onPress={onPressTask}>
-          <Text>{task.name}</Text>
+          <Text style={{color: '#1F2937'}}>{task.name}</Text>
         </TouchableOpacity>
         <TouchableOpacity 
           onPress={deleteTask} 
