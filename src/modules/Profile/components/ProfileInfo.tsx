@@ -51,7 +51,7 @@ function ProfileInfo(props) {
         </View>
         <View>
           <Text>
-            <Button 
+            {userData.hub_list.length > 0 && <Button 
               icon={
                 <Icon
                   name="tag"
@@ -62,8 +62,9 @@ function ProfileInfo(props) {
               type='clear'
               titleStyle={{fontSize: 14, color: "#60A5FA"}}
               buttonStyle={{ marginLeft: 7}}
-              title='プログラミング'
-            />
+              title={userData.hub_list[0]}
+            />}
+            
           </Text>
           <Text  style={{paddingBottom: 15, paddingHorizontal: 10}}>
             {userData.profile}
