@@ -5,6 +5,7 @@ import Detail from '../../common/Detail'
 import Following from '../../common/Following'
 import Follower from '../../common/Follower'
 import UserPage from '../../common/UserPage'
+import HubSelect from '../../common/HubSelect'
 
 const Stack = createStackNavigator();
 
@@ -16,6 +17,7 @@ function ProfileScreen() {
       <Stack.Screen name="Following" component={Following} />
       <Stack.Screen name="Follower" component={Follower} />
       <Stack.Screen name="UserPage" component={UserPage} />
+      <Stack.Screen name="HubSelect" component={HubSelect} />
     </Stack.Navigator>
   );
 }

@@ -24,7 +24,8 @@ function EditProfile(props) {
       let newUser: User = {
         uid: res.data.uid,
         name: res.data.name,
-        profile: res.data.profile
+        profile: res.data.profile,
+        hub_list: res.data.hub_list
       }
       console.log('--------------------')
       // console.log(newUser)

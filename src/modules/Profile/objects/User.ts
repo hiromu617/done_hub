@@ -5,6 +5,8 @@ type User = {
   name: string;
 
   profile: string;
+
+  hub_list: string[];
 };
   
 export default User;

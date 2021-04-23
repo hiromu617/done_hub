@@ -1,7 +1,7 @@
 import React, {useReducer, useContext, useState, useEffect} from 'react';
-import { StyleSheet,View, ActivityIndicator , ScrollView, RefreshControl,SafeAreaView } from 'react-native';
+import { Text, StyleSheet,View, ActivityIndicator , ScrollView, RefreshControl,SafeAreaView } from 'react-native';
 import firebase from 'firebase'
-import { Text, Avatar,Button,Icon} from 'react-native-elements';
+import { ButtonGroup, Avatar,Button,Icon} from 'react-native-elements';
 import { useNavigation } from '@react-navigation/native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
@@ -50,8 +50,31 @@ function ProfileInfo(props) {
           
         </View>
         <View>
-          <Text>
-            {userData.hub_list.length > 0 && <Button 
+          <Text
+            style={{paddingBottom: 10}}
+          >
+          {
+            userData.hub_list.map((l, i) => (
+              <Button 
+              icon={
+                <Icon
+                  name="tag"
+                  color="white"
+                  size={16}
+                />
+              }
+              type='clear'
+              titleStyle={{fontSize: 12, color: "white", fontWeight: 'bold'}}
+              containerStyle={{backgroundColor: '#0EA5E9', borderRadius: 50, padding: 0, height: 30,}}
+              title={l}
+              onPress={() => navigation.push('HubSelect', 
+             {
+               user: userData 
+             })}
+            />
+              ))
+            }
+            {/* {userData.hub_list.length > 0 && <Button 
               icon={
                 <Icon
                   name="tag"
@@ -63,9 +86,21 @@ function ProfileInfo(props) {
               titleStyle={{fontSize: 14, color: "#60A5FA"}}
               buttonStyle={{ marginLeft: 7}}
               title={userData.hub_list[0]}
-            />}
-            
+              onPress={() => navigation.push('HubSelect', 
+             {
+               user: userData 
+             })}
+            />} */}
+            {/* <ButtonGroup
+            buttons={userData.hub_list}
+            containerStyle={{borderRadius: 50}}
+            onPress={() => navigation.push('HubSelect', 
+             {
+               user: userData 
+             })}
+            /> */}
           </Text>
+          
           <Text  style={{paddingBottom: 15, paddingHorizontal: 10}}>
             {userData.profile}
           </Text>
