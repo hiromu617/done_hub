@@ -9,6 +9,8 @@ import Detail from '../../common/Detail'
 import UserPage from '../../common/UserPage'
 import Following from '../../common/Following'
 import Follower from '../../common/Follower'
+import { CheckBox, ListItem, FAB, Icon, BottomSheet } from 'react-native-elements';
+import Modal from 'react-native-modal';
 
 const FeedOfHubStack = createStackNavigator();
 
@@ -55,10 +57,12 @@ function FeedOfHubScreen() {
   const [feed, setFeed] = useState();
   const [pageData, setPageData] = useState(2);
   const [imageSrc, setImageSrc] = useState(null);
+  const [isVisible, setIsVisible] = useState(false);
+  const [hubList, sethubList] = useState(null);
+
   useEffect(() => {
     refreshData()
   },[]);
-
   const refreshData = () => {
     setFeed(null)
     setImageSrc(null)
@@ -67,11 +71,24 @@ function FeedOfHubScreen() {
       if(data.uid !== undefined) {
         setData(data);
       }
-      console.log("----------------------")
+      if(hubList.length > 1){
+        let list = []
+        for(let i = 0; i < data.hub_list.length; i++){
+          list.push({name: data.hub_list[i], checked: true})
+        }
+        sethubList(list)
+      }
+      console.log("----------------------=")
       // console.log(data)
-      axios.get('/api/users/' + data.uid + '/feed_by_hub', {
+      // let list = []
+      // for(let i = 0; i < hubList.length; i++){
+      //   if((hubList[i].checked == true)) list.push(hubList[i].name)
+      // }
+      // console.log(list)
+      axios.get('/api/users/feed_by_hub', {
         params: {
           page: 1,
+          hub_list: []
         }
       })
       .then(res => {
@@ -107,13 +124,14 @@ function FeedOfHubScreen() {
   }
 
   return (
-    <ScrollView
+    <View>
+      <ScrollView
       refreshControl={
       <RefreshControl
         refreshing={refreshState}
         onRefresh={() => refreshData()}
       />
-      }
+    }
     >
       <FlatList
         showsVerticalScrollIndicator={false}
@@ -126,6 +144,46 @@ function FeedOfHubScreen() {
         onEndReachedThreshold={0.5}
       />
     </ScrollView>
+
+
+      <Modal
+        isVisible={isVisible}
+        onBackdropPress={() => setIsVisible(false)}
+      >
+        {hubList && hubList.map((l, i) => (
+          <ListItem key={i} bottomDivider>
+              <CheckBox
+                checked={l.checked}
+                onPress={() => {
+                  let list = []
+                  for(let i = 0 ; i < hubList.length; i++){
+                    if(hubList[i].name === l.name){
+                      list.push({name: hubList[i].name, checked: !hubList[i].checked})
+                    }else{
+                      list.push(hubList[i])
+                    }
+                  }
+                  sethubList(list)
+                }}
+              />
+            <ListItem.Content>
+              <ListItem.Title>{l.name}</ListItem.Title>
+            </ListItem.Content>
+          </ListItem>
+        ))}
+      </Modal>
+
+
+      <FAB placement='right' 
+        icon={
+          <Icon
+            name="arrow-right"
+            color="white"
+          />
+        }
+        onPress={() => setIsVisible(true)}
+      />
+    </View>
   )
 }
 
