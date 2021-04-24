@@ -2,6 +2,10 @@ import React, { useEffect, useState } from 'react';
 import { ListItem, Avatar, Icon, Button } from 'react-native-elements'
 import { useNavigation } from '@react-navigation/native';
 import firebase from 'firebase'
+import { TouchableOpacity } from 'react-native-gesture-handler';
+import { LinearGradient } from 'expo-linear-gradient';
+import { TouchableHighlight, Text, StyleSheet,View, ActivityIndicator , ScrollView, RefreshControl,SafeAreaView } from 'react-native';
+
 
 const UserListItem: React.FC = (props) => {
   const [imageSrc, setImageSrc] = useState(null);
@@ -53,7 +57,26 @@ const UserListItem: React.FC = (props) => {
         />
         <ListItem.Content>
           <ListItem.Title>{user.name}</ListItem.Title>
-        </ListItem.Content>
+          {
+            user.hub_list.map((l, i) => (
+              <TouchableOpacity>  
+               <LinearGradient 
+               start={[0,1]}
+               end={[1,0]}
+                style={{flexDirection: 'row',alignItems: 'center', borderRadius: 13, paddingHorizontal: 11, paddingVertical: 5, margin: 1.5}}
+                colors={['#0EA5E9', '#60A5FA']}
+                >
+                  <Icon
+                  name="tag"
+                  color="white"
+                  size={16}
+                />
+                  <Text style={{color: 'white', fontWeight: 'bold', lineHeight: 14, fontSize: 14}}>{l}</Text>
+                </LinearGradient>
+              </TouchableOpacity>
+              ))
+            }
+              </ListItem.Content>
       </ListItem>
   )
 }

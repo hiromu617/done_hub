@@ -1,11 +1,12 @@
 import React, {useState, useEffect} from 'react';
-import { Text, StyleSheet, View, ActivityIndicator , ScrollView, RefreshControl,SafeAreaView } from 'react-native';
+import { TouchableOpacity, Text, StyleSheet, View, ActivityIndicator , ScrollView, RefreshControl,SafeAreaView } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import axios from '../../constants/axios';
 import { ButtonGroup, Avatar,Button,Icon} from 'react-native-elements';
 import { ListItem } from 'react-native-elements/dist/list/ListItem';
 import {storeUser} from '../Todo/Storage'
 import User from '../Profile/objects/User'
+import { LinearGradient } from 'expo-linear-gradient';
 
 function HubSelect({route}) {
   const {user} = route.params;
@@ -32,9 +33,9 @@ function HubSelect({route}) {
     })
   }
   return (
-      <SafeAreaView style={{ flex: 1}}>
+      <SafeAreaView style={{ flex: 1, paddingHorizontal: 10}}>
         <View style={{flexDirection: 'row', padding: 20, justifyContent: 'space-between'}}>
-          <Text style={{fontSize: 26, fontWeight: 'bold'}}>選択中のハブ</Text>
+          <Text style={{fontSize: 26, fontWeight: 'bold'}}>選択中のHub</Text>
           <Button 
             title='保存'
             type='clear'
@@ -45,78 +46,87 @@ function HubSelect({route}) {
         <Text>
         {
             selectedHub.map((l, i) => (
-              <Button 
-              icon={
-                <Icon
+            <TouchableOpacity
+            onPress={() => {
+              let list = []
+                selectedHub.map((item) => {
+                if(item !== l) list.push(item)
+              })
+              setSelectedHub(list)
+            }}
+             >  
+               <LinearGradient 
+               start={[0,1]}
+               end={[1,0]}
+                style={{flexDirection: 'row',alignItems: 'center', borderRadius: 13, paddingHorizontal: 11, paddingVertical: 5, margin: 1.5}}
+                colors={['#0EA5E9', '#60A5FA']}
+                >
+                  <Icon
                   name="tag"
                   color="white"
                   size={16}
                 />
-              }
-              type='clear'
-              titleStyle={{fontSize: 12, color: "white", fontWeight: 'bold'}}
-              containerStyle={{backgroundColor: '#0EA5E9', borderRadius: 50, padding: 0, height: 30,}}
-              buttonStyle={{ marginLeft: 7}}
-              title={l}
-              onPress={() => {
-                let list = []
-                  selectedHub.map((item) => {
-                  if(item !== l) list.push(item)
-                })
-                setSelectedHub(list)
-              }}
-            />
+                  <Text style={{color: 'white', fontWeight: 'bold', lineHeight: 14, fontSize: 14}}>{l}</Text>
+                </LinearGradient>
+              </TouchableOpacity>
               ))
             }
         </Text>
 
-        <Text style={{fontSize: 26, fontWeight: 'bold', padding: 20}}>ハブ一覧</Text>
+        <Text style={{fontSize: 26, fontWeight: 'bold', padding: 20}}>Hub一覧</Text>
         <Text>
         {
             hub_list.map((l, i) => {
               if(selectedHub.includes(l)){
                 return (
-                  <Button 
-                icon={
-                <Icon
+                  <TouchableOpacity
+                  onPress={() => {
+                    let list = []
+                      selectedHub.map((item) => {
+                      if(item !== l) list.push(item)
+                    })
+                    setSelectedHub(list)
+                  }}
+             >  
+               <LinearGradient 
+               start={[0,1]}
+               end={[1,0]}
+                style={{flexDirection: 'row',alignItems: 'center', borderRadius: 13, paddingHorizontal: 11, paddingVertical: 5, margin: 1.5}}
+                colors={['#0EA5E9', '#60A5FA']}
+                >
+                  <Icon
                   name="tag"
                   color="white"
                   size={16}
                 />
-              }
-              type='clear'
-              titleStyle={{fontSize: 12, color: "white", fontWeight: 'bold'}}
-              containerStyle={{backgroundColor: '#0EA5E9', borderRadius: 50, padding: 0, height: 30,}}
-              title={l}
-              onPress={() => {
-                let list = []
-                  selectedHub.map((item) => {
-                  if(item !== l) list.push(item)
-                })
-                setSelectedHub(list)
-              }}
-            />
+                  <Text style={{color: 'white', fontWeight: 'bold', lineHeight: 14, fontSize: 14}}>{l}</Text>
+                </LinearGradient>
+              </TouchableOpacity>
                 )
               }else{
                 return (
-                  <Button 
-              icon={
-                <Icon
+                  <TouchableOpacity
+                  onPress={() => {
+                    let list = selectedHub.slice()
+                    list.push(l)
+                    setSelectedHub(list)
+                  }}
+                  
+             >  
+               <LinearGradient 
+               start={[0,1]}
+               end={[1,0]}
+                style={{flexDirection: 'row',alignItems: 'center', borderRadius: 13, paddingHorizontal: 11, paddingVertical: 5, margin: 1.5}}
+                colors={['transparent', 'transparent']}
+                >
+                  <Icon
                   name="tag"
                   color="#0EA5E9"
                   size={16}
                 />
-              }
-              type='clear'
-              titleStyle={{fontSize: 12, color: "#0EA5E9", fontWeight: 'bold'}}
-              containerStyle={{backgroundColor: 'transparent', borderRadius: 50, padding: 0, height: 30,}}
-              title={l}
-              onPress={() => {
-                let list = selectedHub.slice()
-                list.push(l)
-                setSelectedHub(list)
-              }}
-            />
+                  <Text style={{color: '#0EA5E9', fontWeight: 'bold', lineHeight: 14, fontSize: 14}}>{l}</Text>
+                </LinearGradient>
+              </TouchableOpacity>
                 )
               }
             })

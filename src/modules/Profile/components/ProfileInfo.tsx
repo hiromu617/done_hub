@@ -1,9 +1,10 @@
 import React, {useReducer, useContext, useState, useEffect} from 'react';
-import { Text, StyleSheet,View, ActivityIndicator , ScrollView, RefreshControl,SafeAreaView } from 'react-native';
+import { TouchableHighlight,Button, Text, StyleSheet,View, ActivityIndicator , ScrollView, RefreshControl,SafeAreaView } from 'react-native';
 import firebase from 'firebase'
-import { ButtonGroup, Avatar,Button,Icon} from 'react-native-elements';
+import { ButtonGroup, Avatar,Icon} from 'react-native-elements';
 import { useNavigation } from '@react-navigation/native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
+import { LinearGradient } from 'expo-linear-gradient';
 
 function ProfileInfo(props) {
   const {userData, toggleModal, imageSrc, followData} = props;
@@ -51,27 +52,30 @@ function ProfileInfo(props) {
         </View>
         <View>
           <Text
-            style={{paddingBottom: 10}}
+            style={{paddingHorizontal: 10}}
           >
           {
             userData.hub_list.map((l, i) => (
-              <Button 
-              icon={
-                <Icon
-                  name="tag"
-                  color="white"
-                  size={16}
-                />
-              }
-              type='clear'
-              titleStyle={{fontSize: 12, color: "white", fontWeight: 'bold'}}
-              containerStyle={{backgroundColor: '#0EA5E9', borderRadius: 50, padding: 0, height: 30,}}
-              title={l}
+              <TouchableOpacity
               onPress={() => navigation.push('HubSelect', 
              {
                user: userData 
              })}
-            />
+             >  
+               <LinearGradient 
+               start={[0,1]}
+               end={[1,0]}
+                style={{flexDirection: 'row',alignItems: 'center', borderRadius: 13, paddingHorizontal: 11, paddingVertical: 5, margin: 1.5}}
+                colors={['#0EA5E9', '#60A5FA']}
+                >
+                  <Icon
+                  name="tag"
+                  color="white"
+                  size={16}
+                />
+                  <Text style={{color: 'white', fontWeight: 'bold', lineHeight: 14, fontSize: 14}}>{l}</Text>
+                </LinearGradient>
+              </TouchableOpacity>
               ))
             }
             {/* {userData.hub_list.length > 0 && <Button 
@@ -101,7 +105,7 @@ function ProfileInfo(props) {
             /> */}
           </Text>
           
-          <Text  style={{paddingBottom: 15, paddingHorizontal: 10}}>
+          <Text  style={{paddingVertical: 10, paddingHorizontal: 10}}>
             {userData.profile}
           </Text>
           <Text  style={{marginLeft: 10}}>

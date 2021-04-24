@@ -4,6 +4,7 @@ import { Text, Avatar,Button,Icon} from 'react-native-elements';
 import { useNavigation } from '@react-navigation/native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import axios from 'axios';
+import { LinearGradient } from 'expo-linear-gradient';
 
 function OtherProfileInfo(props) {
   const {userData, imageSrc, followData, isFollowed, follow, unfollow, isCurrentUser} = props;
@@ -58,22 +59,32 @@ function OtherProfileInfo(props) {
           
         </View>
         <View>
-          <Text>
+          <Text
+            style={{paddingHorizontal: 10}}
+
+          >
           {
             userData.hub_list.map((l, i) => (
-              <Button 
-              icon={
-                <Icon
+              <TouchableOpacity
+              onPress={() => navigation.push('HubSelect', 
+             {
+               user: userData 
+             })}
+             >  
+               <LinearGradient 
+               start={[0,1]}
+               end={[1,0]}
+                style={{flexDirection: 'row',alignItems: 'center', borderRadius: 13, paddingHorizontal: 11, paddingVertical: 5, margin: 1.5}}
+                colors={['#0EA5E9', '#60A5FA']}
+                >
+                  <Icon
                   name="tag"
                   color="white"
                   size={16}
                 />
-              }
-              type='clear'
-              titleStyle={{fontSize: 12, color: "white", fontWeight: 'bold'}}
-              containerStyle={{backgroundColor: '#0EA5E9', borderRadius: 50, padding: 0, height: 30,}}
-              title={l}
-            />
+                  <Text style={{color: 'white', fontWeight: 'bold', lineHeight: 14, fontSize: 14}}>{l}</Text>
+                </LinearGradient>
+              </TouchableOpacity>
               ))
             }
             {/* {userData.hub_list.length > 0 && <Button 
@@ -90,7 +101,7 @@ function OtherProfileInfo(props) {
               title={userData.hub_list[0]}
             />} */}
           </Text>
-          <Text  style={{paddingBottom: 15, paddingHorizontal: 10}}>
+          <Text  style={{paddingVertical: 10, paddingHorizontal: 10}}>
             {userData.profile}
           </Text>
           <Text  style={{marginLeft: 10}}>
