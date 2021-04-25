@@ -68,7 +68,22 @@ function NotificationHome() {
               })}
               >
               <ListItem.Content>
-              <ListItem.Title>{item.visited.name}さんが投稿にいいねしました</ListItem.Title>
+              <ListItem.Title>{item.visiter.name}さんが投稿にいいねしました</ListItem.Title>
+              </ListItem.Content>
+           </ListItem>
+          );
+          }
+          if(item.action === 'follow'){
+            return (
+            <ListItem
+              bottomDivider
+              onPress={() => navigation.navigate('UserPage', 
+              {
+                user: item.visiter
+              })}
+              >
+              <ListItem.Content>
+              <ListItem.Title>{item.visiter.name}さんがあなたをフォローしました</ListItem.Title>
               </ListItem.Content>
            </ListItem>
           );
