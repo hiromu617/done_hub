@@ -1,11 +1,11 @@
 import React, {useReducer, useContext, useState, useEffect} from 'react';
-import { TouchableHighlight,Button, Text, StyleSheet,View, ActivityIndicator , ScrollView, RefreshControl,SafeAreaView } from 'react-native';
+import { TouchableHighlight, StyleSheet,View, ActivityIndicator , ScrollView, RefreshControl,SafeAreaView } from 'react-native';
 import firebase from 'firebase'
-import { ButtonGroup, Avatar,Icon} from 'react-native-elements';
+import { Text, Button, ButtonGroup, Avatar,Icon} from 'react-native-elements';
 import { useNavigation } from '@react-navigation/native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { LinearGradient } from 'expo-linear-gradient';
-
+import {deleteData} from '../../Todo/Storage'
 function ProfileInfo(props) {
   const {userData, toggleModal, imageSrc, followData} = props;
   // console.log(followData.following)

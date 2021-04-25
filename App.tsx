@@ -7,6 +7,7 @@ import HomeScreen from './src/modules/Home/components/HomeScreen'
 import ProfileScreen from './src/modules/Profile/components/ProfileScreen'
 import SearchScreen from './src/modules/Search/components/SearchScreen'
 import TodoScreen from './src/modules/Todo/components/TodoScreen'
+import NotificationScreen from './src/modules/Notification/components/NotificationScreen'
 import { createSwitchNavigator} from '@react-navigation/compat';
 import DashboardScreen from './src/modules/Auth/DashboardScreen'
 import LoginScreen from './src/modules/Auth/LoginScreen'
@@ -20,6 +21,7 @@ const initialUser: User = {
   uid: null,
   name: null,
   profile: null,
+  hub_list: []
 }
 function userReducer(state, action) {
   switch (action.type) {
@@ -27,7 +29,8 @@ function userReducer(state, action) {
       let newUser: User = {
         uid: action.data.uid,
         name: action.data.displayName,
-        profile: ''
+        profile: '',
+        hub_list: []
       }
       alert(newUser)
       // console.log(newUser)
@@ -96,6 +99,16 @@ function MyTabs() {
           tabBarLabel: 'Search',
           tabBarIcon: ({ color, size }) => (
             <FontAwesome name="search"  size={size} color={color} />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="Notification"
+        component={NotificationScreen}
+        options={{
+          tabBarLabel: 'Notification',
+          tabBarIcon: ({ color, size }) => (
+            <FontAwesome name="bell"  size={size} color={color} />
           ),
         }}
       />

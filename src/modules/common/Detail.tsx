@@ -16,7 +16,6 @@ const Detail: React.FC = ({route}) => {
   const [refreshState, setRefreshData] = useState(false);
   const [postData, setPostData] = useState(post)
   const [replyData, setReplyData] = useState(post.replys)
-
   useEffect(() => {
     // isLike()
     // refreshData()

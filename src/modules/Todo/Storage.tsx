@@ -53,9 +53,13 @@ const getUser = async () => {
   }
 }
 
+const deleteData = async () => {
+  await AsyncStorage.removeItem('@user_Key')
+  await AsyncStorage.removeItem('@tasks_Key')
+}
 
 export {
-  initialState, storeTasks, getTasks, storeUser, getUser
+  initialState, storeTasks, getTasks, storeUser, getUser, deleteData
 }
 
 

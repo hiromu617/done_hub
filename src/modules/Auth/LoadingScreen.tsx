@@ -64,12 +64,13 @@ function LoadingScreen(){
         if(user){
           // console.log(user.providerData[0].uid)
           navigation.navigate('MyTabs')
-
+          console.log(user)
           axios.post('/api/users', { 
               name: user.providerData[0].displayName, 
               uid: user.providerData[0].uid
           })
           .then(res => {
+            console.log(res)
             storeUser(res.data)
           })
           // .catch(e => console.log(e))
