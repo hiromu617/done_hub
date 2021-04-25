@@ -5,6 +5,7 @@ import { useNavigation } from '@react-navigation/native';
 import axios from '../../../constants/axios';
 import { ListItem, Divider,Overlay, Icon} from 'react-native-elements';
 import firebase from 'firebase'
+import { useFocusEffect } from '@react-navigation/native';
 
 function NotificationHome() {
   // const {state} = useContext(SiteContext);
@@ -17,6 +18,12 @@ function NotificationHome() {
     refreshData()
   },[]);
 
+  useFocusEffect(
+    React.useCallback(() => {
+      console.log(1)
+      refreshData()
+    }, [])
+  );
 
   const refreshData = () => {
     setRefreshData(true)
