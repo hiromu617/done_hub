@@ -60,6 +60,12 @@ function NotificationHome() {
             return (
             <ListItem
               bottomDivider
+              onPress={() => navigation.navigate('Detail', 
+              {
+                post: item.done_post,
+                userData: userData,
+                initialLikeNum: item.done_post.likes.length
+              })}
               >
               <ListItem.Content>
               <ListItem.Title>{item.visited.name}さんが投稿にいいねしました</ListItem.Title>

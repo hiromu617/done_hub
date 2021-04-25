@@ -93,7 +93,7 @@ const DonePost: React.FC<Props> = (props) => {
     <ListItem bottomDivider onPress={() => navigation.navigate('Detail', 
     {
       post: post,
-      imageSrc: imageSrc,
+      initialImageSrc: imageSrc,
       userData: userData,
       initialLikeState: likeState,
       initialLikeNum: likeNum

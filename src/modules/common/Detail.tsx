@@ -7,19 +7,51 @@ import axios from '../../constants/axios';
 import Reply from './Reply'
 import ReplyForm from './ReplyForm'
 import Form from './Form'
+import firebase from 'firebase'
 
 const Detail: React.FC = ({route}) => {
   const navigation = useNavigation()
-  const { post, imageSrc, userData, initialLikeState, initialLikeNum } = route.params;
+  const { post, initialImageSrc, userData, initialLikeState, initialLikeNum } = route.params;
   const [likeState, setLikeState] = useState(initialLikeState)
   const [likeNum, setLikeNum] = useState(initialLikeNum)
   const [refreshState, setRefreshData] = useState(false);
   const [postData, setPostData] = useState(post)
   const [replyData, setReplyData] = useState(post.replys)
+  const [imageSrc, setImageSrc] = useState(initialImageSrc)
+
   useEffect(() => {
+    if(initialLikeState === undefined){
+      isLike()
+    }
+    if(initialImageSrc === undefined){
+      getSource(post)
+    }
     // isLike()
     // refreshData()
   },[]);
+  const getAvatar =  (post) => {
+    return new Promise((resolve) => {
+      var storage = firebase.storage();
+      var storageRef = storage.ref();
+      var spaceRef = storageRef.child(`images/${post.user.uid}.jpg`);
+      spaceRef.getDownloadURL().then(function(url){
+        console.log("ファイルURLを取得")
+        console.log(url)
+        resolve(url);
+      }).catch(function(error) {
+        // Handle any errors
+        console.log("getTokoImage 画像を取得する");
+        console.log(error);
+      });
+    });
+  };
+
+  const getSource = (userData) => {
+    getAvatar(userData)
+    .then(res => {
+      setImageSrc(res)
+    })
+  }
   const refreshData = () => {
     setRefreshData(true)
     setReplyData([])
