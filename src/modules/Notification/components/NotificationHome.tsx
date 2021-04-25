@@ -3,7 +3,7 @@ import { FlatList, StyleSheet, View, ActivityIndicator , ScrollView, RefreshCont
 import { getUser } from '../../Todo/Storage'
 import { useNavigation } from '@react-navigation/native';
 import axios from '../../../constants/axios';
-import { ListItem, Divider,Overlay} from 'react-native-elements';
+import { ListItem, Divider,Overlay, Icon} from 'react-native-elements';
 import firebase from 'firebase'
 
 function NotificationHome() {
@@ -67,8 +67,39 @@ function NotificationHome() {
                 initialLikeNum: item.done_post.likes.length
               })}
               >
+              <Icon
+                name='heart'
+                type="font-awesome-5"
+                size={24}
+                color='#F87171'
+                solid
+              />
               <ListItem.Content>
               <ListItem.Title>{item.visiter.name}さんが投稿にいいねしました</ListItem.Title>
+              </ListItem.Content>
+           </ListItem>
+          );
+          }
+          if(item.action === 'reply'){
+            return (
+            <ListItem
+              bottomDivider
+              onPress={() => navigation.navigate('Detail', 
+              {
+                post: item.done_post,
+                userData: userData,
+                initialLikeNum: item.done_post.likes.length
+              })}
+              >
+              <Icon
+                name='comment'
+                type="font-awesome-5"
+                size={24}
+                color='gray'
+                solid
+              />
+              <ListItem.Content>
+              <ListItem.Title>{item.visiter.name}さんが投稿に返信しました</ListItem.Title>
               </ListItem.Content>
            </ListItem>
           );
@@ -82,6 +113,13 @@ function NotificationHome() {
                 user: item.visiter
               })}
               >
+              <Icon
+                name='user'
+                type="font-awesome-5"
+                size={24}
+                color='#3B82F6'
+                solid
+              />
               <ListItem.Content>
               <ListItem.Title>{item.visiter.name}さんがあなたをフォローしました</ListItem.Title>
               </ListItem.Content>
