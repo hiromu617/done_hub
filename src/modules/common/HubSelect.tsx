@@ -24,7 +24,8 @@ function HubSelect({route}) {
         uid: res.data.uid,
         name: res.data.name,
         profile: res.data.profile,
-        hub_list: res.data.hub_list
+        hub_list: res.data.hub_list,
+        id: res.data.id
       }
       console.log('--------------------')
       // console.log(newUser)

@@ -21,7 +21,8 @@ const initialUser: User = {
   uid: null,
   name: null,
   profile: null,
-  hub_list: []
+  hub_list: [],
+  id: 0
 }
 function userReducer(state, action) {
   switch (action.type) {
@@ -30,7 +31,8 @@ function userReducer(state, action) {
         uid: action.data.uid,
         name: action.data.displayName,
         profile: '',
-        hub_list: []
+        hub_list: [],
+        id: 1
       }
       alert(newUser)
       // console.log(newUser)

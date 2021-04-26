@@ -1,6 +1,8 @@
 type User = {
   /** uid */
   uid: number;
+
+  id: number;
   /** 名前 */
   name: string;
 
