@@ -5,6 +5,8 @@ type Task = {
   name: string;
   /** 完了フラグ */
   checked: boolean;
+
+  comment: string;
 };
   
 export default Task;

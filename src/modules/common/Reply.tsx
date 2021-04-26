@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import { StyleSheet, Text, View ,TouchableOpacity, FlatList} from 'react-native';
-import { ListItem, Avatar, Icon } from 'react-native-elements'
+import { Button, ListItem, Avatar, Icon } from 'react-native-elements'
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useNavigation } from '@react-navigation/native';
 import axios from '../../constants/axios';
@@ -8,16 +8,26 @@ import firebase from 'firebase'
 
 type Props = {
   reply,
+  userData,
+  refreshData
 }
 
 const Reply: React.FC<Props> = (props) => {
-  const { reply } = props
+  const { reply, userData, refreshData } = props
   const [imageSrc, setImageSrc] = useState(null)
   const navigation = useNavigation()
 
   useEffect(() => {
     getSource(reply)
   },[]);
+
+  const deletePost = () => {
+    axios.delete('/api/replys/' + reply.id)
+    .then(res => {
+      refreshData()
+    })
+    .catch(e => console.log(e))
+  }
 
   const getAvatar =  (post) => {
     return new Promise((resolve) => {
@@ -77,6 +87,13 @@ const Reply: React.FC<Props> = (props) => {
         </View>
         <View style={{width: '100%', paddingLeft: '12%'}}>
           <ListItem.Title  style={{fontSize: 13}}>{reply.content}</ListItem.Title>
+          {userData.id == reply.user.id && 
+            <Button 
+              title='削除' 
+              type='clear'
+              onPress={() => deletePost()}
+            />
+          }
           <Text style={{fontSize: 10, color: 'gray', width: '100%', textAlign: 'right'}}>{parseDate(reply.created_at)}</Text>
         </View>
       </ListItem.Content>

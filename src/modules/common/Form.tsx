@@ -14,7 +14,10 @@ type Props = {
 const ReplyModal: React.FC<Props> = (props) => {
   const {post, userData, refreshData} = props
   const {control, handleSubmit, errors, setValue} = useForm();
+  const [loading, setLoading] = useState(false)
   const onSubmit = (data) => {
+    if(loading === true) return
+    setLoading(true)
     Keyboard.dismiss()
     axios.post('/api/replys', {
       reply: {
@@ -24,6 +27,7 @@ const ReplyModal: React.FC<Props> = (props) => {
       }
     })
     .then(() => {
+      setLoading(false)
       refreshData()
       setValue('content', '')
     })
@@ -66,6 +70,7 @@ const ReplyModal: React.FC<Props> = (props) => {
         // type='outline'
         buttonStyle={{backgroundColor: '#3B82F6'}}
         titleStyle={{fontSize: 14}}
+        loading={loading}
         onPress={handleSubmit(onSubmit)}
       />
         </View>

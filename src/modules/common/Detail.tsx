@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import { FlatList, StyleSheet, Text, View , ScrollView, RefreshControl} from 'react-native';
-import { ListItem, Avatar, Icon, Overlay } from 'react-native-elements'
+import { ListItem, Avatar, Icon, Overlay, Button } from 'react-native-elements'
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useNavigation } from '@react-navigation/native';
 import axios from '../../constants/axios';
@@ -18,7 +18,6 @@ const Detail: React.FC = ({route}) => {
   const [postData, setPostData] = useState(post)
   const [replyData, setReplyData] = useState(post.replys)
   const [imageSrc, setImageSrc] = useState(initialImageSrc)
-
   useEffect(() => {
     if(initialLikeState === undefined){
       isLike()
@@ -29,6 +28,15 @@ const Detail: React.FC = ({route}) => {
     // isLike()
     // refreshData()
   },[]);
+
+  const deletePost = () => {
+    axios.delete('/api/done_posts/' + postData.id)
+    .then(res => {
+      navigation.goBack()
+    })
+    .catch(e => console.log(e))
+  }
+
   const getAvatar =  (post) => {
     return new Promise((resolve) => {
       var storage = firebase.storage();
@@ -188,6 +196,13 @@ const Detail: React.FC = ({route}) => {
           onPress={() => unlike()}
           />}
           <Text style={{color: '#F87171', marginHorizontal: 7}}>{likeNum}</Text>
+          {userData.id == postData.user.id && 
+            <Button 
+              title='削除' 
+              type='clear'
+              onPress={() => deletePost()}
+            />
+          }
           <Text style={{fontSize: 10, color: 'gray', width: '70%', textAlign: 'right'}}>{parseDate(post.created_at)}</Text>
         </View>
       </View>
@@ -198,7 +213,7 @@ const Detail: React.FC = ({route}) => {
           data={ replyData}
           keyExtractor={(item) => item?.id?.toString()}
           renderItem={({item}) => {
-            return(<Reply reply={item}/>);
+            return(<Reply reply={item} userData={userData} refreshData={refreshData}/>);
           }}
         />}
     </View>
