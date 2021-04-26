@@ -57,10 +57,6 @@ function ProfileInfo(props) {
           {
             userData.hub_list.map((l, i) => (
               <TouchableOpacity
-              onPress={() => navigation.push('HubSelect', 
-             {
-               user: userData 
-             })}
              >  
                <LinearGradient 
                start={[0,1]}
@@ -78,31 +74,21 @@ function ProfileInfo(props) {
               </TouchableOpacity>
               ))
             }
-            {/* {userData.hub_list.length > 0 && <Button 
-              icon={
-                <Icon
-                  name="tag"
-                  color="#60A5FA"
-                  size={20}
-                />
-              }
-              type='clear'
-              titleStyle={{fontSize: 14, color: "#60A5FA"}}
-              buttonStyle={{ marginLeft: 7}}
-              title={userData.hub_list[0]}
+            <TouchableOpacity
               onPress={() => navigation.push('HubSelect', 
              {
                user: userData 
              })}
-            />} */}
-            {/* <ButtonGroup
-            buttons={userData.hub_list}
-            containerStyle={{borderRadius: 50}}
-            onPress={() => navigation.push('HubSelect', 
-             {
-               user: userData 
-             })}
-            /> */}
+             >  
+               <LinearGradient 
+               start={[0,1]}
+               end={[1,0]}
+                style={{flexDirection: 'row',alignItems: 'center', borderRadius: 13, paddingHorizontal: 11, paddingVertical: 5, margin: 1.5}}
+                colors={['transparent', 'transparent']}
+                >
+                  <Text style={{color: '#0EA5E9', fontWeight: 'bold', lineHeight: 14, fontSize: 14}}>Hubを編集</Text>
+                </LinearGradient>
+              </TouchableOpacity>
           </Text>
           
           <Text  style={{paddingVertical: 10, paddingHorizontal: 10}}>

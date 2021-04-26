@@ -5,6 +5,10 @@ import firebase from 'firebase';
 import { SocialIcon, Text } from 'react-native-elements'
 
 class LoginScreen extends Component{
+  constructor(props) {
+    super(props);
+    this.state = {loading: false};
+  }
   isUserEqual = (googleUser, firebaseUser) => {
     if (firebaseUser) {
       var providerData = firebaseUser.providerData;
@@ -52,6 +56,9 @@ class LoginScreen extends Component{
   }
 
   signInWithGoogleAsync = async () => {
+    this.setState({
+      loading: true
+    })
     try {
       const result = await Google.logInAsync({
         // androidClientId: YOUR_CLIENT_ID_HERE,
@@ -79,6 +86,7 @@ class LoginScreen extends Component{
           title='Login With Google'
           button
           type='google'
+          loading={this.state.loading}
           onPress={() => this.signInWithGoogleAsync()}
         />
       </SafeAreaView>
