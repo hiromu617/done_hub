@@ -14,6 +14,7 @@ function UserPage({route}) {
   const {user} = route.params;
   const navigation = useNavigation()
   const [userData, setData] = useState(user);
+  const [userInfo, setUserInfo] = useState(null);
   const [refreshState, setRefreshData] = useState(false);
   const [userPostsData, setUserPostData] = useState();
   const [pageData, setPageData] = useState(2);
@@ -71,6 +72,7 @@ function UserPage({route}) {
         }
       })
       .then(res => {
+        setUserInfo(res.data.user)
         setIsFollowed(res.data.isFollowed)
         if(user.uid === currentUserUid) setisCurrentUser(true)
         setFollowData({following: res.data.following, follower: res.data.follower})
@@ -154,8 +156,8 @@ function UserPage({route}) {
             />
           }
         >
-          {isCurrentUser && <ProfileInfo  userData={userData} followData={followData} toggleModal={toggleModal} imageSrc={imageSrc}/>}
-          {!isCurrentUser && <OtherProfileInfo userData={userData} followData={followData} imageSrc={imageSrc} isFollowed={isFollowed} follow={follow} unfollow={unfollow} isCurrentUser={isCurrentUser}/>}
+          {isCurrentUser && <ProfileInfo  userData={userInfo} followData={followData} toggleModal={toggleModal} imageSrc={imageSrc}/>}
+          {!isCurrentUser && <OtherProfileInfo userData={userInfo} followData={followData} imageSrc={imageSrc} isFollowed={isFollowed} follow={follow} unfollow={unfollow} isCurrentUser={isCurrentUser}/>}
         <Divider style={{ marginTop: 10}} />
 
         {/* <Text>{userData.uid}</Text> */}

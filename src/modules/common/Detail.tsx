@@ -5,7 +5,6 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { useNavigation } from '@react-navigation/native';
 import axios from '../../constants/axios';
 import Reply from './Reply'
-import ReplyForm from './ReplyForm'
 import Form from './Form'
 import firebase from 'firebase'
 
