@@ -57,6 +57,7 @@ const UserListItem: React.FC = (props) => {
         />
         <ListItem.Content>
           <ListItem.Title>{user.name}</ListItem.Title>
+          <Text style={{marginTop: 10}}>
           {
             user.hub_list.map((l, i) => (
               <TouchableOpacity>  
@@ -75,7 +76,7 @@ const UserListItem: React.FC = (props) => {
                 </LinearGradient>
               </TouchableOpacity>
               ))
-            }
+            }</Text>
               </ListItem.Content>
       </ListItem>
   )
