@@ -62,6 +62,8 @@ function UserPage({route}) {
 
     setRefreshData(true)
     getUser().then((data) => {
+      setData(data)
+      setCurrentUserUid(data.uid)
       axios.get('/api/users/' + user.uid,
       {
         params: {
@@ -69,9 +71,7 @@ function UserPage({route}) {
         }
       })
       .then(res => {
-        setCurrentUserUid(data.uid)
         setIsFollowed(res.data.isFollowed)
-        setData(res.data.user)
         if(user.uid === currentUserUid) setisCurrentUser(true)
         setFollowData({following: res.data.following, follower: res.data.follower})
       })
