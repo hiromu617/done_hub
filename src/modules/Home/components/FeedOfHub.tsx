@@ -1,9 +1,9 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useRef} from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 import { StyleSheet, Text, View ,StatusBar, FlatList, ScrollView, RefreshControl,} from 'react-native';
 import axios from '../../../constants/axios';
 import { getUser } from '../../Todo/Storage'
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useScrollToTop } from '@react-navigation/native';
 import DonePost from '../../common/DonePost'
 import Detail from '../../common/Detail'
 import UserPage from '../../common/UserPage'
@@ -55,6 +55,10 @@ function FeedOfHubScreen() {
   const [feed, setFeed] = useState();
   const [pageData, setPageData] = useState(2);
   const [imageSrc, setImageSrc] = useState(null);
+  const ref = useRef(null);
+
+  useScrollToTop(ref);
+
   useEffect(() => {
     refreshData()
   },[]);
@@ -108,6 +112,7 @@ function FeedOfHubScreen() {
 
   return (
     <ScrollView
+      ref={ref}
       refreshControl={
       <RefreshControl
         refreshing={refreshState}
