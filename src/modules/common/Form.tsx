@@ -1,4 +1,4 @@
-import React, {useReducer,useContext, useState} from 'react';
+import React, {useRef ,useContext, useState, useEffect} from 'react';
 import { View, KeyboardAvoidingView, TextInput, StyleSheet, Text, Platform, TouchableWithoutFeedback, Keyboard  } from 'react-native';
 import {useForm, Controller} from 'react-hook-form';
 import { AntDesign } from '@expo/vector-icons'; 
@@ -8,13 +8,24 @@ import axios from '../../constants/axios';
 type Props = {
   post,
   userData,
-  refreshData
+  refreshData,
+  autoFocus,
+  setAutoFocusState
 }
 
 const ReplyModal: React.FC<Props> = (props) => {
-  const {post, userData, refreshData} = props
+  const {post, userData, refreshData, autoFocus,setAutoFocusState} = props
   const {control, handleSubmit, errors, setValue} = useForm();
   const [loading, setLoading] = useState(false)
+  const commentRef = useRef<HTMLInputElement | null>(null);
+
+  useEffect(() => {
+    if (autoFocus && commentRef.current) {
+      commentRef.current.focus()
+      setAutoFocusState(false)
+    }
+  }, [autoFocus]);
+  
   const onSubmit = (data) => {
     if(loading === true) return
     setLoading(true)
@@ -45,6 +56,7 @@ const ReplyModal: React.FC<Props> = (props) => {
           control={control}
           render={({onChange, value}) => (
             <TextInput
+              ref={commentRef} 
               multiline = {true}
               placeholder='返信する'
               onChangeText={(value) => onChange(value)}

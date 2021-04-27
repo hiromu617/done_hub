@@ -15,6 +15,7 @@ type Props = {
 const Reply: React.FC<Props> = (props) => {
   const { reply, userData, refreshData } = props
   const [imageSrc, setImageSrc] = useState(null)
+  const [loading, setLoading] = useState(false)
   const navigation = useNavigation()
 
   useEffect(() => {
@@ -22,8 +23,10 @@ const Reply: React.FC<Props> = (props) => {
   },[]);
 
   const deletePost = () => {
+    setLoading(true)
     axios.delete('/api/replys/' + reply.id)
     .then(res => {
+      setLoading(false)
       refreshData()
     })
     .catch(e => console.log(e))
@@ -91,6 +94,7 @@ const Reply: React.FC<Props> = (props) => {
             <Button 
               title='削除' 
               type='clear'
+              loading={loading}
               onPress={() => deletePost()}
             />
           }

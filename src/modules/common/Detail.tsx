@@ -18,6 +18,8 @@ const Detail: React.FC = ({route}) => {
   const [postData, setPostData] = useState(post)
   const [replyData, setReplyData] = useState(post.replys)
   const [imageSrc, setImageSrc] = useState(initialImageSrc)
+  const [autoFocusState, setAutoFocusState] = useState(false)
+
   useEffect(() => {
     if(initialLikeState === undefined){
       isLike()
@@ -62,7 +64,6 @@ const Detail: React.FC = ({route}) => {
   }
   const refreshData = () => {
     setRefreshData(true)
-    setReplyData([])
     axios.get('/api/done_posts/' + post.id)
     .then((res) => {
       setPostData(res.data)
@@ -70,6 +71,15 @@ const Detail: React.FC = ({route}) => {
       setRefreshData(false)
     })
   }
+
+  const refreshWithOutIndicator = () => {
+    axios.get('/api/done_posts/' + post.id)
+    .then((res) => {
+      setPostData(res.data)
+      setReplyData(res.data.replys)
+    })
+  }
+
   const parseDate = (val) => {
     return val.toString().replace(/([0-9]{4})-([0-9]{2})-([0-9]{2})T([0-9]{2}):([0-9]{2})([\w|:|.|+]*)/, "$2/$3 $4:$5")
   }
@@ -92,8 +102,8 @@ const Detail: React.FC = ({route}) => {
       }
     })
     .then(() => {
-      setLikeNum(likeNum+1)
       setLikeState(true)
+      setLikeNum(likeNum+1)
     })
   }
 
@@ -177,7 +187,9 @@ const Detail: React.FC = ({route}) => {
           name='comment'
           type="font-awesome-5"
           size={20}
-          color='gray' 
+          color='gray'
+          containerStyle={{padding: 10}}
+          onPress={() => setAutoFocusState(true)} 
           />
           <Text style={{color: 'gray', marginHorizontal: 7}}>{replyData.length}</Text>
           {!likeState && <Icon
@@ -185,6 +197,7 @@ const Detail: React.FC = ({route}) => {
           type="font-awesome-5"
           size={20}
           color='#F87171' 
+          containerStyle={{padding: 10}}
           onPress={() => like()}
           />}
           {likeState && <Icon
@@ -193,6 +206,7 @@ const Detail: React.FC = ({route}) => {
           size={20}
           color='#F87171' 
           solid
+          containerStyle={{padding: 10}}
           onPress={() => unlike()}
           />}
           <Text style={{color: '#F87171', marginHorizontal: 7}}>{likeNum}</Text>
@@ -203,7 +217,7 @@ const Detail: React.FC = ({route}) => {
               onPress={() => deletePost()}
             />
           }
-          <Text style={{fontSize: 10, color: 'gray', width: '70%', textAlign: 'right'}}>{parseDate(post.created_at)}</Text>
+          <Text style={{fontSize: 10, color: 'gray', width: '60%', textAlign: 'right'}}>{parseDate(post.created_at)}</Text>
         </View>
       </View>
     </ListItem.Content>
@@ -213,12 +227,12 @@ const Detail: React.FC = ({route}) => {
           data={ replyData}
           keyExtractor={(item) => item?.id?.toString()}
           renderItem={({item}) => {
-            return(<Reply reply={item} userData={userData} refreshData={refreshData}/>);
+            return(<Reply reply={item} userData={userData} refreshData={refreshWithOutIndicator}/>);
           }}
         />}
     </View>
     </ScrollView>
-    <Form  post={postData} userData={userData} refreshData={refreshData}/>
+    <Form  post={postData} userData={userData} refreshData={refreshWithOutIndicator} autoFocus={autoFocusState} setAutoFocusState={setAutoFocusState}/>
   </View>
   )
 }
