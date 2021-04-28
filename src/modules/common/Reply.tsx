@@ -1,10 +1,11 @@
 import React, {useEffect, useState} from 'react';
-import { StyleSheet, Text, View ,TouchableOpacity, FlatList} from 'react-native';
+import { Alert, StyleSheet, Text, View ,TouchableOpacity, FlatList} from 'react-native';
 import { Button, ListItem, Avatar, Icon } from 'react-native-elements'
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useNavigation } from '@react-navigation/native';
 import axios from '../../constants/axios';
 import firebase from 'firebase'
+import Modal from 'react-native-modal';
 
 type Props = {
   reply,
@@ -16,20 +17,35 @@ const Reply: React.FC<Props> = (props) => {
   const { reply, userData, refreshData } = props
   const [imageSrc, setImageSrc] = useState(null)
   const [loading, setLoading] = useState(false)
+  const [deleteModalState, setDeleteModalState] = useState(false)
   const navigation = useNavigation()
 
   useEffect(() => {
     getSource(reply)
   },[]);
 
-  const deletePost = () => {
-    setLoading(true)
-    axios.delete('/api/replys/' + reply.id)
-    .then(res => {
-      setLoading(false)
-      refreshData()
-    })
-    .catch(e => console.log(e))
+  const deletePost = async () => {
+    Alert.alert(
+      "返信の削除",
+      "本当に削除してもよろしいですか？",
+      [
+        {
+          text: "Cancel",
+          style: "cancel",
+          onPress: () => setDeleteModalState(false)
+        },
+        { text: "OK",
+          onPress: () => {
+            axios.delete('/api/replys/' + reply.id)
+            .then(res => {
+              setDeleteModalState(false)
+              refreshData()
+            })
+            .catch(e => console.log(e))
+          } 
+        }
+      ]
+    )
   }
 
   const getAvatar =  (post) => {
@@ -62,9 +78,37 @@ const Reply: React.FC<Props> = (props) => {
     <ListItem 
       bottomDivider
     >
+      <Modal
+      isVisible={deleteModalState}
+      onBackdropPress={() => setDeleteModalState(false)}
+      animationIn='slideInRight'
+      animationOut='slideOutRight'
+      backdropOpacity={0.3}
+      style={{backgroundColor: 'white', position: 'absolute',top: '30%', right: 30, width: 100, height: 60, borderRadius: 10}}
+      >
+        <View 
+          style={{backgroundColor: 'white'}}
+        >
+          <Button 
+            icon={
+              <Icon
+                name="trash"
+                type="font-awesome"
+                color="#EF4444"
+                size={20}
+              />
+            }
+              title='削除' 
+              type='clear'
+              titleStyle={{color: '#EF4444', marginLeft: 10}}
+              onPress={() => deletePost()}
+            />
+        </View>
+      </Modal>
       <ListItem.Content>
-        <View style={{flexDirection: 'row', alignItems: 'center'}}>
-        {imageSrc && <Avatar 
+        <View style={{flexDirection: 'row', alignItems: 'center', width: '100%', justifyContent: 'space-between'}}>
+          <View  style={{flexDirection: 'row', alignItems: 'center'}}>
+            {imageSrc && <Avatar 
           rounded
           size='small'
           source={{
@@ -86,18 +130,22 @@ const Reply: React.FC<Props> = (props) => {
             user: reply.user
           })}
         />}
-        <ListItem.Title  style={{paddingBottom: 0,fontWeight: 'bold', fontSize: 16}}>{reply.user.name}</ListItem.Title>
+          <ListItem.Title  style={{paddingBottom: 0,fontWeight: 'bold', fontSize: 16}}>{reply.user.name}</ListItem.Title>
+          </View>
+          <View
+          >
+            {userData.id == reply.user.id && <Icon
+              name='ellipsis-v'
+              type='font-awesome'
+              color='gray'
+              size={20}
+              style={{padding: 10}}
+              onPress={() => setDeleteModalState(true)}
+            />}
+          </View>
         </View>
         <View style={{width: '100%', paddingLeft: '12%'}}>
           <ListItem.Title  style={{fontSize: 13}}>{reply.content}</ListItem.Title>
-          {userData.id == reply.user.id && 
-            <Button 
-              title='削除' 
-              type='clear'
-              loading={loading}
-              onPress={() => deletePost()}
-            />
-          }
           <Text style={{fontSize: 10, color: 'gray', width: '100%', textAlign: 'right'}}>{parseDate(reply.created_at)}</Text>
         </View>
       </ListItem.Content>

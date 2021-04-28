@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import { FlatList, StyleSheet, Text, View , ScrollView, RefreshControl} from 'react-native';
+import { Alert, FlatList, StyleSheet, Text, View , ScrollView, RefreshControl} from 'react-native';
 import { ListItem, Avatar, Icon, Overlay, Button } from 'react-native-elements'
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useNavigation } from '@react-navigation/native';
@@ -7,6 +7,7 @@ import axios from '../../constants/axios';
 import Reply from './Reply'
 import Form from './Form'
 import firebase from 'firebase'
+import Modal from 'react-native-modal';
 
 const Detail: React.FC = ({route}) => {
   const navigation = useNavigation()
@@ -18,6 +19,7 @@ const Detail: React.FC = ({route}) => {
   const [replyData, setReplyData] = useState(post.replys)
   const [imageSrc, setImageSrc] = useState(initialImageSrc)
   const [autoFocusState, setAutoFocusState] = useState(false)
+  const [deleteModalState, setDeleteModalState] = useState(false)
 
   useEffect(() => {
     if(initialLikeState === undefined){
@@ -30,12 +32,29 @@ const Detail: React.FC = ({route}) => {
     // refreshData()
   },[]);
 
-  const deletePost = () => {
-    axios.delete('/api/done_posts/' + postData.id)
-    .then(res => {
-      navigation.goBack()
-    })
-    .catch(e => console.log(e))
+  const deletePost = async () => {
+    Alert.alert(
+      "投稿の削除",
+      "本当に削除してもよろしいですか？",
+      [
+        {
+          text: "Cancel",
+          style: "cancel",
+          onPress: () => setDeleteModalState(false)
+        },
+        { text: "OK",
+          onPress: () => {
+            axios.delete('/api/done_posts/' + postData.id)
+            .then(res => {
+              setDeleteModalState(false)
+              navigation.goBack()
+            })
+            .catch(e => console.log(e))
+          } 
+        }
+      ]
+    )
+    
   }
 
   const getAvatar =  (post) => {
@@ -120,6 +139,33 @@ const Detail: React.FC = ({route}) => {
   }
   return (
     <View style={{height: '100%'}}>
+      <Modal
+      isVisible={deleteModalState}
+      onBackdropPress={() => setDeleteModalState(false)}
+      animationIn='slideInRight'
+      animationOut='slideOutRight'
+      backdropOpacity={0.3}
+      style={{backgroundColor: 'white', position: 'absolute',top: '10%', right: 30, width: 100, height: 60, borderRadius: 10}}
+      >
+        <View 
+          style={{backgroundColor: 'white'}}
+        >
+          <Button 
+            icon={
+              <Icon
+                name="trash"
+                type="font-awesome"
+                color="#EF4444"
+                size={20}
+              />
+            }
+              title='削除' 
+              type='clear'
+              titleStyle={{color: '#EF4444', marginLeft: 10}}
+              onPress={() => deletePost()}
+            />
+        </View>
+      </Modal>
     <ScrollView
       refreshControl={
       <RefreshControl
@@ -132,30 +178,43 @@ const Detail: React.FC = ({route}) => {
      <View>
       <ListItem bottomDivider>
     <ListItem.Content>
-      <View style={{flexDirection: 'row', alignItems: 'center'}}>
-            {imageSrc && <Avatar 
-              rounded
-              size='medium'
-              source={{
-                uri: imageSrc
-              }}
-              containerStyle={{backgroundColor: 'gray', marginRight: 10}}
-              onPress={() => navigation.navigate('UserPage', 
-              {
-                user: postData.user
-              })}
-            />}
-            {!imageSrc && <Avatar 
-              rounded
-              size='medium'
-              title={post.user.name[0]} 
-              containerStyle={{backgroundColor: 'gray', marginRight: 10}}
-              onPress={() => navigation.navigate('UserPage', 
-              {
-                user: postData.user
-              })}
-            />}
-        <ListItem.Title  style={{paddingBottom: 5,fontWeight: 'bold'}}>{post.user.name}</ListItem.Title>
+      <View style={{flexDirection: 'row', alignItems: 'center', width: '100%', justifyContent: 'space-between'}}>
+        <View  style={{flexDirection: 'row', alignItems: 'center'}}>
+            {imageSrc && <Avatar
+                rounded
+                size='medium'
+                source={{
+                  uri: imageSrc
+                }}
+                containerStyle={{backgroundColor: 'gray', marginRight: 10}}
+                onPress={() => navigation.navigate('UserPage', 
+                {
+                  user: postData.user
+                })}
+              />}
+              {!imageSrc && <Avatar 
+                rounded
+                size='medium'
+                title={post.user.name[0]} 
+                containerStyle={{backgroundColor: 'gray', marginRight: 10}}
+                onPress={() => navigation.navigate('UserPage', 
+                {
+                  user: postData.user
+                })}
+              />}
+          <ListItem.Title  style={{paddingBottom: 5,fontWeight: 'bold'}}>{post.user.name}</ListItem.Title>
+        </View>
+            
+        <View
+        >
+          {userData.id == postData.user.id && <Icon
+            name='ellipsis-v'
+            type='font-awesome'
+            color='gray'
+            style={{padding: 10}}
+            onPress={() => setDeleteModalState(true)}
+          />}
+        </View>
       </View>
       <View  style={{width: '100%', paddingTop: 10}}>
         {postData.comment.length > 0 && <Text style={{backgroundColor: '#EFF6FF', width: '100%', padding: 8, borderRadius: 10, fontSize: 14}}>{post.comment}</Text>}
@@ -209,13 +268,6 @@ const Detail: React.FC = ({route}) => {
           onPress={() => unlike()}
           />}
           <Text style={{color: '#F87171', marginHorizontal: 7}}>{likeNum}</Text>
-          {userData.id == postData.user.id && 
-            <Button 
-              title='削除' 
-              type='clear'
-              onPress={() => deletePost()}
-            />
-          }
           <Text style={{fontSize: 10, color: 'gray', width: '60%', textAlign: 'right'}}>{parseDate(post.created_at)}</Text>
         </View>
       </View>
