@@ -31,7 +31,7 @@ function UserPage({route}) {
 
   useEffect(() => {
     refreshData()
-    getSource(userData)
+    // getSource(userData)
   },[]);
 
   const getAvatar =  (userData) => {

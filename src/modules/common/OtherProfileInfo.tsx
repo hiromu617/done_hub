@@ -41,7 +41,7 @@ function OtherProfileInfo(props) {
             {!isCurrentUser && isFollowed && <Button 
               title='follow中'
               style={{margin: 10}} 
-              buttonStyle={{ borderRadius: 18, paddingHorizontal: 10}}
+              buttonStyle={{ borderRadius: 18, paddingHorizontal: 10, backgroundColor: '#3B82F6'}}
               titleStyle={{fontSize: 16}}
               type='solid'
               onPress={() => unfollow()}

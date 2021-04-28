@@ -26,7 +26,7 @@ function ProfileHome() {
 
   useEffect(() => {
     refreshData()
-    getSource(userData)
+    // getSource(userData)
   },[]);
 
   const getAvatar =  (userData) => {
