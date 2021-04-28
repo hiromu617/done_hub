@@ -6,6 +6,7 @@ import axios from '../../../constants/axios'
 import {storeUser} from '../../Todo/Storage'
 import User from '../../Profile/objects/User'
 import ImagePick from './ImagePick'
+import Toast from 'react-native-root-toast';
 
 function EditProfile(props) {
   const {toggleModal, userData, imageSrc} = props;
@@ -32,6 +33,9 @@ function EditProfile(props) {
       // console.log(newUser)
       storeUser(newUser)
       toggleModal()
+      Toast.show('プロフィールを変更しました', {
+        position: 50
+      })
     })
     .catch(e => console.log(e))
   };

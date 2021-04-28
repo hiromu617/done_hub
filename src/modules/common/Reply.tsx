@@ -6,6 +6,7 @@ import { useNavigation } from '@react-navigation/native';
 import axios from '../../constants/axios';
 import firebase from 'firebase'
 import Modal from 'react-native-modal';
+import Toast from 'react-native-root-toast';
 
 type Props = {
   reply,
@@ -40,6 +41,9 @@ const Reply: React.FC<Props> = (props) => {
             .then(res => {
               setDeleteModalState(false)
               refreshData()
+              Toast.show('返信を削除しました',{
+                position: 50
+              })
             })
             .catch(e => console.log(e))
           } 

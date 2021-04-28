@@ -5,6 +5,7 @@ import * as ImagePicker from 'expo-image-picker';
 import * as Permissions from 'expo-permissions';
 import axios from '../../../constants/axios'
 import firebase from 'firebase'
+import Toast from 'react-native-root-toast';
 
 export default function ImagePick(props) {
   const [image, setImage] = useState(null);
@@ -55,6 +56,9 @@ export default function ImagePick(props) {
        console.log("FIRE STORE SUCCESS");
       });
       toggleModal()
+      Toast.show('プロフィール画像を変更しました', {
+        position: 50
+      })
   }
 
   const deleteAvatar = async () => {

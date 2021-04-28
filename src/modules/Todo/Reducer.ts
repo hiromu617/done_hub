@@ -85,6 +85,8 @@ function reducer(state: Task[], action) {
       console.log('----')
       console.log(JSON.stringify(state))
       console.log(state)
+      if(state.length == 0) return 
+
       getUser().then((data) => {
         if(data.uid !== undefined) {
           // console.log(data)

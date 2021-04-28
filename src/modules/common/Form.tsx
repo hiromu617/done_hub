@@ -4,6 +4,7 @@ import {useForm, Controller} from 'react-hook-form';
 import { AntDesign } from '@expo/vector-icons'; 
 import { Input, Button, Icon} from 'react-native-elements';
 import axios from '../../constants/axios';
+import Toast from 'react-native-root-toast';
 
 type Props = {
   post,
@@ -41,6 +42,9 @@ const ReplyModal: React.FC<Props> = (props) => {
       setLoading(false)
       refreshData()
       setValue('content', '')
+      Toast.show('返信しました', {
+        position: 50
+      })
     })
   };
 

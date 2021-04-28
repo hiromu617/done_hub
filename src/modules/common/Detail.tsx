@@ -8,6 +8,7 @@ import Reply from './Reply'
 import Form from './Form'
 import firebase from 'firebase'
 import Modal from 'react-native-modal';
+import Toast from 'react-native-root-toast';
 
 const Detail: React.FC = ({route}) => {
   const navigation = useNavigation()
@@ -48,6 +49,9 @@ const Detail: React.FC = ({route}) => {
             .then(res => {
               setDeleteModalState(false)
               navigation.goBack()
+              Toast.show('投稿を削除しました',{
+                position: 50
+              })
             })
             .catch(e => console.log(e))
           } 

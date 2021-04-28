@@ -16,6 +16,7 @@ import {firebaseConfig} from './config'
 import firebase from 'firebase'
 import User from './src/modules/Profile/objects/User'
 import { storeUser, getUser } from './src/modules/Todo/Storage'
+import { RootSiblingParent } from 'react-native-root-siblings';
 
 const initialUser: User = {
   uid: null,
@@ -140,11 +141,13 @@ function MyTabs() {
 
 export default function App() {
   return (
+    <RootSiblingParent> 
     <SiteProvider>
       <NavigationContainer>
         <AppSwitchNavigator/>
       </NavigationContainer>
     </SiteProvider>
+    </RootSiblingParent> 
     // <NavigationContainer>
     //   <MyTabs/>
     // </NavigationContainer>

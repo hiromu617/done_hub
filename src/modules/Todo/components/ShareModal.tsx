@@ -6,6 +6,7 @@ import {useForm, Controller} from 'react-hook-form';
 import { SiteContext } from './TodoScreen'
 import { AntDesign } from '@expo/vector-icons'; 
 import { Input, Button, Icon} from 'react-native-elements';
+import Toast from 'react-native-root-toast';
 
 type Props = {
   CloseModal: () => void;
@@ -18,6 +19,9 @@ const ShareModal: React.FC<Props> = (props) => {
   const onSubmit = (data) => {
     dispatch({type: 'share', comment: data.comment})
     CloseModal()
+    Toast.show('Todoリストをタイムラインにシェアしました！', {
+      position: 50
+    })
   };
 
   return (

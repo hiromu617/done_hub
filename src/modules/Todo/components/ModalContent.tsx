@@ -5,6 +5,7 @@ import {useForm, Controller} from 'react-hook-form';
 import { SiteContext } from './TodoScreen'
 import { AntDesign } from '@expo/vector-icons'; 
 import { Input,Button, Icon} from 'react-native-elements';
+import Toast from 'react-native-root-toast';
 
 type Props = {
   CloseModal: () => void;
@@ -17,6 +18,9 @@ const ModalContent: React.FC<Props> = (props) => {
   const onSubmit = (data: TaskForm) => {
     dispatch({type: 'create', data: data})
     CloseModal()
+    Toast.show('タスクを追加しました', {
+      position: 50
+    })
   };
  
   return (

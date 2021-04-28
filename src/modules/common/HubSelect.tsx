@@ -7,6 +7,7 @@ import { ListItem } from 'react-native-elements/dist/list/ListItem';
 import {storeUser} from '../Todo/Storage'
 import User from '../Profile/objects/User'
 import { LinearGradient } from 'expo-linear-gradient';
+import Toast from 'react-native-root-toast';
 
 function HubSelect({route}) {
   const {user} = route.params;
@@ -31,6 +32,9 @@ function HubSelect({route}) {
       // console.log(newUser)
       storeUser(newUser)
       navigation.navigate('ProfileHome')
+      Toast.show('Hubを変更しました', {
+        position: 50
+      })
     })
   }
   return (

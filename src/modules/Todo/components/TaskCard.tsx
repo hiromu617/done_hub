@@ -12,7 +12,7 @@ import { AntDesign } from '@expo/vector-icons';
 import CheckTaskModal from './CheckTaskModal'
 import { Button, Overlay } from 'react-native-elements';
 import Modal from 'react-native-modal';
-
+import Toast from 'react-native-root-toast';
 
 
 type Props = {
@@ -41,6 +41,9 @@ const TaskCard: React.FC<Props> = (props) => {
   const deleteTask = useCallback(
     () => {
       dispatch({type: 'delete', id: task.id})
+      Toast.show('タスクを削除しました', {
+        position: 50
+      })
     },
     [],
   )
