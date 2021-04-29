@@ -85,9 +85,9 @@ function NotificationHome() {
                 solid
               />
               <ListItem.Content>
-              <ListItem.Title>{item.visiter.name}さんが投稿にいいねしました</ListItem.Title>
-              <Text style={{width: '100%',textAlign: 'right', marginTop: 10, color: '#1F2937'}}>{parseDate(item.created_at)}</Text>
+              <ListItem.Title style={{fontSize: 14}}>{item.visiter.name}さんが投稿にいいねしました</ListItem.Title>
               </ListItem.Content>
+              <Text style={{fontSize: 12,textAlign: 'right', color: '#1F2937'}}>{parseDate(item.created_at)}</Text>
            </ListItem>
           );
           }
@@ -110,9 +110,9 @@ function NotificationHome() {
                 solid
               />
               <ListItem.Content>
-              <ListItem.Title>{item.visiter.name}さんが投稿に返信しました</ListItem.Title>
-              <Text style={{width: '100%',textAlign: 'right', marginTop: 10, color: '#1F2937'}}>{parseDate(item.created_at)}</Text>
+              <ListItem.Title style={{fontSize: 14}}>{item.visiter.name}さんが投稿に返信しました</ListItem.Title>
               </ListItem.Content>
+              <Text style={{fontSize: 12,textAlign: 'right', color: '#1F2937'}}>{parseDate(item.created_at)}</Text>
            </ListItem>
           );
           }
@@ -133,9 +133,9 @@ function NotificationHome() {
                 solid
               />
               <ListItem.Content>
-              <ListItem.Title>{item.visiter.name}さんがあなたをフォローしました</ListItem.Title>
+              <ListItem.Title style={{fontSize: 14}}>{item.visiter.name}さんがあなたをフォローしました</ListItem.Title>
               </ListItem.Content>
-              <Text style={{textAlign: 'right', color: '#1F2937'}}>{parseDate(item.created_at)}</Text>
+              <Text style={{fontSize: 12,textAlign: 'right', color: '#1F2937'}}>{parseDate(item.created_at)}</Text>
            </ListItem>
           );
           }
