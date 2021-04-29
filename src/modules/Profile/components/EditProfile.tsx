@@ -7,10 +7,13 @@ import {storeUser} from '../../Todo/Storage'
 import User from '../../Profile/objects/User'
 import ImagePick from './ImagePick'
 import Toast from 'react-native-root-toast';
+import { useNavigation } from '@react-navigation/native';
+import firebase from 'firebase'
 
 function EditProfile(props) {
   const {toggleModal, userData, imageSrc} = props;
   const {control, handleSubmit, errors, setValue} = useForm();
+  const navigation = useNavigation()
   const onSubmit = (data) => {
     // console.log(data)
     axios.post('/api/users/' + userData.uid, { 
@@ -100,6 +103,18 @@ function EditProfile(props) {
         {errors.name && errors.name.type === 'maxLength' && (
           <Text style={styles.errorText}>タイトルは140文字以内で入力してください。</Text>
         )}
+        <Button 
+            title="sign out" 
+            type="clear"
+            containerStyle={{paddingHorizontal: 50}}
+            onPress={() =>{
+              firebase.auth().signOut()
+              navigation.navigate('LoadingScreen')
+              Toast.show('sign outしました', {
+                position: 50
+              })
+            }
+          }/>
     </SafeAreaView>
   );
 }

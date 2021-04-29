@@ -1,6 +1,5 @@
 import React, {useReducer, useContext, useState, useEffect} from 'react';
 import { TouchableHighlight, StyleSheet,View, ActivityIndicator , ScrollView, RefreshControl,SafeAreaView } from 'react-native';
-import firebase from 'firebase'
 import { Text, Button, ButtonGroup, Avatar,Icon} from 'react-native-elements';
 import { useNavigation } from '@react-navigation/native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
@@ -107,14 +106,6 @@ function ProfileInfo(props) {
               <Text style={{fontWeight: 'bold'}}>{followData.follower.length} フォロワー</Text>
             </TouchableOpacity>
           </Text>
-          <Button 
-            title="sign out" 
-            type="clear"
-            onPress={() =>{
-              firebase.auth().signOut()
-              navigation.navigate('LoadingScreen')
-            }
-          }/>
         </View>
     </View>
         
