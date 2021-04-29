@@ -34,7 +34,8 @@ function reducer(state: Task[], action) {
           let newTask :Task = {
             id: uniqueId,
             name: action.data.name,
-            checked: false
+            checked: false,
+            comment: null
           }
           let newState: Task[] = state.slice()
           newState.push(newTask)
@@ -136,7 +137,8 @@ function reducer(state: Task[], action) {
       let newTask :Task = {
         id: uniqueId,
         name: action.data.name,
-        checked: false
+        checked: false,
+        comment: null
       }
       let newState: Task[] = state.slice()
       newState.push(newTask)

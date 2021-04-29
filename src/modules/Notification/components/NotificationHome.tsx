@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import { FlatList, StyleSheet, View, ActivityIndicator , ScrollView, RefreshControl,SafeAreaView } from 'react-native';
+import { Text, FlatList, StyleSheet, View, ActivityIndicator , ScrollView, RefreshControl,SafeAreaView } from 'react-native';
 import { getUser } from '../../Todo/Storage'
 import { useNavigation } from '@react-navigation/native';
 import axios from '../../../constants/axios';
@@ -20,10 +20,13 @@ function NotificationHome() {
 
   useFocusEffect(
     React.useCallback(() => {
-      console.log(1)
       refreshData()
     }, [])
   );
+
+  const parseDate = (val) => {
+    return val.toString().replace(/([0-9]{4})-([0-9]{2})-([0-9]{2})T([0-9]{2}):([0-9]{2})([\w|:|.|+]*)/, "$2/$3 $4:$5")
+  }
 
   const refreshData = () => {
     setRefreshData(true)
@@ -83,6 +86,7 @@ function NotificationHome() {
               />
               <ListItem.Content>
               <ListItem.Title>{item.visiter.name}さんが投稿にいいねしました</ListItem.Title>
+              <Text style={{width: '100%',textAlign: 'right', marginTop: 10, color: '#1F2937'}}>{parseDate(item.created_at)}</Text>
               </ListItem.Content>
            </ListItem>
           );
@@ -107,6 +111,7 @@ function NotificationHome() {
               />
               <ListItem.Content>
               <ListItem.Title>{item.visiter.name}さんが投稿に返信しました</ListItem.Title>
+              <Text style={{width: '100%',textAlign: 'right', marginTop: 10, color: '#1F2937'}}>{parseDate(item.created_at)}</Text>
               </ListItem.Content>
            </ListItem>
           );
@@ -130,6 +135,7 @@ function NotificationHome() {
               <ListItem.Content>
               <ListItem.Title>{item.visiter.name}さんがあなたをフォローしました</ListItem.Title>
               </ListItem.Content>
+              <Text style={{textAlign: 'right', color: '#1F2937'}}>{parseDate(item.created_at)}</Text>
            </ListItem>
           );
           }

@@ -40,7 +40,7 @@ function HubSelect({route}) {
   return (
       <SafeAreaView style={{ flex: 1, paddingHorizontal: 10}}>
         <View style={{flexDirection: 'row', padding: 20, justifyContent: 'space-between'}}>
-          <Text style={{fontSize: 26, fontWeight: 'bold'}}>選択中のHub</Text>
+          <Text style={{fontSize: 26, fontWeight: 'bold', color: '#1F2937'}}>選択中のHub</Text>
           <Button 
             title='保存'
             type='clear'
@@ -52,6 +52,7 @@ function HubSelect({route}) {
         {
             selectedHub.map((l, i) => (
             <TouchableOpacity
+            key={i}
             onPress={() => {
               let list = []
                 selectedHub.map((item) => {
@@ -78,13 +79,14 @@ function HubSelect({route}) {
             }
         </Text>
 
-        <Text style={{fontSize: 26, fontWeight: 'bold', padding: 20}}>Hub一覧</Text>
+        <Text style={{fontSize: 26, fontWeight: 'bold', padding: 20, color: '#1F2937'}}>Hub一覧</Text>
         <Text>
         {
             hub_list.map((l, i) => {
               if(selectedHub.includes(l)){
                 return (
                   <TouchableOpacity
+                  key={i}
                   onPress={() => {
                     let list = []
                       selectedHub.map((item) => {

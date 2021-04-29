@@ -18,7 +18,7 @@ const CircleBtn: React.FC<Props> = (props) => {
             size={30}
             type="ant-design"
             name="plus"
-            color='#1D4ED8'
+            color='#3B82F6'
             onPress={onPressBtn} 
           />
           {/* <TouchableOpacity 
@@ -53,6 +53,6 @@ const styles = StyleSheet.create({
   btnWrap: {
     position: 'absolute',
     bottom: '5%',
-    right: '5%',
+    right: '3%',
   },
 })

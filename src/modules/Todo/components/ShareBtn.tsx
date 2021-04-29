@@ -32,7 +32,7 @@ export default ShareBtn
 
 const styles = StyleSheet.create({
   btn: {
-    backgroundColor: '#3B82F6',
+    backgroundColor: '#60A5FA',
     width: 210,
     height: 60,
     borderRadius: 60,
@@ -51,6 +51,6 @@ const styles = StyleSheet.create({
   btnWrap: {
     position: 'absolute',
     bottom: '6%',
-    left: '20%'
+    left: '18%'
   },
 })
