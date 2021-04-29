@@ -55,6 +55,7 @@ function LoadingScreen(){
   //   this.checkedIfLogin()
   // }
   useEffect(() => {
+    console.log('loading...............')
     checkedIfLogin()
   },[]);
   const navigation = useNavigation()
@@ -63,15 +64,19 @@ function LoadingScreen(){
       function(user){
         if(user){
           // console.log(user.providerData[0].uid)
-          navigation.navigate('MyTabs')
           console.log(user)
           axios.post('/api/users', { 
-              name: user.providerData[0].displayName, 
-              uid: user.providerData[0].uid
+            name: user.providerData[0].displayName, 
+            uid: user.providerData[0].uid
           })
           .then(res => {
-            console.log(res)
-            storeUser(res.data)
+            console.log(res.data)
+            storeUser(res.data.user)
+            if(res.data.newUser === true){
+              navigation.navigate('DashboardScreen')
+            }else{
+              navigation.navigate('MyTabs')
+            }
           })
           // .catch(e => console.log(e))
 
