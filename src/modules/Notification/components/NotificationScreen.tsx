@@ -10,11 +10,51 @@ const Stack = createStackNavigator();
 function NotificationScreen() {
   return (
     <Stack.Navigator>
-      <Stack.Screen name="Notification" component={NotificationHome} />
-      <Stack.Screen name="Detail" component={Detail} />
-      <Stack.Screen name="Following" component={Following} />
-      <Stack.Screen name="Follower" component={Follower} />
-      <Stack.Screen name="UserPage" component={UserPage} />
+      <Stack.Screen 
+        name="Notification" 
+        component={NotificationHome} 
+        options={{
+          title: '通知',
+          gestureDirection: 'horizontal',
+          headerBackTitleVisible: false,
+        }}
+      />
+      <Stack.Screen 
+        name="Detail" 
+        component={Detail} 
+        options={{
+          title: '投稿',
+          gestureDirection: 'horizontal',
+          headerBackTitleVisible: false,
+        }}
+      />
+      <Stack.Screen 
+        name="Following" 
+        component={Following} 
+        options={{
+          title: 'フォロー中',
+          gestureDirection: 'horizontal',
+          headerBackTitleVisible: false,
+        }}
+      />
+      <Stack.Screen 
+        name="Follower" 
+        component={Follower} 
+        options={{
+          title: 'フォロワー',
+          gestureDirection: 'horizontal',
+          headerBackTitleVisible: false,
+        }}
+      />
+      <Stack.Screen 
+        name="UserPage" 
+        component={UserPage} 
+        options={{
+          title: 'ユーザー',
+          gestureDirection: 'horizontal',
+          headerBackTitleVisible: false,
+        }}
+      />
     </Stack.Navigator>
   );
 }

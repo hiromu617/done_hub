@@ -15,33 +15,47 @@ const FeedOfFollowStack = createStackNavigator();
 function FeedOfFollow() {
   return (
     <FeedOfFollowStack.Navigator
-      headerMode="none" 
+    headerMode='none'
     >
-      <FeedOfFollowStack.Screen name="Feed" component={FeedOfFollowScreen} />
+      <FeedOfFollowStack.Screen 
+        name="Feed" 
+        component={FeedOfFollowScreen} 
+        options={{
+          headerShown: false
+        }}
+      />
       <FeedOfFollowStack.Screen 
         name="Detail" 
         component={Detail} 
         options={{
-          gestureDirection: 'horizontal'
+          title: '投稿',
+          gestureDirection: 'horizontal',
+          headerBackTitleVisible: false,
         }}
       />
       <FeedOfFollowStack.Screen 
         name="Following" 
         component={Following} 
         options={{
-          gestureDirection: 'horizontal'
+          title: 'フォロー中',
+          gestureDirection: 'horizontal',
+          headerBackTitleVisible: false
         }}
       />
       <FeedOfFollowStack.Screen 
         name="Follower" component={Follower} 
         options={{
-          gestureDirection: 'horizontal'
+          title: 'フォロワー',
+          gestureDirection: 'horizontal',
+          headerBackTitleVisible: false
         }}
       />
       <FeedOfFollowStack.Screen 
         name="UserPage" component={UserPage} 
         options={{
-          gestureDirection: 'horizontal'
+          title: 'ユーザー',
+          gestureDirection: 'horizontal',
+          headerBackTitleVisible: false
         }}
       />
     </FeedOfFollowStack.Navigator>

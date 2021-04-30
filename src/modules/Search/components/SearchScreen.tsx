@@ -12,11 +12,51 @@ const SearchStack = createStackNavigator();
 function SearchScreen() {
   return (
     <SearchStack.Navigator>
-      <SearchStack.Screen name="SearchHome" component={SearchHome} />
-      <SearchStack.Screen name="Detail" component={Detail} />
-      <SearchStack.Screen name="Following" component={Following} />
-      <SearchStack.Screen name="Follower" component={Follower} />
-      <SearchStack.Screen name="UserPage" component={UserPage} />
+      <SearchStack.Screen 
+        name="SearchHome" 
+        component={SearchHome} 
+        options={{
+          title: '検索',
+          gestureDirection: 'horizontal',
+          headerBackTitleVisible: false,
+        }}
+      />
+      <SearchStack.Screen 
+        name="Detail" 
+        component={Detail} 
+        options={{
+          title: '投稿',
+          gestureDirection: 'horizontal',
+          headerBackTitleVisible: false,
+        }}
+      />
+      <SearchStack.Screen 
+        name="Following" 
+        component={Following} 
+        options={{
+          title: 'フォロー中',
+          gestureDirection: 'horizontal',
+          headerBackTitleVisible: false,
+        }}
+      />
+      <SearchStack.Screen 
+        name="Follower" 
+        component={Follower} 
+        options={{
+          title: 'フォロワー',
+          gestureDirection: 'horizontal',
+          headerBackTitleVisible: false,
+        }}
+      />
+      <SearchStack.Screen 
+        name="UserPage" 
+        component={UserPage} 
+        options={{
+          title: 'ユーザー',
+          gestureDirection: 'horizontal',
+          headerBackTitleVisible: false,
+        }}
+      />
     </SearchStack.Navigator>
   );
 }

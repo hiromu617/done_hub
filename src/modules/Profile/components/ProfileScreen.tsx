@@ -12,12 +12,60 @@ const Stack = createStackNavigator();
 function ProfileScreen() {
   return (
     <Stack.Navigator>
-      <Stack.Screen name="ProfileHome" component={ProfileHome} />
-      <Stack.Screen name="Detail" component={Detail} />
-      <Stack.Screen name="Following" component={Following} />
-      <Stack.Screen name="Follower" component={Follower} />
-      <Stack.Screen name="UserPage" component={UserPage} />
-      <Stack.Screen name="HubSelect" component={HubSelect} />
+      <Stack.Screen 
+        name="ProfileHome" 
+        component={ProfileHome} 
+        options={{
+          title: 'プロフィール',
+          gestureDirection: 'horizontal',
+          headerBackTitleVisible: false,
+        }}
+      />
+      <Stack.Screen 
+        name="Detail" 
+        component={Detail} 
+        options={{
+          title: '投稿',
+          gestureDirection: 'horizontal',
+          headerBackTitleVisible: false,
+        }}
+      />
+      <Stack.Screen 
+        name="Following" 
+        component={Following} 
+        options={{
+          title: 'フォロー中',
+          gestureDirection: 'horizontal',
+          headerBackTitleVisible: false,
+        }}
+      />
+      <Stack.Screen 
+        name="Follower" 
+        component={Follower} 
+        options={{
+          title: 'フォロワー',
+          gestureDirection: 'horizontal',
+          headerBackTitleVisible: false,
+        }}
+      />
+      <Stack.Screen 
+        name="UserPage" 
+        component={UserPage} 
+        options={{
+          title: 'ユーザー',
+          gestureDirection: 'horizontal',
+          headerBackTitleVisible: false,
+        }}
+      />
+      <Stack.Screen 
+        name="HubSelect" 
+        component={HubSelect} 
+        options={{
+          title: 'Hubの編集',
+          gestureDirection: 'horizontal',
+          headerBackTitleVisible: false,
+        }}
+      />
     </Stack.Navigator>
   );
 }
