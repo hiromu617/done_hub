@@ -8,6 +8,7 @@ import ProfileInfo from './ProfileInfo'
 import EditProfile from './EditProfile'
 import { Divider,Overlay} from 'react-native-elements';
 import firebase from 'firebase'
+import { StatusBar } from 'expo-status-bar';
 
 function ProfileHome() {
   // const {state} = useContext(SiteContext);
@@ -114,6 +115,8 @@ function ProfileHome() {
   }
   return (
       <SafeAreaView style={{ flex: 1}}>
+      <StatusBar style="dark"/>
+
         <Overlay
          isVisible={isModalVisible}
          fullScreen

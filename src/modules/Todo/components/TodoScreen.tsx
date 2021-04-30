@@ -11,6 +11,7 @@ import { initialState, storeTasks, getTasks } from '../Storage'
 import reducer from '../Reducer'
 import { Button, Overlay } from 'react-native-elements';
 import { TouchableOpacity } from 'react-native-gesture-handler';
+import { StatusBar } from 'expo-status-bar';
 
 export const SiteContext = React.createContext({});
 
@@ -35,6 +36,7 @@ const TodoScreen: React.FC = () => {
   return (
     
     <SiteProvider>
+      <StatusBar style="dark"/>
         <Modal
          isVisible={isModalVisible}
          onBackdropPress={toggleModal}
