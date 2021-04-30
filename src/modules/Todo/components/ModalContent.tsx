@@ -48,14 +48,14 @@ const ModalContent: React.FC<Props> = (props) => {
           defaultValue=""
           rules={{
             required: true,
-            maxLength: 20,
+            maxLength: 100,
           }}
         />
         {errors.name && errors.name.type === 'required' && (
           <Text style={styles.errorText}>タイトルは必須です。</Text>
         )}
         {errors.name && errors.name.type === 'maxLength' && (
-          <Text style={styles.errorText}>タイトルは20文字以内で入力してください。</Text>
+          <Text style={styles.errorText}>タイトルは100文字以内で入力してください。</Text>
         )}
       </View>
       

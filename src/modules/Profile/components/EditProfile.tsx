@@ -77,11 +77,11 @@ function EditProfile(props) {
           name="name"
           defaultValue={userData.name}
           rules={{
-            maxLength: 10,
+            maxLength: 20,
           }}
         />
         {errors.name && errors.name.type === 'maxLength' && (
-          <Text style={styles.errorText}>名前は10文字以内で入力してください。</Text>
+          <Text style={styles.errorText}>名前は20文字以内で入力してください。</Text>
         )}
         <Controller
           control={control}
