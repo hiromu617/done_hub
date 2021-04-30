@@ -40,10 +40,24 @@ const TaskCard: React.FC<Props> = (props) => {
   );
   const deleteTask = useCallback(
     () => {
-      dispatch({type: 'delete', id: task.id})
-      Toast.show('タスクを削除しました', {
-        position: 50
-      })
+      Alert.alert(
+        "タスクの削除",
+        "本当に削除してもよろしいですか？",
+        [
+          {
+            text: "Cancel",
+            style: "cancel",
+          },
+          { text: "OK",
+            onPress: () => {
+              dispatch({type: 'delete', id: task.id})
+              Toast.show('タスクを削除しました', {
+                position: 50
+              })
+            } 
+          }
+        ]
+      )
     },
     [],
   )
