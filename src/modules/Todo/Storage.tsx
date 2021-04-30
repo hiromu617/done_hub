@@ -2,7 +2,6 @@ import React, {useReducer,useContext, useState, useEffect} from 'react';
 import {Task} from '.'
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import User from '../Profile/objects/User'
-let initialState: Task[] = []
 
 const storeTasks = async (tasks: Task[]) => {
   try {
@@ -57,6 +56,8 @@ const deleteData = async () => {
   await AsyncStorage.removeItem('@user_Key')
   await AsyncStorage.removeItem('@tasks_Key')
 }
+let initialState: Task[] = []
+getTasks().then(res => initialState = res)
 
 export {
   initialState, storeTasks, getTasks, storeUser, getUser, deleteData

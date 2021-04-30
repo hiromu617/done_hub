@@ -1,6 +1,6 @@
 import React, {useContext, useState, useEffect} from 'react';
 import { SiteContext } from './TodoScreen'
-import {View,FlatList,StyleSheet} from 'react-native';
+import {Text,View,FlatList,StyleSheet} from 'react-native';
 import Task from '../objects/Task';
 import TaskCard from './TaskCard';
 import AsyncStorage from '@react-native-async-storage/async-storage';

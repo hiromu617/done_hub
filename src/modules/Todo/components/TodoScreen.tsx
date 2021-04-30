@@ -1,4 +1,4 @@
-import React, {useReducer, useState} from 'react';
+import React, {useReducer, useState, useEffect, useContext} from 'react';
 import { View,SafeAreaView, Text } from 'react-native';
 import TaskList from './TaskList';
 import {Task} from '../'
@@ -12,7 +12,7 @@ import reducer from '../Reducer'
 import { Button, Overlay } from 'react-native-elements';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
-export const SiteContext = React.createContext(null);
+export const SiteContext = React.createContext({});
 
 const SiteProvider = ({children}) => {
   const [state, dispatch] = useReducer(reducer, initialState)
