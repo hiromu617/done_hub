@@ -114,7 +114,7 @@ function UserPage({route}) {
       })
   }
   const unfollow = async () => {
-    axios.delete('/api/relationships/' + userData.id, {
+    axios.delete('/api/relationships/' + userInfo.id, {
       params: {
         currentUserUid: currentUserUid,
       }
@@ -127,7 +127,7 @@ function UserPage({route}) {
     axios.get('/api/relationships', {
       params: {
         currentUserUid: currentUserUid,
-        id: userData.id
+        id: userInfo.id
       }
     })
     setIsFollowed(true)
