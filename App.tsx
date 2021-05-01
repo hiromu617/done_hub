@@ -12,6 +12,8 @@ import { createSwitchNavigator} from '@react-navigation/compat';
 import DashboardScreen from './src/modules/Auth/DashboardScreen'
 import LoginScreen from './src/modules/Auth/LoginScreen'
 import LoadingScreen from './src/modules/Auth/LoadingScreen'
+import TermsScreen from './src/modules/Auth/TermsScreen'
+import PolicyScreen from './src/modules/Auth/PolicyScreen'
 import {firebaseConfig} from './config'
 import firebase from 'firebase'
 import User from './src/modules/Profile/objects/User'
@@ -71,6 +73,8 @@ firebase.initializeApp(firebaseConfig);
 const AppSwitchNavigator = createSwitchNavigator({
   LoadingScreen: LoadingScreen,
   LoginScreen: LoginScreen,
+  PolicyScreen: PolicyScreen,
+  TermsScreen: TermsScreen,
   DashboardScreen: DashboardScreen,
   MyTabs: MyTabs,
 })

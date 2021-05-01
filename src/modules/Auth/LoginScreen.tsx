@@ -3,6 +3,7 @@ import {ActivityIndicator,TouchableOpacity, Image, View, StyleSheet, Button,Safe
 import * as Google from 'expo-google-app-auth';
 import firebase from 'firebase';
 import {  SocialIcon, Text } from 'react-native-elements'
+import {useNavigation } from '@react-navigation/native';
 
 class LoginScreen extends Component{
   constructor(props) {
@@ -79,6 +80,8 @@ class LoginScreen extends Component{
   }
 
   render() {
+    const { navigation } = this.props;
+
     return(
       <SafeAreaView style={styles.container}>
         <Image
@@ -89,11 +92,22 @@ class LoginScreen extends Component{
           }}
           source={require('./images/DoneHub.png')}
         />
-        <Text
-          style={{paddingHorizontal: 65, paddingVertical: 50, textAlign: 'center', fontSize: 16, lineHeight: 22}}
+        <View
+            style={{paddingHorizontal: 65, paddingVertical: 50}}
         >
-          利用規約とプライバシーポリシーに同意した上でログインしてください
-        </Text>
+          <Text
+            style={{textAlign: 'center', fontSize: 14, lineHeight: 22}}
+          >
+            <TouchableOpacity
+             onPress={() => navigation.navigate('TermsScreen')}
+            ><Text style={{color: '#2563EB'}}>利用規約</Text></TouchableOpacity>
+            と
+            <TouchableOpacity
+             onPress={() => navigation.navigate('PolicyScreen')}
+            ><Text style={{color: '#2563EB'}}>プライバシーポリシー</Text></TouchableOpacity>
+            に同意した上でログインしてください
+          </Text>
+        </View>
         {this.state.loading &&
         <TouchableOpacity
           style={{
@@ -126,8 +140,12 @@ class LoginScreen extends Component{
     )
   }
 }
+export default function(props) {
+  const navigation = useNavigation();
 
-export default LoginScreen
+  return <LoginScreen {...props} navigation={navigation} />;
+}
+
 
 const styles = StyleSheet.create({
   container: {
