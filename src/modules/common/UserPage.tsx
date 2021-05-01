@@ -1,10 +1,10 @@
 import React, {useState, useEffect} from 'react';
-import { StyleSheet, View, ActivityIndicator , ScrollView, RefreshControl,SafeAreaView } from 'react-native';
+import { KeyboardAvoidingView, StyleSheet, View, ActivityIndicator , ScrollView, RefreshControl,SafeAreaView } from 'react-native';
 import { getUser } from '../Todo/Storage'
 import { useNavigation } from '@react-navigation/native';
 import axios from '../../constants/axios';
 import UserPostList from './UserPostList'
-import { Divider,Overlay,Button} from 'react-native-elements';
+import { Icon, Divider,Overlay,Button} from 'react-native-elements';
 import firebase from 'firebase'
 import OtherProfileInfo from './OtherProfileInfo'
 import ProfileInfo from '../Profile/components/ProfileInfo'
@@ -24,7 +24,7 @@ function UserPage({route}) {
   const [isModalVisible, setModalVisible] = useState(false);
   const [imageSrc, setImageSrc] = useState(null);
   const [followData, setFollowData] = useState({following: [], follower: []});
-
+  
   const toggleModal = () => {
     setModalVisible(!isModalVisible);
   };
@@ -163,6 +163,18 @@ function UserPage({route}) {
         {/* <Text>{userData.uid}</Text> */}
           <UserPostList posts={userPostsData} fetchData={fetchData} imageSrc={imageSrc} userData={userData}/>
         </ScrollView>
+        <KeyboardAvoidingView>
+          <Icon
+          name='arrow-left'
+          type="font-awesome" 
+          color="#3B82F6"
+          size={27}
+          reverse
+          raised
+          containerStyle={{position: 'absolute', bottom: '7%', left: '5%'}}
+          onPress={() => navigation.goBack()}
+          />
+        </KeyboardAvoidingView>
       </SafeAreaView>
   );
 }

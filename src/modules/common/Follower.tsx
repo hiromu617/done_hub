@@ -12,6 +12,7 @@ const Follower: React.FC = ({route}) => {
   console.log('-------')
   console.log(follower)
   return (
+    <View style={{flex: 1}}>
       <FlatList
           showsVerticalScrollIndicator={false}
           data={ follower}
@@ -20,6 +21,18 @@ const Follower: React.FC = ({route}) => {
             return <UserListItem user={item}/>;
           }}
       />
+      <Icon
+          name='arrow-left'
+          type="font-awesome" 
+          color="#3B82F6"
+          size={27}
+          reverse
+          raised
+          containerStyle={{position: 'absolute', bottom: '5%', left: '5%'}}
+          onPress={() => navigation.goBack()}
+          />
+    </View>
+      
   )
 }
 

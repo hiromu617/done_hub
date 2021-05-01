@@ -18,7 +18,7 @@ const DonePost: React.FC<Props> = (props) => {
   const [likeState, setLikeState] = useState(false)
   const [likeNum, setLikeNum] = useState(0)
   const navigation = useNavigation()
-  console.log(post)
+  // console.log(post)
 
   useEffect(() => {
     if(!image){

@@ -8,7 +8,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 
 function OtherProfileInfo(props) {
   const {userData, imageSrc, followData, isFollowed, follow, unfollow, isCurrentUser} = props;
-  console.log(followData)
+  console.log(userData)
   const navigation = useNavigation()
   if(!userData){
     return (

@@ -11,14 +11,27 @@ const Following: React.FC = ({route}) => {
   const { following } = route.params;
 
   return (
-    <FlatList
-        showsVerticalScrollIndicator={false}
-        data={ following}
-        keyExtractor={(item) => item?.id?.toString()}
-        renderItem={({item}) => {
-          return <UserListItem user={item}/>;
-        }}
-    />
+    <View style={{flex: 1}}>
+      <FlatList
+          showsVerticalScrollIndicator={false}
+          data={ following}
+          keyExtractor={(item) => item?.id?.toString()}
+          renderItem={({item}) => {
+            return <UserListItem user={item}/>;
+          }}
+      />
+      <Icon
+          name='arrow-left'
+          type="font-awesome" 
+          color="#3B82F6"
+          size={27}
+          reverse
+          raised
+          containerStyle={{position: 'absolute', bottom: '5%', left: '5%'}}
+          onPress={() => navigation.goBack()}
+          />
+    </View>
+    
   )
 }
 
