@@ -117,28 +117,30 @@ const Detail: React.FC = ({route}) => {
   }
 
   const like = async () => {
+    setLikeState(true)
+    setLikeNum(likeNum+1)
     axios.post('/api/likes/', {
       like: {
         user_id: userData.id,
         done_post_id: postData.id
       }
     })
-    .then(() => {
-      setLikeState(true)
-      setLikeNum(likeNum+1)
+    .then((res) => {
+      setLikeNum(res.data.length)
     })
   }
 
   const unlike = async () => {
+    setLikeNum(likeNum-1)
+    setLikeState(false)
     axios.delete('/api/likes/', {
       params: {
         user_id: userData.id,
         done_post_id: postData.id
       }
     })
-    .then(() => {
-      setLikeNum(likeNum-1)
-      setLikeState(false)
+    .then((res) => {
+      setLikeNum(res.data.length)
     })
   }
   return (

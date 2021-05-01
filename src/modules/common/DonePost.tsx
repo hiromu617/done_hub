@@ -63,6 +63,8 @@ const DonePost: React.FC<Props> = (props) => {
     })
   }
   const like = async () => {
+    setLikeState(true)
+    setLikeNum(likeNum+1)
     axios.post('/api/likes/', {
       like: {
         user_id: userData.id,
@@ -71,11 +73,12 @@ const DonePost: React.FC<Props> = (props) => {
     })
     .then((res) => {
       setLikeNum(res.data.length)
-      setLikeState(true)
     })
   }
 
   const unlike = async () => {
+    setLikeState(false)
+    setLikeNum(likeNum-1)
     axios.delete('/api/likes/', {
       params: {
         user_id: userData.id,
@@ -84,7 +87,6 @@ const DonePost: React.FC<Props> = (props) => {
     })
     .then((res) => {
       setLikeNum(res.data.length)
-      setLikeState(false)
     })
   }
 

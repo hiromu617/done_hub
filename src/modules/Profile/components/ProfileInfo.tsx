@@ -41,7 +41,7 @@ function ProfileInfo(props) {
             <Button 
               title='変更'
               style={{margin: 10}} 
-              buttonStyle={{ borderRadius: 18, paddingHorizontal: 10}}
+              buttonStyle={{ borderRadius: 18, paddingHorizontal: 12, backgroundColor: 'white'}}
               titleStyle={{fontSize: 16}}
               type='outline'
               onPress={toggleModal}
