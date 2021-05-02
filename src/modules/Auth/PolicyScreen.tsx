@@ -54,7 +54,7 @@ const PolicyScreen: React.FC = () => {
         <ScrollView style={{paddingHorizontal: 10, paddingTop: 20, marginBottom: 50}}>
           {lang === 'Japanese' ? 
         <View>
-          <Text style={styles.textBlock}>  hiromuは、DoneHubアプリを広告付きアプリとして構築しました。本サービスは、hiromuが無償で提供するものであり、そのままの状態で利用することができます</Text>
+          <Text style={styles.textBlock}>  Hiromuは、DoneHubアプリを広告付きアプリとして構築しました。本サービスは、Hiromuが無償で提供するものであり、そのままの状態で利用することができます</Text>
           <Text style={styles.textBlock}>  このページは、お客様が本サービスをご利用になる際に、個人情報の収集、使用、開示についての方針をお知らせするためのものです。</Text>
           <Text style={styles.textBlock}>  お客様が私のサービスを利用することを選択された場合、お客様はこのポリシーに関連した情報の収集と使用に同意されたことになります。私が収集した個人情報は、本サービスの提供および改善のために使用されます。私は、本プライバシーポリシーに記載されている場合を除き、お客様の情報を第三者と使用または共有することはありません。</Text>
           <Text style={styles.textBlock}>  本プライバシーポリシーで使用されている用語は、本プライバシーポリシーで別途定義されていない限り、DoneHubでアクセス可能な当社の利用規約と同じ意味を持ちます。</Text>
@@ -109,7 +109,7 @@ const PolicyScreen: React.FC = () => {
         </View>
         :
         <View>
-          <Text style={styles.textBlock}> Hiromu KAWAI built the DoneHub app as an Ad Supported app. This SERVICE is provided by Hiromu KAWAI at no cost and is intended for use as is.</Text>
+          <Text style={styles.textBlock}> Hiromu built the DoneHub app as an Ad Supported app. This SERVICE is provided by Hiromu at no cost and is intended for use as is.</Text>
           <Text style={styles.textBlock}> This page is used to inform visitors regarding my policies with the collection, use, and disclosure of Personal Information if anyone decided to use my Service.</Text>
           <Text style={styles.textBlock}>  If you choose to use my Service, then you agree to the collection and use of information in relation to this policy. The Personal Information that I collect is used for providing and improving the Service. I will not use or share your information with anyone except as described in this Privacy Policy.</Text>
           <Text style={styles.textBlock}>  The terms used in this Privacy Policy have the same meanings as in our Terms and Conditions, which is accessible at DoneHub unless otherwise defined in this Privacy Policy.</Text>
