@@ -19,7 +19,7 @@ function TopTabs() {
 function HomeScreen(){
   return (
     <SafeAreaProvider>
-      <View style={{height: '4%'}}></View>
+      <View style={{height: '3%'}}></View>
       <TopTabs/>
     </SafeAreaProvider>
   )
