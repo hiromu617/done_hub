@@ -13,6 +13,7 @@ function NotificationHome() {
   const [userData, setData] = useState();
   const [refreshState, setRefreshData] = useState(false);
   const [notificationData, setNotificationData] = useState([]);
+  const [pageData, setPageData] = useState(2);
 
   useEffect(() => {
     refreshData()
@@ -40,15 +41,38 @@ function NotificationHome() {
       // console.log(data)
       axios.get('/api/notifications', {
         params: {
-          uid: data.uid
+          uid: data.uid,
+          page: 1
         }
       })
       .then((res) => {
+        setPageData(2)
         setRefreshData(false)
         setNotificationData(res.data)
         console.log(res.data)
       })
     })
+  }
+  const fetchData = () => {
+    console.log(userData.uid)
+      axios.get('/api/notifications', {
+        params: {
+          uid: userData.uid,
+          page: pageData,
+        }
+      })
+      .then(res => {
+        if(res.data.length === 0 ) return
+        setPageData(pageData + 1)
+        console.log("----------------------")
+        console.log(res.data)
+        let Data = notificationData
+        if(Data !== undefined){
+        let newData = Data.concat(res.data)
+        setNotificationData(newData)
+
+        }
+      })
   }
 
   return (
@@ -65,6 +89,8 @@ function NotificationHome() {
         showsVerticalScrollIndicator={false}
         data={ notificationData }
         keyExtractor={(item) => item?.id?.toString()}
+        onEndReached={fetchData}
+        onEndReachedThreshold={1.0}
         renderItem={({item}) => {
           if(item.action === 'like'){
             return (
@@ -84,8 +110,10 @@ function NotificationHome() {
                 color='#F87171'
                 solid
               />
-              <ListItem.Content>
-              <ListItem.Title style={{fontSize: 14}}>{item.visiter.name}さんが投稿にいいねしました</ListItem.Title>
+              <ListItem.Content
+              style={{paddingVertical: 15}}
+              >
+              <ListItem.Title style={{fontSize: 16}}>{item.visiter.name}さんが投稿にいいねしました</ListItem.Title>
               </ListItem.Content>
               <Text style={{fontSize: 12,textAlign: 'right', color: '#1F2937'}}>{parseDate(item.created_at)}</Text>
            </ListItem>
@@ -109,8 +137,11 @@ function NotificationHome() {
                 color='gray'
                 solid
               />
-              <ListItem.Content>
-              <ListItem.Title style={{fontSize: 14}}>{item.visiter.name}さんが投稿に返信しました</ListItem.Title>
+              <ListItem.Content
+              style={{paddingVertical: 15}}
+              
+              >
+              <ListItem.Title style={{fontSize: 16}}>{item.visiter.name}さんが投稿に返信しました</ListItem.Title>
               </ListItem.Content>
               <Text style={{fontSize: 12,textAlign: 'right', color: '#1F2937'}}>{parseDate(item.created_at)}</Text>
            </ListItem>
@@ -132,8 +163,11 @@ function NotificationHome() {
                 color='#3B82F6'
                 solid
               />
-              <ListItem.Content>
-              <ListItem.Title style={{fontSize: 14}}>{item.visiter.name}さんがあなたをフォローしました</ListItem.Title>
+              <ListItem.Content
+              style={{paddingVertical: 15}}
+              
+              >
+              <ListItem.Title style={{fontSize: 16}}>{item.visiter.name}さんがあなたをフォローしました</ListItem.Title>
               </ListItem.Content>
               <Text style={{fontSize: 12,textAlign: 'right', color: '#1F2937'}}>{parseDate(item.created_at)}</Text>
            </ListItem>

@@ -71,19 +71,21 @@ function LoadingScreen(){
               storeUser(res.data)
               navigation.navigate('MyTabs')
               return
+            }else{
+              // いない場合userレコードを作成しダッシュボードに遷移
+              axios.post('/api/users', { 
+                name: user.providerData[0].displayName, 
+                uid: user.providerData[0].uid
+              })
+              .then(res => {
+                console.log(res.data)
+                storeUser(res.data)
+                navigation.navigate('DashboardScreen')
+              })
+              .catch(e => console.log(e)) 
             }
           })
-          // いない場合userレコードを作成しダッシュボードに遷移
-          await axios.post('/api/users', { 
-            name: user.providerData[0].displayName, 
-            uid: user.providerData[0].uid
-          })
-          .then(res => {
-            console.log(res.data)
-            storeUser(res.data)
-            navigation.navigate('DashboardScreen')
-          })
-          .catch(e => console.log(e))
+          
 
           // dispatch({type: 'SET_USER', data: user.providerData[0]})
         }else {
