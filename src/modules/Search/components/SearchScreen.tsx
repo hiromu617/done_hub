@@ -31,6 +31,15 @@ function SearchScreen() {
         }}
       />
       <SearchStack.Screen 
+        name="LikedUsers" 
+        component={Following} 
+        options={{
+          title: 'いいねしたユーザー',
+          gestureDirection: 'horizontal',
+          headerBackTitleVisible: false
+        }}
+      />
+      <SearchStack.Screen 
         name="Following" 
         component={Following} 
         options={{

@@ -9,6 +9,7 @@ import Form from './Form'
 import firebase from 'firebase'
 import Modal from 'react-native-modal';
 import Toast from 'react-native-root-toast';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
 const Detail: React.FC = ({route}) => {
   const navigation = useNavigation()
@@ -21,7 +22,8 @@ const Detail: React.FC = ({route}) => {
   const [imageSrc, setImageSrc] = useState(initialImageSrc)
   const [autoFocusState, setAutoFocusState] = useState(false)
   const [deleteModalState, setDeleteModalState] = useState(false)
-
+  const [likedUsers, setLikedUsers] = useState(postData.likes.map(l => l.user))
+  console.log(likedUsers)
   useEffect(() => {
     if(initialLikeState === undefined){
       isLike()
@@ -273,7 +275,14 @@ const Detail: React.FC = ({route}) => {
           containerStyle={{padding: 10}}
           onPress={() => unlike()}
           />}
+          <TouchableOpacity
+          onPress={() => navigation.push('LikedUsers', 
+          {
+            following: likedUsers
+          })}
+          >
           <Text style={{color: '#F87171', marginHorizontal: 7}}>{likeNum}</Text>
+          </TouchableOpacity>
           <Text style={{fontSize: 10, color: 'gray', width: '60%', textAlign: 'right'}}>{parseDate(post.created_at)}</Text>
         </View>
       </View>

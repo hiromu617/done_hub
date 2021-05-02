@@ -38,6 +38,15 @@ function NotificationScreen() {
         }}
       />
       <Stack.Screen 
+        name="LikedUsers" 
+        component={Following} 
+        options={{
+          title: 'いいねしたユーザー',
+          gestureDirection: 'horizontal',
+          headerBackTitleVisible: false
+        }}
+      />
+      <Stack.Screen 
         name="Follower" 
         component={Follower} 
         options={{

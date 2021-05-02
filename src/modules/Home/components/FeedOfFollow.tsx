@@ -34,6 +34,15 @@ function FeedOfFollow() {
         }}
       />
       <FeedOfFollowStack.Screen 
+        name="LikedUsers" 
+        component={Following} 
+        options={{
+          title: 'いいねしたユーザー',
+          gestureDirection: 'horizontal',
+          headerBackTitleVisible: false
+        }}
+      />
+      <FeedOfFollowStack.Screen 
         name="Following" 
         component={Following} 
         options={{

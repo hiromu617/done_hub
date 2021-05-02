@@ -31,6 +31,15 @@ function ProfileScreen() {
         }}
       />
       <Stack.Screen 
+        name="LikedUsers" 
+        component={Following} 
+        options={{
+          title: 'いいねしたユーザー',
+          gestureDirection: 'horizontal',
+          headerBackTitleVisible: false
+        }}
+      />
+      <Stack.Screen 
         name="Following" 
         component={Following} 
         options={{

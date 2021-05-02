@@ -39,6 +39,15 @@ function FeedOfHub() {
         }}
       />
       <FeedOfHubStack.Screen 
+        name="LikedUsers" 
+        component={Following} 
+        options={{
+          title: 'いいねしたユーザー',
+          gestureDirection: 'horizontal',
+          headerBackTitleVisible: false
+        }}
+      />
+      <FeedOfHubStack.Screen 
         name="UserPage" component={UserPage} 
         options={{
           gestureDirection: 'horizontal'
