@@ -1,9 +1,18 @@
 {
   "expo": {
-    "name": "Ads Showcase",
+    "name": "Done Hub",
+    "version": "1.0.0",
     "ios": {
+      "bundleIdentifier": "com.done_hub",
+      "buildNumber": "1.0.0",
       "config": {
         "googleMobileAdsAppId": "ca-app-pub-2508838902910991~1531096912"
+      },
+      "icon": "./assets/icon.png",
+      "splash": {
+        "image": "./assets/icon.png",
+        "resizeMode": "cover",
+        "backgroundColor": "#fff"
       }
     }
   }
