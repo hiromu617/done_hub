@@ -9,9 +9,21 @@ const Tab = createMaterialTopTabNavigator();
 
 function TopTabs() {
   return (
-    <Tab.Navigator style={{flex: 1}}>
-      <Tab.Screen name="Follow" component={FeedOfFollow} />
-      <Tab.Screen name="Hub" component={FeedOfHub} />
+    <Tab.Navigator 
+    style={{flex: 1}}
+    swipeEnabled={false}
+    >
+      <Tab.Screen 
+        name="Follow"
+        component={FeedOfFollow} 
+        options={{
+          title: 'フォロー中',
+        }}
+      />
+      <Tab.Screen 
+        name="Hub" 
+        component={FeedOfHub} 
+      />
     </Tab.Navigator>
   );
 }
