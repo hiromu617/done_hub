@@ -12,6 +12,7 @@ import reducer from '../Reducer'
 import { Button, Overlay } from 'react-native-elements';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { StatusBar } from 'expo-status-bar';
+import { AdMobBanner } from 'expo-ads-admob';
 
 export const SiteContext = React.createContext({});
 
@@ -37,6 +38,15 @@ const TodoScreen: React.FC = () => {
     
     <SiteProvider>
       <StatusBar style="dark"/>
+      <View
+        style={{position: 'absolute', top: '6%'}}
+      >
+        <AdMobBanner
+        style={{width: '100%'}}
+        adUnitID="ca-app-pub-2508838902910991/8671220332" // Test ID, Replace with your-admob-unit-id
+        servePersonalizedAds // true or false
+      />
+      </View>
         <Modal
          isVisible={isModalVisible}
          onBackdropPress={toggleModal}

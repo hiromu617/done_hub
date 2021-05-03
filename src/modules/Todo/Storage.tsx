@@ -2,6 +2,7 @@ import React, {useReducer,useContext, useState, useEffect} from 'react';
 import {Task} from '.'
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import User from '../Profile/objects/User'
+import { initialWindowSafeAreaInsets } from 'react-native-safe-area-context';
 
 const storeTasks = async (tasks: Task[]) => {
   try {
@@ -57,7 +58,10 @@ const deleteData = async () => {
   await AsyncStorage.removeItem('@tasks_Key')
 }
 let initialState: Task[] = []
-getTasks().then(res => initialState = res)
+getTasks().then(res => {
+  if(res === null) initialState = []
+  else initialState = res
+})
 
 export {
   initialState, storeTasks, getTasks, storeUser, getUser, deleteData

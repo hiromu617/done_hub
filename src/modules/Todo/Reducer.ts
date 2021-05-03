@@ -101,7 +101,7 @@ function reducer(state: Task[], action) {
         id: uniqueId,
         name: action.data.name,
         checked: false,
-        comment: null
+        comment: ""
       }
       let newState: Task[] = state.slice()
       newState.push(newTask)
