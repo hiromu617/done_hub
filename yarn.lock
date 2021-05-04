@@ -4248,10 +4248,10 @@ expo-app-auth@~9.3.0:
   dependencies:
     invariant "^2.2.4"
 
-expo-application@^3.0.0:
-  version "3.0.0"
-  resolved "https://registry.yarnpkg.com/expo-application/-/expo-application-3.0.0.tgz#a74fa03eca64635f0546c53f38904a66a67ee066"
-  integrity sha512-e5usObB4dwmNWPP+K7nbpxv/h6Omer33xqu1lMQVwc+mfZbzZybR/n/EEOEw/Xw6tiD5ZEhtvHeE5Obk4jG+9Q==
+expo-application@^3.1.2:
+  version "3.1.2"
+  resolved "https://registry.yarnpkg.com/expo-application/-/expo-application-3.1.2.tgz#7c93e8108a7f2a0be0afe37151f36c98e0111e7c"
+  integrity sha512-JZcKUpGmqzQ1zLxRxUditGzPqnPCXY6JT/Pbq4nyV4VPzjDd8wihVPuud+cuv8gHgdj8QLvKs/lcJJqN94EX5Q==
 
 expo-application@~2.4.1:
   version "2.4.1"
