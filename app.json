@@ -4,7 +4,7 @@
     "version": "1.0.0",
     "ios": {
       "bundleIdentifier": "com.done-hub",
-      "buildNumber": "1.0.1",
+      "buildNumber": "1.0.2",
       "config": {
         "googleMobileAdsAppId": "ca-app-pub-2508838902910991~1531096912",
         "googleSignIn": {
