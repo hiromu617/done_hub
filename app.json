@@ -6,13 +6,21 @@
       "bundleIdentifier": "com.done-hub",
       "buildNumber": "1.0.0",
       "config": {
-        "googleMobileAdsAppId": "ca-app-pub-2508838902910991~1531096912"
+        "googleMobileAdsAppId": "ca-app-pub-2508838902910991~1531096912",
+        "googleSignIn": {
+          "reservedClientId": "com.googleusercontent.apps.964059427466-dadsmlkqj6cr1pqos9ddcpk8o7oap4h9"
+        }
       },
       "icon": "./assets/icon.png",
       "splash": {
         "image": "./assets/splash.png",
         "resizeMode": "cover",
         "backgroundColor": "#fff"
+      }
+    },
+    "extra": {
+      "google": {
+        "iosStandaloneAppClientId": "964059427466-dadsmlkqj6cr1pqos9ddcpk8o7oap4h9.apps.googleusercontent.com"
       }
     }
   }
