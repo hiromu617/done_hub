@@ -142,7 +142,9 @@ const DonePost: React.FC<Props> = (props) => {
                   name='check'
                   color={color}
                 />
-                <Text>{item.name}</Text>  
+                <ListItem.Content>
+                  <Text>{item.name}</Text>  
+                </ListItem.Content>
               </ListItem>
             );
           }}

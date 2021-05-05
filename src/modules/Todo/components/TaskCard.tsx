@@ -75,7 +75,10 @@ const TaskCard: React.FC<Props> = (props) => {
         </Modal>
       <View style={styles.taskCard}>
         <TaskCheckBox checked={task.checked} onCheck={checkTask}/>
-        <TouchableOpacity onPress={onPressTask}>
+        <TouchableOpacity 
+          onPress={onPressTask}
+          style={{maxWidth: "70%"}}
+        >
           <Text style={{color: '#1F2937'}}>{task.name}</Text>
         </TouchableOpacity>
         <TouchableOpacity 
