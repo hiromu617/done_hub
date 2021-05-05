@@ -77,7 +77,7 @@ function OtherProfileInfo(props) {
           </Text>
           <Text  style={{marginLeft: 10}}>
             <TouchableOpacity
-             onPress={() => navigation.navigate('Following', 
+             onPress={() => navigation.push('Following', 
              {
                following: followData.following
              })}
@@ -85,7 +85,7 @@ function OtherProfileInfo(props) {
               <Text style={{fontWeight: 'bold', marginRight: 10}}>{followData.following.length} フォロー</Text>
             </TouchableOpacity>  
             <TouchableOpacity 
-            onPress={() => navigation.navigate('Follower', {follower: followData.follower})}>
+            onPress={() => navigation.push('Follower', {follower: followData.follower})}>
               <Text style={{fontWeight: 'bold'}}>{followData.follower.length} フォロワー</Text>
             </TouchableOpacity>
           </Text>

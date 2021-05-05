@@ -195,7 +195,7 @@ const Detail: React.FC = ({route}) => {
                   uri: imageSrc
                 }}
                 containerStyle={{backgroundColor: 'gray', marginRight: 10}}
-                onPress={() => navigation.navigate('UserPage', 
+                onPress={() => navigation.push('UserPage', 
                 {
                   user: postData.user
                 })}
@@ -205,7 +205,7 @@ const Detail: React.FC = ({route}) => {
                 size='medium'
                 title={post.user.name[0]} 
                 containerStyle={{backgroundColor: 'gray', marginRight: 10}}
-                onPress={() => navigation.navigate('UserPage', 
+                onPress={() => navigation.push('UserPage', 
                 {
                   user: postData.user
                 })}

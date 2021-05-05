@@ -102,7 +102,7 @@ const DonePost: React.FC<Props> = (props) => {
 
 
   return (
-    <ListItem bottomDivider onPress={() => navigation.navigate('Detail', 
+    <ListItem bottomDivider onPress={() => navigation.push('Detail', 
     {
       post: post,
       initialImageSrc: imageSrc,
@@ -118,7 +118,7 @@ const DonePost: React.FC<Props> = (props) => {
                 uri: imageSrc
               }}
               containerStyle={{backgroundColor: 'gray', marginRight: 10}}
-              onPress={() => navigation.navigate('UserPage', 
+              onPress={() => navigation.push('UserPage', 
               {
                 user: post.user
               })}
@@ -127,7 +127,7 @@ const DonePost: React.FC<Props> = (props) => {
               rounded
               title={post.user.name[0]} 
               containerStyle={{backgroundColor: 'gray', marginRight: 10}}
-              onPress={() => navigation.navigate('UserPage', 
+              onPress={() => navigation.push('UserPage', 
               {
                 user: post.user
               })}

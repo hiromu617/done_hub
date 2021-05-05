@@ -119,7 +119,7 @@ const Reply: React.FC<Props> = (props) => {
           uri: imageSrc
         }}
         containerStyle={{backgroundColor: 'gray', marginRight: 10}}
-        onPress={() => navigation.navigate('UserPage', 
+        onPress={() => navigation.push('UserPage', 
         {
           user: reply.user
         })}         
@@ -129,7 +129,7 @@ const Reply: React.FC<Props> = (props) => {
           size='small'
           title={reply.user.name[0]} 
           containerStyle={{backgroundColor: 'gray', marginRight: 10}}
-          onPress={() => navigation.navigate('UserPage', 
+          onPress={() => navigation.push('UserPage', 
           {
             user: reply.user
           })}
