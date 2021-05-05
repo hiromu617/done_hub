@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, useCallback} from 'react';
 import { StyleSheet, Text, View ,TouchableOpacity} from 'react-native';
 import { ListItem, Avatar, Icon } from 'react-native-elements'
 import { useNavigation } from '@react-navigation/native';
@@ -43,12 +43,22 @@ const DonePost: React.FC<Props> = (props) => {
       });
     });
   };
-  const getSource = (userData) => {
-    getAvatar(userData)
+  // const getSource = (userData) => {
+  //   getAvatar(userData)
+  //   .then(res => {
+  //     setImageSrc(res)
+  //   })
+  // }
+
+  const getSource = useCallback(
+    (userData) => {
+      getAvatar(userData)
     .then(res => {
       setImageSrc(res)
     })
-  }
+    },
+    [post, image],
+  )
 
   const parseDate = (val) => {
     return val.toString().replace(/([0-9]{4})-([0-9]{2})-([0-9]{2})T([0-9]{2}):([0-9]{2})([\w|:|.|+]*)/, "$4:$5")

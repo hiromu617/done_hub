@@ -27,9 +27,8 @@ function ProfileHome() {
 
   useEffect(() => {
     refreshData()
-    // getSource(userData)
   },[]);
-
+  
   const getAvatar =  (userData) => {
     return new Promise((resolve) => {
       var storage = firebase.storage();
@@ -56,7 +55,7 @@ function ProfileHome() {
     setUserPostData(null)
     setImageSrc(null)
     getSource(userData)
-
+    
     setRefreshData(true)
     getUser().then((data) => {
       if(data.uid !== undefined) {
@@ -86,29 +85,30 @@ function ProfileHome() {
       .catch(e => console.log(e))
     })
   }
-
+  
   const fetchData = () => {
-      axios.get('/api/done_posts', {
-        params: {
-          page: pageData,
-          uid: userData.uid
-        }
-      })
-      .then(res => {
-        if(res.data.length === 0 ) return
-        setPageData(pageData + 1)
-        // console.log("----------------------")
-        // let postsData = res.data.done_posts.reverse()
-        // setUserPostData(postsData)
-        let Data = userPostsData
-        let newData = Data.concat(res.data)
+    axios.get('/api/done_posts', {
+      params: {
+        page: pageData,
+        uid: userData.uid
+      }
+    })
+    .then(res => {
+      if(res.data.length === 0 ) return
+      setPageData(pageData + 1)
+      // console.log("----------------------")
+      // let postsData = res.data.done_posts.reverse()
+      // setUserPostData(postsData)
+      let Data = userPostsData
+      let newData = Data.concat(res.data)
         setUserPostData(newData)
       })
-  }
-
-  if(!userData){
-    return (
-      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+    }
+    getSource(userData)
+    
+    if(!userData){
+      return (
+        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
         <ActivityIndicator size='large'/>
       </View>
     )

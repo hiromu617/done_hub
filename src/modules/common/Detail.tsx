@@ -242,7 +242,9 @@ const Detail: React.FC = ({route}) => {
                   name='check'
                   color={color}
                 />
-                <Text>{item.name}</Text>  
+                <ListItem.Content>
+                  <Text>{item.name}</Text>  
+                </ListItem.Content>
               </ListItem>
             );
           }}
