@@ -12,6 +12,7 @@ function TopTabs() {
     <Tab.Navigator 
     style={{flex: 1}}
     swipeEnabled={false}
+    lazy
     >
       <Tab.Screen 
         name="Follow"

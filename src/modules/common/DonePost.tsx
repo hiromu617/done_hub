@@ -23,6 +23,7 @@ const DonePost: React.FC<Props> = (props) => {
   useEffect(() => {
     if(!image){
       getSource(post)
+      console.log(post.id)
     }
     isLike()
   },[]);
@@ -51,13 +52,13 @@ const DonePost: React.FC<Props> = (props) => {
   // }
 
   const getSource = useCallback(
-    (userData) => {
+    async (userData) => {
       getAvatar(userData)
     .then(res => {
       setImageSrc(res)
     })
     },
-    [post, image],
+    [],
   )
 
   const parseDate = (val) => {
@@ -82,7 +83,9 @@ const DonePost: React.FC<Props> = (props) => {
       }
     })
     .then((res) => {
-      setLikeNum(res.data.length)
+      if(res.data.length !== likeNum){
+        setLikeNum(res.data.length)
+      }
     })
   }
 
@@ -96,13 +99,17 @@ const DonePost: React.FC<Props> = (props) => {
       }
     })
     .then((res) => {
-      setLikeNum(res.data.length)
+      if(res.data.length !== likeNum){
+        setLikeNum(res.data.length)
+      }
     })
   }
 
 
   return (
-    <ListItem bottomDivider onPress={() => navigation.push('Detail', 
+    <ListItem 
+    key={post.id}
+    bottomDivider onPress={() => navigation.push('Detail', 
     {
       post: post,
       initialImageSrc: imageSrc,

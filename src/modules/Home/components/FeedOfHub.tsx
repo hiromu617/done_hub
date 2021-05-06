@@ -73,14 +73,14 @@ function FeedOfHubScreen() {
   },[]);
 
   const refreshData = () => {
-    // setFeed(null)
+    setFeed(null)
     setImageSrc(null)
     setRefreshData(true)
     getUser().then((data) => {
       if(data.uid !== undefined) {
         setData(data);
       }
-      console.log("----------------------")
+      // console.log("----------------------")
       // console.log(data)
       axios.get('/api/users/' + data.uid + '/feed_by_hub', {
         params: {
@@ -89,7 +89,7 @@ function FeedOfHubScreen() {
       })
       .then(res => {
         setPageData(2)
-        // console.log("----------------------")
+        console.log("----------------------")
         // let postsData = res.data.done_posts.reverse()
         // setUserPostData(postsData)
         setFeed(res.data)
@@ -99,8 +99,9 @@ function FeedOfHubScreen() {
     })
   }
 
-  const fetchData = () => {
+  const fetchData = async () => {
     // console.log(userData)
+      console.log("----------------------")
       axios.get('/api/users/' + userData.uid + '/feed_by_hub', {
         params: {
           page: pageData,
@@ -112,10 +113,8 @@ function FeedOfHubScreen() {
         console.log("----------------------")
         console.log(res.data)
         let Data = feed
-        if(Data !== undefined){
           let newData = Data.concat(res.data)
           setFeed(newData)
-        }
       })
   }
 
@@ -137,7 +136,7 @@ function FeedOfHubScreen() {
           return <DonePost post={item} userData={userData} image={null}/>;
         }}
         onEndReached={fetchData}
-        onEndReachedThreshold={0.5}
+        onEndReachedThreshold={0.3}
       />
     </ScrollView>
   )

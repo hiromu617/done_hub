@@ -87,15 +87,15 @@ function FeedOfFollowScreen() {
   },[]);
 
   const refreshData = () => {
-    // setFeed(null)
+    setFeed(null)
     setImageSrc(null)
     setRefreshData(true)
     getUser().then((data) => {
       if(data.uid !== undefined) {
         setData(data);
-        console.log(data)
+        // console.log(data)
       }
-      console.log("----------------------")
+      // console.log("----------------------")
       // console.log(data)
       axios.get('/api/users/' + data.uid + '/feed', {
         params: {
@@ -104,6 +104,7 @@ function FeedOfFollowScreen() {
       })
       .then(res => {
         setPageData(2)
+        console.log(res.data)
         // console.log("----------------------")
         // let postsData = res.data.done_posts.reverse()
         // setUserPostData(postsData)
@@ -114,9 +115,7 @@ function FeedOfFollowScreen() {
     })
   }
 
-  const fetchData = () => {
-    console.log(userData.uid)
-    console.log(pageData)
+  const fetchData = async() => {
       axios.get('/api/users/' + userData.uid + '/feed', {
         params: {
           page: pageData,
@@ -151,7 +150,7 @@ function FeedOfFollowScreen() {
           return <DonePost post={item} userData={userData} image={null}/>;
         }}
         onEndReached={fetchData}
-        onEndReachedThreshold={1.0}
+        onEndReachedThreshold={0.3}
       />
     </ScrollView>
   )
