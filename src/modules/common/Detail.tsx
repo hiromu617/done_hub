@@ -118,33 +118,33 @@ const Detail: React.FC = ({route}) => {
     })
   }
 
-  const like = async () => {
-    setLikeState(true)
-    setLikeNum(likeNum+1)
-    axios.post('/api/likes/', {
-      like: {
-        user_id: userData.id,
-        done_post_id: postData.id
-      }
-    })
-    .then((res) => {
-      setLikeNum(res.data.length)
-    })
-  }
+  // const like = async () => {
+  //   setLikeState(true)
+  //   setLikeNum(likeNum+1)
+  //   axios.post('/api/likes/', {
+  //     like: {
+  //       user_id: userData.id,
+  //       done_post_id: postData.id
+  //     }
+  //   })
+  //   .then((res) => {
+  //     setLikeNum(res.data.length)
+  //   })
+  // }
 
-  const unlike = async () => {
-    setLikeNum(likeNum-1)
-    setLikeState(false)
-    axios.delete('/api/likes/', {
-      params: {
-        user_id: userData.id,
-        done_post_id: postData.id
-      }
-    })
-    .then((res) => {
-      setLikeNum(res.data.length)
-    })
-  }
+  // const unlike = async () => {
+  //   setLikeNum(likeNum-1)
+  //   setLikeState(false)
+  //   axios.delete('/api/likes/', {
+  //     params: {
+  //       user_id: userData.id,
+  //       done_post_id: postData.id
+  //     }
+  //   })
+  //   .then((res) => {
+  //     setLikeNum(res.data.length)
+  //   })
+  // }
   return (
     <View style={{height: '100%'}}>
       <Modal
@@ -266,7 +266,9 @@ const Detail: React.FC = ({route}) => {
           size={20}
           color='#F87171' 
           containerStyle={{padding: 10}}
-          onPress={() => like()}
+          // onPress={() => like()}
+          onPress={() => alert('sorry, debug now')}
+
           />}
           {likeState && <Icon
           name='heart'
@@ -275,7 +277,8 @@ const Detail: React.FC = ({route}) => {
           color='#F87171' 
           solid
           containerStyle={{padding: 10}}
-          onPress={() => unlike()}
+          // onPress={() => unlike()}
+          onPress={() => alert('sorry, debug now')}
           />}
           <TouchableOpacity
           onPress={() => navigation.push('LikedUsers', 
