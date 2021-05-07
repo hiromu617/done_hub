@@ -98,7 +98,7 @@ const Reply: React.FC<Props> = (props) => {
         { text: "OK",
           onPress: async () => {
             const url = 'https://slack.com/api/chat.postMessage';
-            const token = 'xoxb-1900997433024-2053652851089-M2Fjhy77d7mDuwDUo5bc6SbR'
+            const token = 'xoxb-1900997433024-2053652851089-YV2n9gLy04gzRecCIDqXSOST'
             const result = await axios.request({
               headers: {
               'authorization': `Bearer ${token}`
