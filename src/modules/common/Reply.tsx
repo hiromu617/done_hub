@@ -93,6 +93,7 @@ const Reply: React.FC<Props> = (props) => {
         <View 
           style={{backgroundColor: 'white'}}
         >
+          {userData.id == reply.user.id ?
           <Button 
             icon={
               <Icon
@@ -107,6 +108,22 @@ const Reply: React.FC<Props> = (props) => {
               titleStyle={{color: '#EF4444', marginLeft: 10}}
               onPress={() => deletePost()}
             />
+            :
+          <Button 
+            icon={
+              <Icon
+                name="flag"
+                type="font-awesome"
+                color="black"
+                size={20}
+              />
+            }
+              title='悪意のあるコメントを報告する' 
+              type='clear'
+              titleStyle={{color: 'black', marginLeft: 10}}
+              onPress={() => alert("report")}
+            />
+          }
         </View>
       </Modal>
       <ListItem.Content>
@@ -138,14 +155,14 @@ const Reply: React.FC<Props> = (props) => {
           </View>
           <View
           >
-            {userData.id == reply.user.id && <Icon
+            <Icon
               name='ellipsis-v'
               type='font-awesome'
               color='gray'
               size={20}
               style={{padding: 10}}
               onPress={() => setDeleteModalState(true)}
-            />}
+            />
           </View>
         </View>
         <View style={{width: '100%', paddingLeft: '12%'}}>

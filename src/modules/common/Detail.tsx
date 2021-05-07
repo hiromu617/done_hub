@@ -23,7 +23,7 @@ const Detail: React.FC = ({route}) => {
   const [autoFocusState, setAutoFocusState] = useState(false)
   const [deleteModalState, setDeleteModalState] = useState(false)
   const [likedUsers, setLikedUsers] = useState(postData.likes.map(l => l.user))
-  console.log(likedUsers)
+  const [reportState, setReportState] = useState(false)
   useEffect(() => {
     if(initialLikeState === undefined){
       isLike()
@@ -149,6 +149,49 @@ const Detail: React.FC = ({route}) => {
       }
     })
   }
+
+  const reportPost = async () => {
+    if(reportState){
+      Toast.show('既に報告済みです！',{
+        position: 50
+      })
+      return
+    }
+    Alert.alert(
+      "報告",
+      "悪意のある投稿として報告しますか？",
+      [
+        {
+          text: "Cancel",
+          style: "cancel",
+          onPress: () => setDeleteModalState(false)
+        },
+        { text: "OK",
+          onPress: async () => {
+            const url = 'https://slack.com/api/chat.postMessage';
+            const token = 'xoxb-1900997433024-2053652851089-5bpMoPLPEvwkCUiLhmm0HWwa'
+            const result = await axios.request({
+              headers: {
+              'authorization': `Bearer ${token}`
+              },
+              url,
+              method: "POST",
+              data: {
+              channel: '#report',
+              text: `id:${post.id}\n name: ${post.user.name}\n comment: ${post.comment}\n title: ${post.title}\n tasks: ${post.tasks}\nreport from: ${userData.id} ${userData.name}`,
+            }
+            });
+            console.log(result.data);
+            setDeleteModalState(false)
+            setReportState(true)
+            Toast.show('Thank you!',{
+                position: 50
+            })
+          } 
+        }
+      ]
+    )
+  }
   return (
     <View style={{height: '100%'}}>
       <Modal
@@ -162,20 +205,37 @@ const Detail: React.FC = ({route}) => {
         <View 
           style={{backgroundColor: 'white'}}
         >
-          <Button 
-            icon={
-              <Icon
-                name="trash"
-                type="font-awesome"
-                color="#EF4444"
-                size={20}
+          {userData.id == postData.user.id ?
+            <Button 
+              icon={
+                <Icon
+                  name="trash"
+                  type="font-awesome"
+                  color="#EF4444"
+                  size={20}
+                />
+              }
+                title='削除' 
+                type='clear'
+                titleStyle={{color: '#EF4444', marginLeft: 10}}
+                onPress={() => deletePost()}
               />
-            }
-              title='削除' 
-              type='clear'
-              titleStyle={{color: '#EF4444', marginLeft: 10}}
-              onPress={() => deletePost()}
-            />
+              :
+            <Button 
+              icon={
+                <Icon
+                  name="flag"
+                  type="font-awesome"
+                  color="black"
+                  size={20}
+                />
+              }
+                title='報告' 
+                type='clear'
+                titleStyle={{color: 'black', marginLeft: 10}}
+                onPress={() => reportPost()}
+              />
+          }
         </View>
       </Modal>
     <ScrollView
@@ -219,13 +279,13 @@ const Detail: React.FC = ({route}) => {
             
         <View
         >
-          {userData.id == postData.user.id && <Icon
+          <Icon
             name='ellipsis-v'
             type='font-awesome'
             color='gray'
             style={{padding: 10}}
             onPress={() => setDeleteModalState(true)}
-          />}
+          />
         </View>
       </View>
       <View  style={{width: '100%', paddingTop: 10}}>
