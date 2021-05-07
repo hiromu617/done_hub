@@ -65,11 +65,11 @@ function LoadingScreen(){
         if(user){
           // alert(user.providerData[0].fullName)
           // console.log('Firebase Auth result: ', user)
-          alert(user.providerData[0].uid)
+          // console.log(user.displayName)
           // uidが一致するユーザーがいれば、MyTabsに遷移
           await axios.get('/api/usersShow', {
             params: {
-              uid: user.providerData[0].uid
+              uid: user.uid
             }
           })
           .then(res => {
@@ -81,12 +81,12 @@ function LoadingScreen(){
             }else{
               // いない場合userレコードを作成しダッシュボードに遷移
               let name: String = "ユーザー"
-              if(user.providerData[0].displayName !== null){
-                name = user.providerData[0].displayName
+              if(user.displayName !== null && user.displayName !== undefined){
+                name = user.displayName
               }
               axios.post('/api/users', { 
                 name: name, 
-                uid: user.providerData[0].uid
+                uid: user.uid
               })
               .then(res => {
                 console.log(res.data)
@@ -110,13 +110,13 @@ function LoadingScreen(){
     return(
       <SafeAreaView style={styles.container}>
         <ActivityIndicator size='large'/>
-        <Button 
+        {/* <Button 
             title="sign out" 
             onPress={() =>{
               firebase.auth().signOut()
               navigation.navigate('LoginScreen')
             }
-          }/>
+          }/> */}
       </SafeAreaView>
     )
 }
