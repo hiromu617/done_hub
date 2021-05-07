@@ -19,6 +19,7 @@ const Reply: React.FC<Props> = (props) => {
   const [imageSrc, setImageSrc] = useState(null)
   const [loading, setLoading] = useState(false)
   const [deleteModalState, setDeleteModalState] = useState(false)
+  const [reportState, setReportState] = useState(false)
   const navigation = useNavigation()
 
   useEffect(() => {
@@ -78,6 +79,48 @@ const Reply: React.FC<Props> = (props) => {
   const parseDate = (val) => {
     return val.toString().replace(/([0-9]{4})-([0-9]{2})-([0-9]{2})T([0-9]{2}):([0-9]{2})([\w|:|.|+]*)/, "$2/$3 $4:$5")
   }
+  const reportReply = async () => {
+    if(reportState){
+      Toast.show('既に報告済みです！',{
+        position: 50
+      })
+      return
+    }
+    Alert.alert(
+      "報告",
+      "悪意のある投稿として報告しますか？",
+      [
+        {
+          text: "Cancel",
+          style: "cancel",
+          onPress: () => setDeleteModalState(false)
+        },
+        { text: "OK",
+          onPress: async () => {
+            const url = 'https://slack.com/api/chat.postMessage';
+            const token = 'xoxb-1900997433024-2053652851089-5bpMoPLPEvwkCUiLhmm0HWwa'
+            const result = await axios.request({
+              headers: {
+              'authorization': `Bearer ${token}`
+              },
+              url,
+              method: "POST",
+              data: {
+              channel: '#report',
+              text: `reply_id:${reply.id}\n name: ${reply.user.name}\n content: ${reply.content}\n report from: ${userData.id} ${userData.name}`,
+            }
+            });
+            console.log(result.data);
+            setDeleteModalState(false)
+            setReportState(true)
+            Toast.show('Thank you!',{
+                position: 50
+            })
+          } 
+        }
+      ]
+    )
+  }
   return (
     <ListItem 
       bottomDivider
@@ -118,10 +161,10 @@ const Reply: React.FC<Props> = (props) => {
                 size={20}
               />
             }
-              title='悪意のあるコメントを報告する' 
+              title='報告' 
               type='clear'
               titleStyle={{color: 'black', marginLeft: 10}}
-              onPress={() => alert("report")}
+              onPress={() => reportReply()}
             />
           }
         </View>
