@@ -20,6 +20,7 @@ function ProfileHome() {
   const [isModalVisible, setModalVisible] = useState(false);
   const [imageSrc, setImageSrc] = useState(null);
   const [followData, setFollowData] = useState({following: 0, follower: 0});
+  const [doneCounts, setDoneCounts] = useState(0);
 
   const toggleModal = () => {
     setModalVisible(!isModalVisible);
@@ -67,6 +68,7 @@ function ProfileHome() {
       axios.get('/api/users/following/' + data.uid)
       .then(res => {
         setFollowData(res.data)
+        setDoneCounts(res.data.done_counts)
       })
       axios.get('/api/done_posts', {
         params: {
@@ -131,7 +133,7 @@ function ProfileHome() {
             />
           }
         >
-        <ProfileInfo userData={userData} followData={followData} toggleModal={toggleModal} imageSrc={imageSrc}/>
+        <ProfileInfo userData={userData} followData={followData} toggleModal={toggleModal} imageSrc={imageSrc} doneCounts={doneCounts}/>
         <Divider style={{ marginTop: 10}} />
         {/* <Text>{userData.uid}</Text> */}
           <UserPostList posts={userPostsData} fetchData={fetchData} imageSrc={imageSrc} userData={userData}/>

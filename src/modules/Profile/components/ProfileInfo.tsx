@@ -6,7 +6,7 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 import { LinearGradient } from 'expo-linear-gradient';
 import {deleteData} from '../../Todo/Storage'
 function ProfileInfo(props) {
-  const {userData, toggleModal, imageSrc, followData} = props;
+  const {userData, toggleModal, imageSrc, followData, doneCounts} = props;
   // console.log(followData.following)
   // console.log(followData.follower)
   const navigation = useNavigation()
@@ -105,6 +105,9 @@ function ProfileInfo(props) {
             <TouchableOpacity onPress={() => navigation.push('Follower', {follower: followData.follower})}>
               <Text style={{fontWeight: 'bold'}}>{followData.follower.length} フォロワー</Text>
             </TouchableOpacity>
+            <View>
+              <Text style={{fontWeight: 'bold'}}>  {doneCounts} Done</Text>
+            </View>
           </Text>
         </View>
     </View>

@@ -7,7 +7,7 @@ import axios from 'axios';
 import { LinearGradient } from 'expo-linear-gradient';
 
 function OtherProfileInfo(props) {
-  const {userData, imageSrc, followData, isFollowed, follow, unfollow, isCurrentUser} = props;
+  const {userData, imageSrc, followData, isFollowed, follow, unfollow, isCurrentUser, doneCounts} = props;
   console.log(userData)
   const navigation = useNavigation()
   if(!userData){
@@ -117,6 +117,9 @@ function OtherProfileInfo(props) {
             onPress={() => navigation.push('Follower', {follower: followData.follower})}>
               <Text style={{fontWeight: 'bold'}}>{followData.follower.length} フォロワー</Text>
             </TouchableOpacity>
+            <View>
+              <Text style={{fontWeight: 'bold'}}>  {doneCounts} Done</Text>
+            </View>
           </Text>
         </View>
     </View>

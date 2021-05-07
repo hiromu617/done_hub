@@ -24,6 +24,7 @@ function UserPage({route}) {
   const [isModalVisible, setModalVisible] = useState(false);
   const [imageSrc, setImageSrc] = useState(null);
   const [followData, setFollowData] = useState({following: [], follower: []});
+  const [doneCounts, setDoneCounts] = useState(0);
   
   const toggleModal = () => {
     setModalVisible(!isModalVisible);
@@ -72,7 +73,9 @@ function UserPage({route}) {
         }
       })
       .then(res => {
+        console.log(res.data)
         setUserInfo(res.data.user)
+        setDoneCounts(res.data.done_counts)
         setIsFollowed(res.data.isFollowed)
         if(user.uid === currentUserUid) setisCurrentUser(true)
         setFollowData({following: res.data.following, follower: res.data.follower})
@@ -156,8 +159,8 @@ function UserPage({route}) {
             />
           }
         >
-          {isCurrentUser && <ProfileInfo  userData={userInfo} followData={followData} toggleModal={toggleModal} imageSrc={imageSrc}/>}
-          {!isCurrentUser && <OtherProfileInfo userData={userInfo} followData={followData} imageSrc={imageSrc} isFollowed={isFollowed} follow={follow} unfollow={unfollow} isCurrentUser={isCurrentUser}/>}
+          {isCurrentUser && <ProfileInfo  userData={userInfo} followData={followData} toggleModal={toggleModal} imageSrc={imageSrc} doneCounts={doneCounts}/>}
+          {!isCurrentUser && <OtherProfileInfo userData={userInfo} followData={followData} imageSrc={imageSrc} isFollowed={isFollowed} follow={follow} unfollow={unfollow} doneCounts={doneCounts} isCurrentUser={isCurrentUser}/>}
         <Divider style={{ marginTop: 10}} />
 
         {/* <Text>{userData.uid}</Text> */}
