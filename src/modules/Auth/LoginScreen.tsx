@@ -4,6 +4,8 @@ import * as Google from 'expo-google-app-auth';
 import firebase from 'firebase';
 import {  SocialIcon, Text } from 'react-native-elements'
 import {useNavigation } from '@react-navigation/native';
+import * as AppleAuthentication from 'expo-apple-authentication';
+import * as Crypto from 'expo-crypto';
 
 class LoginScreen extends Component{
   constructor(props) {
@@ -39,7 +41,9 @@ class LoginScreen extends Component{
   
         // Sign in with credential from the Google user.
         firebase.auth().signInWithCredential(credential)
-        // .then((result) => console.log(result))
+        .then((result) => {
+          this.props.navigation.navigate('LoadingScreen')
+        })
         .catch((error) => {
           // Handle Errors here.
           var errorCode = error.code;
@@ -49,7 +53,9 @@ class LoginScreen extends Component{
           // The firebase.auth.AuthCredential type that was used.
           var credential = error.credential;
           // ...
+
         });
+
       } else {
         console.log('User already signed-in Firebase.');
       }
@@ -78,6 +84,45 @@ class LoginScreen extends Component{
     } catch (e) {
       return { error: true };
     }
+  }
+
+  signInWithApple = async () => {
+    try {
+      const nonce = this.nonceGen(32); // ランダム文字列（ノンス）を生成
+      const digestedNonce = await Crypto.digestStringAsync(
+        Crypto.CryptoDigestAlgorithm.SHA256,
+        nonce
+      ); // SHA256でノンスをハッシュ化
+      const result = await AppleAuthentication.signInAsync({
+        requestedScopes: [ // ユーザー情報のスコープを設定（名前とメールアドレスのみ可）
+          AppleAuthentication.AppleAuthenticationScope.FULL_NAME,
+          AppleAuthentication.AppleAuthenticationScope.EMAIL
+        ],
+        nonce: digestedNonce // Apple側にはハッシュ化したノンスを渡す
+      });
+      console.log('Apple Sign In result: ', result);
+      let provider = new firebase.auth.OAuthProvider("apple.com");
+      let credential = provider.credential({
+        idToken: result.identityToken,
+        rawNonce: nonce // Firebase側には元のノンスを渡して検証させる
+      });
+      const firebaseResult = await firebase.auth().signInWithCredential(credential);
+      console.log('Firebase Auth result: ', firebaseResult);
+      this.props.navigation.navigate('LoadingScreen')
+    } catch (e) {
+      console.error(e);
+    }
+  }
+  // 001063.a889f51ed7204b0b8fd6ebede5678dbe.1344
+  nonceGen  = (length) => {
+    let result = '';
+    let characters =
+      'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    let charactersLength = characters.length;
+    for (let i = 0; i < length; i++) {
+      result += characters.charAt(Math.floor(Math.random() * charactersLength));
+    }
+    return result;
   }
 
   render() {
@@ -111,8 +156,8 @@ class LoginScreen extends Component{
         </View>
         {this.state.loading &&
         <TouchableOpacity
-          style={{
-            width: '100%', 
+        style={{
+          width: '100%', 
             paddingHorizontal: 70, 
             elevation: 2,
             shadowColor: "#000",
@@ -120,6 +165,7 @@ class LoginScreen extends Component{
               width: 0,
               height: 1,
             },
+            marginBottom: 20,
             shadowOpacity: 0.20,
             shadowRadius: 1.41,}}
             onPress={() => this.signInWithGoogleAsync()}
@@ -131,12 +177,22 @@ class LoginScreen extends Component{
                 aspectRatio: 5 / 1,
               }}
               source={require('./images/btn_google_signin.png')}
-            />
+              />
         </TouchableOpacity>
           }
           {!this.state.loading && 
             <ActivityIndicator size='large'/>
           }
+          {this.state.loading &&
+          <AppleAuthentication.AppleAuthenticationButton
+            buttonType={AppleAuthentication.AppleAuthenticationButtonType.SIGN_IN}
+            buttonStyle={AppleAuthentication.AppleAuthenticationButtonStyle.WHITE_OUTLINE}
+            cornerRadius={5}
+            style={{ width: 240, height: 54}}
+            onPress={() => this.signInWithApple()}
+          />
+          }
+          
       </SafeAreaView>
     )
   }

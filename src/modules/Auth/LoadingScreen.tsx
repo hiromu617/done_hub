@@ -41,7 +41,7 @@ const styles = StyleSheet.create({
 })
 
 import React, { Component, useContext, useEffect } from 'react';
-import {View, Text, StyleSheet, ActivityIndicator,SafeAreaView } from 'react-native';
+import {Button, View, Text, StyleSheet, ActivityIndicator,SafeAreaView } from 'react-native';
 import firebase from 'firebase'
 import {UserContext} from '../../../App'
 import { useNavigation } from '@react-navigation/native';
@@ -63,8 +63,15 @@ function LoadingScreen(){
     firebase.auth().onAuthStateChanged(
       async function(user){
         if(user){
+          // alert(user.providerData[0].fullName)
+          // console.log('Firebase Auth result: ', user)
+          alert(user.providerData[0].uid)
           // uidが一致するユーザーがいれば、MyTabsに遷移
-          await axios.get('/api/usersShow/' + user.providerData[0].uid)
+          await axios.get('/api/usersShow', {
+            params: {
+              uid: user.providerData[0].uid
+            }
+          })
           .then(res => {
             console.log(res.data)
             if(res.data){
@@ -73,8 +80,12 @@ function LoadingScreen(){
               return
             }else{
               // いない場合userレコードを作成しダッシュボードに遷移
+              let name: String = "ユーザー"
+              if(user.providerData[0].displayName !== null){
+                name = user.providerData[0].displayName
+              }
               axios.post('/api/users', { 
-                name: user.providerData[0].displayName, 
+                name: name, 
                 uid: user.providerData[0].uid
               })
               .then(res => {
@@ -99,6 +110,13 @@ function LoadingScreen(){
     return(
       <SafeAreaView style={styles.container}>
         <ActivityIndicator size='large'/>
+        <Button 
+            title="sign out" 
+            onPress={() =>{
+              firebase.auth().signOut()
+              navigation.navigate('LoginScreen')
+            }
+          }/>
       </SafeAreaView>
     )
 }

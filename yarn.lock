@@ -4248,6 +4248,11 @@ expo-app-auth@~9.3.0:
   dependencies:
     invariant "^2.2.4"
 
+expo-apple-authentication@~2.2.2:
+  version "2.2.2"
+  resolved "https://registry.yarnpkg.com/expo-apple-authentication/-/expo-apple-authentication-2.2.2.tgz#26a6b1add075ba01289dc4b9f1718d693eda97cd"
+  integrity sha512-+bwAsZ6l9jmhasdowDPkfsqTSnBmOgjEpblLLgi2x8bOGPQ+BdVilk7+sH7KyHutTbl4lNIGGWhI+1LNgWfPIw==
+
 expo-application@^3.1.2:
   version "3.1.2"
   resolved "https://registry.yarnpkg.com/expo-application/-/expo-application-3.1.2.tgz#7c93e8108a7f2a0be0afe37151f36c98e0111e7c"
@@ -4285,6 +4290,11 @@ expo-constants@~9.3.3:
     "@expo/config" "^3.3.18"
     fbjs "1.0.0"
     uuid "^3.3.2"
+
+expo-crypto@~8.4.0:
+  version "8.4.0"
+  resolved "https://registry.yarnpkg.com/expo-crypto/-/expo-crypto-8.4.0.tgz#59a5b0640bb39db93e6857feafa2c9514b172cef"
+  integrity sha512-EHEFx5sHTDVIuQH8/juuecQWj1uQ7ClM98fKXPFcNYcBlYSCQvkik37hwfJC5WLcVnelFDpvZJmHxiTfB5GKCg==
 
 expo-error-recovery@~1.4.0:
   version "1.4.0"
