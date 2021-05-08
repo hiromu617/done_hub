@@ -1,77 +1,77 @@
-import React, {useState, useEffect} from 'react';
-import { createStackNavigator } from '@react-navigation/stack';
-import ProfileHome from './ProfileHome'
-import Detail from '../../common/Detail'
-import Following from '../../common/Following'
-import Follower from '../../common/Follower'
-import UserPage from '../../common/UserPage'
-import HubSelect from '../../common/HubSelect'
+import React, { useState, useEffect } from "react";
+import { createStackNavigator } from "@react-navigation/stack";
+import ProfileHome from "./ProfileHome";
+import Detail from "../../common/Detail";
+import Following from "../../common/Following";
+import Follower from "../../common/Follower";
+import UserPage from "../../common/UserPage";
+import HubSelect from "../../common/HubSelect";
 
 const Stack = createStackNavigator();
 
 function ProfileScreen() {
   return (
     <Stack.Navigator>
-      <Stack.Screen 
-        name="ProfileHome" 
-        component={ProfileHome} 
+      <Stack.Screen
+        name="ProfileHome"
+        component={ProfileHome}
         options={{
-          title: 'プロフィール',
-          gestureDirection: 'horizontal',
+          title: "プロフィール",
+          gestureDirection: "horizontal",
           headerBackTitleVisible: false,
         }}
       />
-      <Stack.Screen 
-        name="Detail" 
-        component={Detail} 
+      <Stack.Screen
+        name="Detail"
+        component={Detail}
         options={{
-          title: '投稿',
-          gestureDirection: 'horizontal',
+          title: "投稿",
+          gestureDirection: "horizontal",
           headerBackTitleVisible: false,
         }}
       />
-      <Stack.Screen 
-        name="LikedUsers" 
-        component={Following} 
+      <Stack.Screen
+        name="LikedUsers"
+        component={Following}
         options={{
-          title: 'いいねしたユーザー',
-          gestureDirection: 'horizontal',
-          headerBackTitleVisible: false
-        }}
-      />
-      <Stack.Screen 
-        name="Following" 
-        component={Following} 
-        options={{
-          title: 'フォロー中',
-          gestureDirection: 'horizontal',
+          title: "いいねしたユーザー",
+          gestureDirection: "horizontal",
           headerBackTitleVisible: false,
         }}
       />
-      <Stack.Screen 
-        name="Follower" 
-        component={Follower} 
+      <Stack.Screen
+        name="Following"
+        component={Following}
         options={{
-          title: 'フォロワー',
-          gestureDirection: 'horizontal',
+          title: "フォロー中",
+          gestureDirection: "horizontal",
           headerBackTitleVisible: false,
         }}
       />
-      <Stack.Screen 
-        name="UserPage" 
-        component={UserPage} 
+      <Stack.Screen
+        name="Follower"
+        component={Follower}
         options={{
-          title: 'ユーザー',
-          gestureDirection: 'horizontal',
+          title: "フォロワー",
+          gestureDirection: "horizontal",
           headerBackTitleVisible: false,
         }}
       />
-      <Stack.Screen 
-        name="HubSelect" 
-        component={HubSelect} 
+      <Stack.Screen
+        name="UserPage"
+        component={UserPage}
         options={{
-          title: 'Hubの編集',
-          gestureDirection: 'horizontal',
+          title: "ユーザー",
+          gestureDirection: "horizontal",
+          headerBackTitleVisible: false,
+        }}
+      />
+      <Stack.Screen
+        name="HubSelect"
+        component={HubSelect}
+        options={{
+          title: "Hubの編集",
+          gestureDirection: "horizontal",
           headerBackTitleVisible: false,
         }}
       />
@@ -79,4 +79,4 @@ function ProfileScreen() {
   );
 }
 
-export default ProfileScreen
+export default ProfileScreen;
