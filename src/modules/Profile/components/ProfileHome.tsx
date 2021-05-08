@@ -1,14 +1,14 @@
 import React, {useState, useEffect} from 'react';
-import { StyleSheet, View, ActivityIndicator , ScrollView, RefreshControl,SafeAreaView } from 'react-native';
+import { FlatList, StyleSheet, View, ActivityIndicator , ScrollView, RefreshControl,SafeAreaView } from 'react-native';
 import { getUser } from '../../Todo/Storage'
 import { useNavigation } from '@react-navigation/native';
 import axios from '../../../constants/axios';
-import UserPostList from '../../common/UserPostList'
 import ProfileInfo from './ProfileInfo'
 import EditProfile from './EditProfile'
 import { Divider,Overlay} from 'react-native-elements';
 import firebase from 'firebase'
 import { StatusBar } from 'expo-status-bar';
+import DonePost from '../../common/DonePost'
 
 function ProfileHome() {
   // const {state} = useContext(SiteContext);
@@ -125,7 +125,26 @@ function ProfileHome() {
         >
           <EditProfile toggleModal={toggleModal} userData={userData} imageSrc={imageSrc}/>        
         </Overlay>
-        <ScrollView
+        <FlatList
+          ListHeaderComponent={
+            <ProfileInfo  userData={userData} followData={followData} toggleModal={toggleModal} imageSrc={imageSrc} doneCounts={doneCounts}/>
+          }
+          refreshControl={
+            <RefreshControl
+              refreshing={refreshState}
+              onRefresh={() => refreshData()}
+            />
+          }
+          showsVerticalScrollIndicator={false}
+          data={ userPostsData}
+          keyExtractor={(item) => item?.id?.toString()}
+          renderItem={({item}) => {
+            return <DonePost post={item} userData={userData} image={imageSrc}/>;
+          }}
+          onEndReached={fetchData}
+          onEndReachedThreshold={0.5}
+        />
+        {/* <ScrollView
           refreshControl={
             <RefreshControl
               refreshing={refreshState}
@@ -135,9 +154,8 @@ function ProfileHome() {
         >
         <ProfileInfo userData={userData} followData={followData} toggleModal={toggleModal} imageSrc={imageSrc} doneCounts={doneCounts}/>
         <Divider style={{ marginTop: 10}} />
-        {/* <Text>{userData.uid}</Text> */}
           <UserPostList posts={userPostsData} fetchData={fetchData} imageSrc={imageSrc} userData={userData}/>
-        </ScrollView>
+        </ScrollView> */}
       </SafeAreaView>
   );
 }

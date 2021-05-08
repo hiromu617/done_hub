@@ -1,6 +1,6 @@
 import React, {useState, useEffect, useRef} from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
-import { StyleSheet, Text, View ,StatusBar, FlatList, ScrollView, RefreshControl,} from 'react-native';
+import { StyleSheet, Text, View ,StatusBar, FlatList, ScrollView, RefreshControl, SafeAreaView,} from 'react-native';
 import axios from '../../../constants/axios';
 import { getUser } from '../../Todo/Storage'
 import { useNavigation,useScrollToTop } from '@react-navigation/native';
@@ -133,16 +133,15 @@ function FeedOfFollowScreen() {
   }
 
   return (
-    <ScrollView
-      ref={ref}
-      refreshControl={
-      <RefreshControl
-        refreshing={refreshState}
-        onRefresh={() => refreshData()}
-      />
-      }
-    >
+    <SafeAreaView>
       <FlatList
+        ref={ref}
+        refreshControl={
+        <RefreshControl
+          refreshing={refreshState}
+          onRefresh={() => refreshData()}
+        />
+        }
         showsVerticalScrollIndicator={false}
         data={ feed }
         keyExtractor={(item) => item?.id?.toString()}
@@ -150,9 +149,9 @@ function FeedOfFollowScreen() {
           return <DonePost post={item} userData={userData} image={null}/>;
         }}
         onEndReached={fetchData}
-        onEndReachedThreshold={0.3}
+        onEndReachedThreshold={0.5}
       />
-    </ScrollView>
+    </SafeAreaView>
   )
 }
 

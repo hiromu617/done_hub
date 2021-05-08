@@ -18,7 +18,7 @@ function ProfileInfo(props) {
     )
   }
   return (
-    <View>
+    <View style={{backgroundColor: 'white'}}>
       <View  style={{ padding: 10, display: 'flex', flexDirection: 'row', justifyContent: 'space-between'}}>
           <View style={{}}>
             {imageSrc && <Avatar 
@@ -49,10 +49,8 @@ function ProfileInfo(props) {
           </View>
           
         </View>
-        <View>
-          <Text
-            style={{paddingHorizontal: 10}}
-          >
+        <View  style={{paddingHorizontal: 12, paddingBottom: 10}}>
+          <Text>
           {
             userData.hub_list.map((l, i) => (
               <TouchableOpacity
@@ -90,10 +88,10 @@ function ProfileInfo(props) {
               </TouchableOpacity>
           </Text>
           
-          <Text  style={{paddingVertical: 10, paddingHorizontal: 10}}>
+          <Text  style={{paddingVertical: 10}}>
             {userData.profile}
           </Text>
-          <Text  style={{marginLeft: 10}}>
+          <Text>
             <TouchableOpacity
              onPress={() => navigation.push('Following', 
              {

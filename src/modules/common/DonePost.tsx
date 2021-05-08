@@ -109,7 +109,7 @@ const DonePost: React.FC<Props> = (props) => {
   return (
     <ListItem 
     key={post.id}
-    bottomDivider onPress={() => navigation.push('Detail', 
+    topDivider onPress={() => navigation.push('Detail', 
     {
       post: post,
       initialImageSrc: imageSrc,

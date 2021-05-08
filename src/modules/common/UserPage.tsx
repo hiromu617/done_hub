@@ -1,9 +1,9 @@
 import React, {useState, useEffect} from 'react';
-import { KeyboardAvoidingView, StyleSheet, View, ActivityIndicator , ScrollView, RefreshControl,SafeAreaView } from 'react-native';
+import { FlatList, KeyboardAvoidingView, StyleSheet, View, ActivityIndicator , ScrollView, RefreshControl,SafeAreaView } from 'react-native';
 import { getUser } from '../Todo/Storage'
 import { useNavigation } from '@react-navigation/native';
 import axios from '../../constants/axios';
-import UserPostList from './UserPostList'
+import DonePost from './DonePost'
 import { Icon, Divider,Overlay,Button} from 'react-native-elements';
 import firebase from 'firebase'
 import OtherProfileInfo from './OtherProfileInfo'
@@ -151,21 +151,27 @@ function UserPage({route}) {
         >
           <EditProfile toggleModal={toggleModal} userData={userData} imageSrc={imageSrc}/>        
         </Overlay>
-        <ScrollView
+        <FlatList
+          ListHeaderComponent={isCurrentUser ?
+            <ProfileInfo  userData={userInfo} followData={followData} toggleModal={toggleModal} imageSrc={imageSrc} doneCounts={doneCounts}/>
+          :
+          <OtherProfileInfo userData={userInfo} followData={followData} imageSrc={imageSrc} isFollowed={isFollowed} follow={follow} unfollow={unfollow} doneCounts={doneCounts} isCurrentUser={isCurrentUser}/>
+          }
           refreshControl={
             <RefreshControl
               refreshing={refreshState}
               onRefresh={() => refreshData()}
             />
           }
-        >
-          {isCurrentUser && <ProfileInfo  userData={userInfo} followData={followData} toggleModal={toggleModal} imageSrc={imageSrc} doneCounts={doneCounts}/>}
-          {!isCurrentUser && <OtherProfileInfo userData={userInfo} followData={followData} imageSrc={imageSrc} isFollowed={isFollowed} follow={follow} unfollow={unfollow} doneCounts={doneCounts} isCurrentUser={isCurrentUser}/>}
-        <Divider style={{ marginTop: 10}} />
-
-        {/* <Text>{userData.uid}</Text> */}
-          <UserPostList posts={userPostsData} fetchData={fetchData} imageSrc={imageSrc} userData={userData}/>
-        </ScrollView>
+          showsVerticalScrollIndicator={false}
+          data={ userPostsData}
+          keyExtractor={(item) => item?.id?.toString()}
+          renderItem={({item}) => {
+            return <DonePost post={item} userData={userData} image={imageSrc}/>;
+          }}
+          onEndReached={fetchData}
+          onEndReachedThreshold={0.5}
+        />
         <KeyboardAvoidingView>
           <Icon
           name='arrow-left'
