@@ -19,6 +19,7 @@ import firebase from "firebase";
 import OtherProfileInfo from "./OtherProfileInfo";
 import ProfileInfo from "../Profile/components/ProfileInfo";
 import EditProfile from "../Profile/components/EditProfile";
+import Toast from "react-native-root-toast";
 
 function UserPage({ route }) {
   const { user } = route.params;
@@ -163,7 +164,9 @@ function UserPage({ route }) {
       },
     });
     setBlockState(false);
-    alert("succsess unblock");
+    Toast.show("ブロックしました", {
+      position: 50,
+    });
   };
   const blockUser = async () => {
     if (user.uid === currentUserUid) return;
@@ -174,7 +177,9 @@ function UserPage({ route }) {
       },
     });
     setBlockState(true);
-    alert("succsess block");
+    Toast.show("ブロックを解除しました", {
+      position: 50,
+    });
   };
 
   if (!userData) {

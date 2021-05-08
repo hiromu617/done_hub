@@ -98,6 +98,7 @@ function OtherProfileInfo(props) {
           {!blockState && blockMenu && (
             <Button
               title="ブロックする"
+              titleStyle={{color: '#EF4444'}}
               type="clear"
               onPress={() => blockUser()}
             />
@@ -111,7 +112,21 @@ function OtherProfileInfo(props) {
           )}
         </View>
         <View>
-          {!isCurrentUser && isFollowed && (
+          {blockState &&
+          <Button
+          title="ブロック中"
+          style={{ margin: 10 }}
+          disabledStyle={{
+            borderRadius: 18,
+            paddingHorizontal: 10,
+            backgroundColor: "#F87171",
+          }}
+          disabledTitleStyle={{ fontSize: 16, color: 'white'}}
+          type="solid"
+          disabled
+        />
+          }
+          {!isCurrentUser && isFollowed && !blockState && (
             <Button
               title="follow中"
               style={{ margin: 10 }}
@@ -125,7 +140,7 @@ function OtherProfileInfo(props) {
               onPress={() => unfollow()}
             />
           )}
-          {!isCurrentUser && !isFollowed && (
+          {!isCurrentUser && !isFollowed && !blockState && (
             <Button
               title="followする"
               style={{ margin: 10 }}

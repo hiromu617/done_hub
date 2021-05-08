@@ -134,11 +134,15 @@ const DonePost: React.FC<Props> = (props) => {
                 uri: imageSrc,
               }}
               containerStyle={{ backgroundColor: "gray", marginRight: 10 }}
-              onPress={() =>
-                navigation.push("UserPage", {
-                  user: post.user,
-                })
-              }
+              onPress={() =>{
+                if(userData.id === post.user.id){
+                  navigation.navigate("Profile")
+                }else{
+                  navigation.push("UserPage", {
+                    user: post.user,
+                  })
+                }
+              }}
             />
           )}
           {!imageSrc && (
@@ -146,11 +150,15 @@ const DonePost: React.FC<Props> = (props) => {
               rounded
               title={post.user.name[0]}
               containerStyle={{ backgroundColor: "gray", marginRight: 10 }}
-              onPress={() =>
-                navigation.push("UserPage", {
-                  user: post.user,
-                })
-              }
+              onPress={() =>{
+                if(userData.id === post.user.id){
+                  navigation.navigate("Profile")
+                }else{
+                  navigation.push("UserPage", {
+                    user: post.user,
+                  })
+                }
+              }}
             />
           )}
           <ListItem.Title style={{ paddingBottom: 5, fontWeight: "bold" }}>

@@ -196,11 +196,15 @@ const Reply: React.FC<Props> = (props) => {
                   uri: imageSrc,
                 }}
                 containerStyle={{ backgroundColor: "gray", marginRight: 10 }}
-                onPress={() =>
-                  navigation.push("UserPage", {
-                    user: reply.user,
-                  })
-                }
+                onPress={() =>{
+                  if(userData.id === reply.user.id){
+                    navigation.navigate("Profile")
+                  }else{
+                    navigation.push("UserPage", {
+                      user: reply.user,
+                    })
+                  }
+                }}
               />
             )}
             {!imageSrc && (

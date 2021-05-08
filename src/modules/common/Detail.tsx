@@ -290,11 +290,15 @@ const Detail: React.FC = ({ route }) => {
                         backgroundColor: "gray",
                         marginRight: 10,
                       }}
-                      onPress={() =>
-                        navigation.push("UserPage", {
-                          user: postData.user,
-                        })
-                      }
+                      onPress={() =>{
+                        if(userData.id === post.user.id){
+                          navigation.navigate("Profile")
+                        }else{
+                          navigation.push("UserPage", {
+                            user: post.user,
+                          })
+                        }
+                      }}
                     />
                   )}
                   {!imageSrc && (
@@ -306,11 +310,15 @@ const Detail: React.FC = ({ route }) => {
                         backgroundColor: "gray",
                         marginRight: 10,
                       }}
-                      onPress={() =>
-                        navigation.push("UserPage", {
-                          user: postData.user,
-                        })
-                      }
+                      onPress={() =>{
+                        if(userData.id === post.user.id){
+                          navigation.navigate("Profile")
+                        }else{
+                          navigation.push("UserPage", {
+                            user: post.user,
+                          })
+                        }
+                      }}
                     />
                   )}
                   <ListItem.Title
