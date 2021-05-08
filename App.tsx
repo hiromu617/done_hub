@@ -19,6 +19,7 @@ import firebase from "firebase";
 import User from "./src/modules/Profile/objects/User";
 import { storeUser, getUser } from "./src/modules/Todo/Storage";
 import { RootSiblingParent } from "react-native-root-siblings";
+import {Icon} from 'react-native-elements'
 
 const initialUser: User = {
   uid: null,
@@ -109,22 +110,22 @@ function MyTabs() {
         }}
       />
       <Tab.Screen
-        name="Notification"
-        component={NotificationScreen}
-        options={{
-          tabBarLabel: "Notification",
-          tabBarIcon: ({ color, size }) => (
-            <FontAwesome name="bell" size={size} color={color} />
-          ),
-        }}
-      />
-      <Tab.Screen
         name="Todo"
         component={TodoScreen}
         options={{
           tabBarLabel: "Todo",
           tabBarIcon: ({ color, size }) => (
             <FontAwesome name="check-square-o" size={size} color={color} />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="Notification"
+        component={NotificationScreen}
+        options={{
+          tabBarLabel: "Notification",
+          tabBarIcon: ({ color, size }) => (
+            <Icon name="bell-outline" size={size} color={color} type='material'/>
           ),
         }}
       />

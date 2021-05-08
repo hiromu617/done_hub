@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import { ListItem, Avatar, Icon, Button } from "react-native-elements";
 import { useNavigation } from "@react-navigation/native";
 import firebase from "firebase";
@@ -14,15 +14,24 @@ import {
   RefreshControl,
   SafeAreaView,
 } from "react-native";
+import { getUser } from "../Todo/Storage";
 
 const UserListItem: React.FC = (props) => {
   const [imageSrc, setImageSrc] = useState(null);
+  const [userData, setData] = useState(user);
   const navigation = useNavigation();
   const { user } = props;
 
   useEffect(() => {
     getSource();
+    getUserData();
   }, []);
+
+  const getUserData = useCallback(() => {
+    getUser().then((data) => {
+      setData(data);
+    });
+  }, [userData]);
 
   const getAvatar = () => {
     return new Promise((resolve) => {
@@ -51,12 +60,21 @@ const UserListItem: React.FC = (props) => {
   };
   return (
     <ListItem
-      onPress={() =>
-        navigation.push("UserPage", {
-          user: user,
-        })
-      }
-      bottomDivider
+      // onPress={() =>
+      //   navigation.push("UserPage", {
+      //     user: user,
+      //   })
+      // }
+      onPress={() => {
+        if (userData.id === user.id) {
+          navigation.navigate("Profile");
+        } else {
+          navigation.push("UserPage", {
+            user: user,
+          });
+        }
+      }}
+      topDivider
     >
       <Avatar
         title={user.name[0]}

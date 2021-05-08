@@ -2,15 +2,16 @@ import React, { useEffect, useState } from "react";
 import { SafeAreaView, StyleSheet, Text, View, FlatList } from "react-native";
 import axios from "../../../constants/axios";
 import UserListItem from "../../common/UserListItem";
-import { SearchBar } from "react-native-elements";
+import { Icon, SearchBar } from "react-native-elements";
 
 function SearchHome() {
   const [users, setUsers] = useState([]);
   const [search, setSearch] = useState(null);
+  const [latestUsers, setLatestUsers] = useState([]);
   const [resultText, setresultText] = useState(null);
 
   useEffect(() => {
-    // fetchUsers()
+    fetchLatestUsers();
   }, []);
 
   const updateSearch = (search) => {
@@ -24,7 +25,8 @@ function SearchHome() {
       })
       .then((res) => {
         console.log(res.data);
-        if (res.data.length === 0) setresultText("Not Found");
+        if (res.data.length === 0)
+          setresultText("一致するユーザーは見つかりませんでした");
         setUsers(res.data);
       });
   };
@@ -32,15 +34,14 @@ function SearchHome() {
     setUsers([]);
     setresultText(null);
   };
-  // const fetchUsers = () => {
-  //   axios.get('/api/users')
-  //   .then(res => {
-  //     console.log(res.data)
-  //     setUsers(res.data)
-  //   })
-  // }
+  const fetchLatestUsers = () => {
+    axios.get("/api/latest_users").then((res) => {
+      console.log(res.data);
+      setLatestUsers(res.data);
+    });
+  };
   return (
-    <SafeAreaView>
+    <SafeAreaView style={{ flex: 1 }}>
       <SearchBar
         lightTheme
         round
@@ -54,18 +55,11 @@ function SearchHome() {
       <View style={{ paddingVertical: 20 }}>
         {users.length === 0 && !resultText && (
           <Text style={{ paddingHorizontal: 10, color: "#1F2937" }}>
-            ユーザー名を検索することができます
+            ユーザーを検索することができます
           </Text>
         )}
         {resultText && (
-          <Text
-            style={{
-              padding: 20,
-              fontWeight: "bold",
-              fontSize: 26,
-              color: "#1F2937",
-            }}
-          >
+          <Text style={{ paddingHorizontal: 10, color: "#1F2937" }}>
             {resultText}
           </Text>
         )}
@@ -78,6 +72,32 @@ function SearchHome() {
           }}
         />
       </View>
+      {users.length === 0 && !resultText && (
+        <FlatList
+          ListHeaderComponent={
+            <View
+              style={{
+                padding: 20,
+                backgroundColor: "white",
+                flexDirection: "row",
+                alignItems: "center",
+              }}
+            >
+              <Icon name="history" type="font-awesome" color="#1F2937" />
+              <Text style={{ fontSize: 18, marginLeft: 10, color: "#1F2937" }}>
+                最近登録したユーザー
+              </Text>
+            </View>
+          }
+          style={{ position: "absolute", bottom: 0, width: "100%" }}
+          showsVerticalScrollIndicator={false}
+          data={latestUsers}
+          keyExtractor={(item) => item?.id?.toString()}
+          renderItem={({ item }) => {
+            return <UserListItem user={item} />;
+          }}
+        />
+      )}
     </SafeAreaView>
   );
 }
