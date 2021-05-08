@@ -125,7 +125,7 @@ function MyTabs() {
         options={{
           tabBarLabel: "Notification",
           tabBarIcon: ({ color, size }) => (
-            <Icon name="bell-outline" size={size} color={color} type='material'/>
+            <Icon name="bell-outline" size={size} color={color} type='material-community'/>
           ),
         }}
       />
