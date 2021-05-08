@@ -111,9 +111,9 @@ function EditProfile(props) {
       <Button
         title="ブロックしたユーザー"
         type="clear"
-        onPress={() =>{
-          toggleModal()
-          navigation.push("BlockUsers", { follower: blockUsers })
+        onPress={() => {
+          toggleModal();
+          navigation.push("BlockUsers", { follower: blockUsers });
         }}
       />
       <Button

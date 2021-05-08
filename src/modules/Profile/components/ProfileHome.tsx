@@ -79,7 +79,7 @@ function ProfileHome() {
       axios.get("/api/users/following/" + data.uid).then((res) => {
         setFollowData(res.data);
         setDoneCounts(res.data.done_counts);
-        setBlockUsers(res.data.block_users)
+        setBlockUsers(res.data.block_users);
       });
       axios
         .get("/api/done_posts", {
@@ -93,7 +93,7 @@ function ProfileHome() {
           // console.log("----------------------")
           // let postsData = res.data.done_posts.reverse()
           // setUserPostData(postsData)
-          console.log(res.data)
+          console.log(res.data);
           setUserPostData(res.data);
           setRefreshData(false);
         })

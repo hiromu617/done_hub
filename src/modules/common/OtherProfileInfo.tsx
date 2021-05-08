@@ -6,6 +6,7 @@ import {
   ScrollView,
   RefreshControl,
   SafeAreaView,
+  Alert,
 } from "react-native";
 import { Text, Avatar, Button, Icon } from "react-native-elements";
 import { useNavigation } from "@react-navigation/native";
@@ -13,6 +14,8 @@ import { TouchableOpacity } from "react-native-gesture-handler";
 import axios from "axios";
 import { LinearGradient } from "expo-linear-gradient";
 import { block } from "react-native-reanimated";
+import { slackToken } from "../../../config";
+import Toast from "react-native-root-toast";
 
 function OtherProfileInfo(props) {
   const {
@@ -27,6 +30,7 @@ function OtherProfileInfo(props) {
     blockUser,
     unblockUser,
     blockState,
+    reportUser,
   } = props;
   const [blockMenu, setBlockMenu] = useState(false);
   const navigation = useNavigation();
@@ -95,61 +99,76 @@ function OtherProfileInfo(props) {
               />
             )}
           </View>
-          {!blockState && blockMenu && (
+          {!blockState.block && blockMenu && (
             <Button
               title="ブロックする"
-              titleStyle={{color: '#EF4444'}}
+              titleStyle={{ color: "#EF4444" }}
               type="clear"
               onPress={() => blockUser()}
             />
           )}
-          {blockState && blockMenu && (
+          {blockState.block && blockMenu && (
             <Button
               title="ブロック解除する"
+              titleStyle={{ color: "#EF4444" }}
               type="clear"
               onPress={() => unblockUser()}
             />
           )}
+          {blockMenu && (
+            <Button
+              title="報告"
+              type="clear"
+              titleStyle={{ color: "#EF4444" }}
+              onPress={() => reportUser()}
+            />
+          )}
         </View>
         <View>
-          {blockState &&
-          <Button
-          title="ブロック中"
-          style={{ margin: 10 }}
-          disabledStyle={{
-            borderRadius: 18,
-            paddingHorizontal: 10,
-            backgroundColor: "#F87171",
-          }}
-          disabledTitleStyle={{ fontSize: 16, color: 'white'}}
-          type="solid"
-          disabled
-        />
-          }
-          {!isCurrentUser && isFollowed && !blockState && (
+          {blockState.block && (
             <Button
-              title="follow中"
+              title="ブロック中"
               style={{ margin: 10 }}
-              buttonStyle={{
+              disabledStyle={{
                 borderRadius: 18,
                 paddingHorizontal: 10,
-                backgroundColor: "#3B82F6",
+                backgroundColor: "#F87171",
               }}
-              titleStyle={{ fontSize: 16 }}
+              disabledTitleStyle={{ fontSize: 16, color: "white" }}
               type="solid"
-              onPress={() => unfollow()}
+              disabled
             />
           )}
-          {!isCurrentUser && !isFollowed && !blockState && (
-            <Button
-              title="followする"
-              style={{ margin: 10 }}
-              buttonStyle={{ borderRadius: 18, paddingHorizontal: 10 }}
-              titleStyle={{ fontSize: 16 }}
-              type="outline"
-              onPress={() => follow()}
-            />
-          )}
+          {!isCurrentUser &&
+            isFollowed &&
+            !blockState.block &&
+            !blockState.blocked && (
+              <Button
+                title="follow中"
+                style={{ margin: 10 }}
+                buttonStyle={{
+                  borderRadius: 18,
+                  paddingHorizontal: 10,
+                  backgroundColor: "#3B82F6",
+                }}
+                titleStyle={{ fontSize: 16 }}
+                type="solid"
+                onPress={() => unfollow()}
+              />
+            )}
+          {!isCurrentUser &&
+            !isFollowed &&
+            !blockState.block &&
+            !blockState.blocked && (
+              <Button
+                title="followする"
+                style={{ margin: 10 }}
+                buttonStyle={{ borderRadius: 18, paddingHorizontal: 10 }}
+                titleStyle={{ fontSize: 16 }}
+                type="outline"
+                onPress={() => follow()}
+              />
+            )}
         </View>
       </View>
       <View style={{ paddingHorizontal: 12, paddingBottom: 10 }}>

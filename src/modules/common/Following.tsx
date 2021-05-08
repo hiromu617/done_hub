@@ -30,10 +30,10 @@ const Following: React.FC = ({ route }) => {
         name="arrow-left"
         type="font-awesome"
         color="#3B82F6"
-        size={27}
+        size={24}
         reverse
         raised
-        containerStyle={{ position: "absolute", bottom: "5%", left: "5%" }}
+        containerStyle={{ position: "absolute", bottom: "5%", left: "3%" }}
         onPress={() => navigation.goBack()}
       />
     </View>

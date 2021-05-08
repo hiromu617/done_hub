@@ -9,6 +9,7 @@ import {
   ScrollView,
   RefreshControl,
   SafeAreaView,
+  Alert,
 } from "react-native";
 import { getUser } from "../Todo/Storage";
 import { useNavigation } from "@react-navigation/native";
@@ -20,6 +21,7 @@ import OtherProfileInfo from "./OtherProfileInfo";
 import ProfileInfo from "../Profile/components/ProfileInfo";
 import EditProfile from "../Profile/components/EditProfile";
 import Toast from "react-native-root-toast";
+import { slackToken } from "../../../config";
 
 function UserPage({ route }) {
   const { user } = route.params;
@@ -36,7 +38,11 @@ function UserPage({ route }) {
   const [imageSrc, setImageSrc] = useState(null);
   const [followData, setFollowData] = useState({ following: [], follower: [] });
   const [doneCounts, setDoneCounts] = useState(0);
-  const [blockState, setBlockState] = useState(false);
+  const [blockState, setBlockState] = useState({
+    block: false,
+    blocked: false,
+  });
+  const [reportState, setReportState] = useState(false);
 
   const toggleModal = () => {
     setModalVisible(!isModalVisible);
@@ -158,28 +164,91 @@ function UserPage({ route }) {
   };
 
   const unblockUser = async () => {
-    axios.delete("/api/blocks/" + userInfo.id, {
-      params: {
-        currentUserUid: currentUserUid,
+    Alert.alert("ブロック解除", `ブロックを解除しますか？`, [
+      {
+        text: "Cancel",
+        style: "cancel",
       },
-    });
-    setBlockState(false);
-    Toast.show("ブロックしました", {
-      position: 50,
-    });
+      {
+        text: "OK",
+        onPress: async () => {
+          axios.delete("/api/blocks/" + userInfo.id, {
+            params: {
+              currentUserUid: currentUserUid,
+            },
+          });
+          setBlockState({ block: false, blocked: blockState.blocked });
+          Toast.show("ブロックしました", {
+            position: 50,
+          });
+        },
+      },
+    ]);
   };
   const blockUser = async () => {
     if (user.uid === currentUserUid) return;
-    axios.get("/api/blocks", {
-      params: {
-        currentUserUid: currentUserUid,
-        id: userInfo.id,
+    Alert.alert("ブロック", `${user.name}を本当にブロックしますか？`, [
+      {
+        text: "Cancel",
+        style: "cancel",
       },
-    });
-    setBlockState(true);
-    Toast.show("ブロックを解除しました", {
-      position: 50,
-    });
+      {
+        text: "OK",
+        onPress: async () => {
+          axios.get("/api/blocks", {
+            params: {
+              currentUserUid: currentUserUid,
+              id: userInfo.id,
+            },
+          });
+          setBlockState({ block: true, blocked: blockState.blocked });
+          Toast.show("ブロックを解除しました", {
+            position: 50,
+          });
+        },
+      },
+    ]);
+  };
+  const reportUser = async () => {
+    if (reportState) {
+      Toast.show("既に報告済みです！", {
+        position: 50,
+      });
+      return;
+    }
+    Alert.alert(
+      "報告",
+      `${user.name}を悪意のあるユーザーとして報告しますか？`,
+      [
+        {
+          text: "Cancel",
+          style: "cancel",
+        },
+        {
+          text: "OK",
+          onPress: async () => {
+            const url = "https://slack.com/api/chat.postMessage";
+            const token = slackToken;
+            const result = await axios.request({
+              headers: {
+                authorization: `Bearer ${token}`,
+              },
+              url,
+              method: "POST",
+              data: {
+                channel: "#report",
+                text: `id:${userInfo.id}\n name: ${userInfo.name}\nreport from: ${userData.id} ${userData.name}`,
+              },
+            });
+            console.log(result.data);
+            setReportState(true);
+            Toast.show("Thank you!", {
+              position: 50,
+            });
+          },
+        },
+      ]
+    );
   };
 
   if (!userData) {
@@ -189,7 +258,7 @@ function UserPage({ route }) {
       </View>
     );
   }
-  if (blockState) {
+  if (blockState.block || blockState.blocked) {
     return (
       <SafeAreaView style={{ flex: 1 }}>
         <OtherProfileInfo
@@ -204,22 +273,57 @@ function UserPage({ route }) {
           blockUser={blockUser}
           unblockUser={unblockUser}
           blockState={blockState}
+          reportUser={reportUser}
         />
-        <Text
-          style={{
-            padding: 20,
-            fontWeight: "bold",
-            fontSize: 20,
-            textAlign: "center",
-          }}
-        >
-          ブロック中のユーザーです
-        </Text>
-        <Button
-          title="ブロック解除する"
-          type="clear"
-          onPress={() => unblockUser()}
-        />
+        <View style={{ flex: 1 }}>
+          <View
+            style={{
+              padding: 20,
+              flexDirection: "row",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <Icon
+              name="exclamation-triangle"
+              type="font-awesome"
+              color="#1F2937"
+              style={{ marginRight: 10 }}
+            />
+            <Text
+              style={{
+                fontWeight: "bold",
+                fontSize: 20,
+                color: "#1F2937",
+              }}
+            >
+              {blockState.block
+                ? "ブロック中のユーザーです"
+                : "ブロックされています"}
+            </Text>
+          </View>
+
+          {blockState.block && (
+            <Button
+              title="ブロックを解除する"
+              type="clear"
+              onPress={() => unblockUser()}
+            />
+          )}
+        </View>
+
+        <KeyboardAvoidingView>
+          <Icon
+            name="arrow-left"
+            type="font-awesome"
+            color="#3B82F6"
+            size={24}
+            reverse
+            raised
+            containerStyle={{ position: "absolute", bottom: "7%", left: "3%" }}
+            onPress={() => navigation.goBack()}
+          />
+        </KeyboardAvoidingView>
       </SafeAreaView>
     );
   }
@@ -255,6 +359,7 @@ function UserPage({ route }) {
               blockUser={blockUser}
               unblockUser={unblockUser}
               blockState={blockState}
+              reportUser={reportUser}
             />
           )
         }
@@ -278,10 +383,10 @@ function UserPage({ route }) {
           name="arrow-left"
           type="font-awesome"
           color="#3B82F6"
-          size={27}
+          size={24}
           reverse
           raised
-          containerStyle={{ position: "absolute", bottom: "7%", left: "5%" }}
+          containerStyle={{ position: "absolute", bottom: "7%", left: "3%" }}
           onPress={() => navigation.goBack()}
         />
       </KeyboardAvoidingView>
