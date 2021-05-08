@@ -58,6 +58,15 @@ function ProfileScreen() {
         }}
       />
       <Stack.Screen
+        name="BlockUsers"
+        component={Follower}
+        options={{
+          title: "ブロックしたユーザー",
+          gestureDirection: "horizontal",
+          headerBackTitleVisible: false,
+        }}
+      />
+      <Stack.Screen
         name="UserPage"
         component={UserPage}
         options={{

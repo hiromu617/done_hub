@@ -18,7 +18,7 @@ import { useNavigation } from "@react-navigation/native";
 import firebase from "firebase";
 
 function EditProfile(props) {
-  const { toggleModal, userData, imageSrc } = props;
+  const { toggleModal, userData, imageSrc, blockUsers } = props;
   const { control, handleSubmit, errors, setValue } = useForm();
   const navigation = useNavigation();
   const onSubmit = (data) => {
@@ -108,6 +108,14 @@ function EditProfile(props) {
           タイトルは140文字以内で入力してください。
         </Text>
       )}
+      <Button
+        title="ブロックしたユーザー"
+        type="clear"
+        onPress={() =>{
+          toggleModal()
+          navigation.push("BlockUsers", { follower: blockUsers })
+        }}
+      />
       <Button
         title="sign out"
         type="clear"

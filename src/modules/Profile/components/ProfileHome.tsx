@@ -29,6 +29,7 @@ function ProfileHome() {
   const [imageSrc, setImageSrc] = useState(null);
   const [followData, setFollowData] = useState({ following: 0, follower: 0 });
   const [doneCounts, setDoneCounts] = useState(0);
+  const [blockUsers, setBlockUsers] = useState([]);
 
   const toggleModal = () => {
     setModalVisible(!isModalVisible);
@@ -78,6 +79,7 @@ function ProfileHome() {
       axios.get("/api/users/following/" + data.uid).then((res) => {
         setFollowData(res.data);
         setDoneCounts(res.data.done_counts);
+        setBlockUsers(res.data.block_users)
       });
       axios
         .get("/api/done_posts", {
@@ -91,6 +93,7 @@ function ProfileHome() {
           // console.log("----------------------")
           // let postsData = res.data.done_posts.reverse()
           // setUserPostData(postsData)
+          console.log(res.data)
           setUserPostData(res.data);
           setRefreshData(false);
         })
@@ -135,6 +138,7 @@ function ProfileHome() {
           toggleModal={toggleModal}
           userData={userData}
           imageSrc={imageSrc}
+          blockUsers={blockUsers}
         />
       </Overlay>
       <FlatList
