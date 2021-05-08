@@ -14,6 +14,7 @@ import axios from "../../constants/axios";
 import firebase from "firebase";
 import Modal from "react-native-modal";
 import Toast from "react-native-root-toast";
+import { slackToken } from "../../../config";
 
 type Props = {
   reply;
@@ -108,8 +109,7 @@ const Reply: React.FC<Props> = (props) => {
         text: "OK",
         onPress: async () => {
           const url = "https://slack.com/api/chat.postMessage";
-          const token =
-            "xoxb-1900997433024-2053652851089-5iDsb9IjBIedV9V5fXkhEMMm";
+          const token = slackToken;
           const result = await axios.request({
             headers: {
               authorization: `Bearer ${token}`,
