@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import {
+  Text,
   FlatList,
   KeyboardAvoidingView,
   StyleSheet,
@@ -34,6 +35,7 @@ function UserPage({ route }) {
   const [imageSrc, setImageSrc] = useState(null);
   const [followData, setFollowData] = useState({ following: [], follower: [] });
   const [doneCounts, setDoneCounts] = useState(0);
+  const [blockState, setBlockState] = useState(false);
 
   const toggleModal = () => {
     setModalVisible(!isModalVisible);
@@ -88,6 +90,7 @@ function UserPage({ route }) {
           setUserInfo(res.data.user);
           setDoneCounts(res.data.done_counts);
           setIsFollowed(res.data.isFollowed);
+          setBlockState(res.data.blockState);
           if (user.uid === currentUserUid) setisCurrentUser(true);
           setFollowData({
             following: res.data.following,
@@ -152,11 +155,67 @@ function UserPage({ route }) {
     setIsFollowed(true);
     console.log("succsess follow");
   };
+
+  const unblockUser = async () => {
+    axios.delete("/api/blocks/" + userInfo.id, {
+      params: {
+        currentUserUid: currentUserUid,
+      },
+    });
+    setBlockState(false);
+    alert("succsess unblock");
+  };
+  const blockUser = async () => {
+    if (user.uid === currentUserUid) return;
+    axios.get("/api/blocks", {
+      params: {
+        currentUserUid: currentUserUid,
+        id: userInfo.id,
+      },
+    });
+    setBlockState(true);
+    alert("succsess block");
+  };
+
   if (!userData) {
     return (
       <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
         <ActivityIndicator size="large" />
       </View>
+    );
+  }
+  if (blockState) {
+    return (
+      <SafeAreaView style={{ flex: 1 }}>
+        <OtherProfileInfo
+          userData={userInfo}
+          followData={followData}
+          imageSrc={imageSrc}
+          isFollowed={isFollowed}
+          follow={follow}
+          unfollow={unfollow}
+          doneCounts={doneCounts}
+          isCurrentUser={isCurrentUser}
+          blockUser={blockUser}
+          unblockUser={unblockUser}
+          blockState={blockState}
+        />
+        <Text
+          style={{
+            padding: 20,
+            fontWeight: "bold",
+            fontSize: 20,
+            textAlign: "center",
+          }}
+        >
+          ブロック中のユーザーです
+        </Text>
+        <Button
+          title="ブロック解除する"
+          type="clear"
+          onPress={() => unblockUser()}
+        />
+      </SafeAreaView>
     );
   }
   return (
@@ -188,6 +247,9 @@ function UserPage({ route }) {
               unfollow={unfollow}
               doneCounts={doneCounts}
               isCurrentUser={isCurrentUser}
+              blockUser={blockUser}
+              unblockUser={unblockUser}
+              blockState={blockState}
             />
           )
         }
