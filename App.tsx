@@ -1,4 +1,4 @@
-import React, { useReducer, useContext } from "react";
+import React, { useState, useEffect, useRef, useReducer, useContext } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
@@ -20,6 +20,8 @@ import User from "./src/modules/Profile/objects/User";
 import { storeUser, getUser } from "./src/modules/Todo/Storage";
 import { RootSiblingParent } from "react-native-root-siblings";
 import {Icon} from 'react-native-elements'
+import { Subscription } from '@unimodules/core'
+import * as Notifications from 'expo-notifications';
 
 const initialUser: User = {
   uid: null,
@@ -144,6 +146,41 @@ function MyTabs() {
 }
 
 export default function App() {
+  const [notification, setNotification] = useState<Notifications.Notification>()
+  const notificationListener = useRef<Subscription>()
+  const responseListener = useRef<Subscription>()
+  
+  useEffect(() => {
+    // 通知を受信した時の振る舞いを設定
+    Notifications.setNotificationHandler({
+      handleNotification: async () => ({
+        shouldShowAlert: true,
+        shouldPlaySound: false,
+        shouldSetBadge: false
+      })
+    })
+
+    // アプリがフォアグラウンドの状態で通知を受信したときに起動
+    notificationListener.current = Notifications.addNotificationReceivedListener(notification => {
+      setNotification(notification)
+    })
+
+    // ユーザーが通知をタップまたは操作したときに発生します
+    // （アプリがフォアグラウンド、バックグラウンド、またはキルされたときに動作します）
+    responseListener.current = Notifications.addNotificationResponseReceivedListener(response => {
+      alert('ユーザーが通知をタップしました')
+      console.log(response)
+    })
+
+    // アンマウント時にリスナーを削除
+    return () => {
+      const notification = notificationListener.current
+      notification && Notifications.removeNotificationSubscription(notification)
+      const response = responseListener.current
+      response && Notifications.removeNotificationSubscription(response)
+    }
+  }, [])
+
   return (
     <RootSiblingParent>
       <SiteProvider>
@@ -152,8 +189,5 @@ export default function App() {
         </NavigationContainer>
       </SiteProvider>
     </RootSiblingParent>
-    // <NavigationContainer>
-    //   <MyTabs/>
-    // </NavigationContainer>
   );
 }
