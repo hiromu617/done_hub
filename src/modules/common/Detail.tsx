@@ -20,6 +20,7 @@ import Modal from "react-native-modal";
 import Toast from "react-native-root-toast";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { slackToken } from "../../../config";
+import { sendPushNotification } from "../../constants/pushNotificationFunc";
 
 const Detail: React.FC = ({ route }) => {
   const navigation = useNavigation();
@@ -153,6 +154,12 @@ const Detail: React.FC = ({ route }) => {
           setLikeNum(res.data.length);
         }
       });
+    if (post.user.id === userData.id) return;
+    sendPushNotification(
+      post.user.expo_push_token,
+      "Done Hub",
+      `${userData.name}さんが投稿にいいねしました`
+    );
   };
 
   const unlike = async () => {
@@ -290,13 +297,13 @@ const Detail: React.FC = ({ route }) => {
                         backgroundColor: "gray",
                         marginRight: 10,
                       }}
-                      onPress={() =>{
-                        if(userData.id === post.user.id){
-                          navigation.navigate("Profile")
-                        }else{
+                      onPress={() => {
+                        if (userData.id === post.user.id) {
+                          navigation.navigate("Profile");
+                        } else {
                           navigation.push("UserPage", {
                             user: post.user,
-                          })
+                          });
                         }
                       }}
                     />
@@ -310,13 +317,13 @@ const Detail: React.FC = ({ route }) => {
                         backgroundColor: "gray",
                         marginRight: 10,
                       }}
-                      onPress={() =>{
-                        if(userData.id === post.user.id){
-                          navigation.navigate("Profile")
-                        }else{
+                      onPress={() => {
+                        if (userData.id === post.user.id) {
+                          navigation.navigate("Profile");
+                        } else {
                           navigation.push("UserPage", {
                             user: post.user,
-                          })
+                          });
                         }
                       }}
                     />

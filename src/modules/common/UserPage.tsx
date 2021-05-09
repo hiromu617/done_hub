@@ -22,6 +22,7 @@ import ProfileInfo from "../Profile/components/ProfileInfo";
 import EditProfile from "../Profile/components/EditProfile";
 import Toast from "react-native-root-toast";
 import { slackToken } from "../../../config";
+import { sendPushNotification } from "../../constants/pushNotificationFunc";
 
 function UserPage({ route }) {
   const { user } = route.params;
@@ -43,7 +44,6 @@ function UserPage({ route }) {
     blocked: false,
   });
   const [reportState, setReportState] = useState(false);
-
   const toggleModal = () => {
     setModalVisible(!isModalVisible);
   };
@@ -161,6 +161,11 @@ function UserPage({ route }) {
     });
     setIsFollowed(true);
     console.log("succsess follow");
+    sendPushNotification(
+      userInfo.expo_push_token,
+      "Done Hub",
+      `${userData.name}さんがフォローしました`
+    );
   };
 
   const unblockUser = async () => {

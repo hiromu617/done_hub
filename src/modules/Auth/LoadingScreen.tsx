@@ -89,13 +89,13 @@ function LoadingScreen(){
               navigation.navigate('LoginScreen')
             }
           }/> */}
-          <Text>{expoPushToken}</Text>
+          {/* <Text>{expoPushToken}</Text>
           <Button
             title='プッシュ通知'
             onPress={async () => {
               await sendPushNotification(expoPushToken)
             }}
-          />
+          /> */}
       </SafeAreaView>
     )
   }

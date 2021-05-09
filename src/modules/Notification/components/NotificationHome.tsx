@@ -23,7 +23,6 @@ function NotificationHome() {
   const [refreshState, setRefreshData] = useState(false);
   const [notificationData, setNotificationData] = useState([]);
   const [pageData, setPageData] = useState(2);
-
   useEffect(() => {
     refreshData();
   }, []);
@@ -105,9 +104,11 @@ function NotificationHome() {
         onEndReached={fetchData}
         onEndReachedThreshold={1.0}
         renderItem={({ item }) => {
+          const color = !item.checked ? "#EEF2FF" : "white";
           if (item.action === "like") {
             return (
               <ListItem
+                key={item.id}
                 bottomDivider
                 onPress={() =>
                   navigation.navigate("Detail", {
@@ -116,6 +117,7 @@ function NotificationHome() {
                     initialLikeNum: item.done_post.likes.length,
                   })
                 }
+                containerStyle={{ backgroundColor: color }}
               >
                 <Icon
                   name="heart"
@@ -140,6 +142,7 @@ function NotificationHome() {
           if (item.action === "reply") {
             return (
               <ListItem
+                key={item.id}
                 bottomDivider
                 onPress={() =>
                   navigation.navigate("Detail", {
@@ -148,6 +151,7 @@ function NotificationHome() {
                     initialLikeNum: item.done_post.likes.length,
                   })
                 }
+                containerStyle={{ backgroundColor: color }}
               >
                 <Icon
                   name="comment"
@@ -172,12 +176,14 @@ function NotificationHome() {
           if (item.action === "follow") {
             return (
               <ListItem
+                key={item.id}
                 bottomDivider
                 onPress={() =>
                   navigation.navigate("UserPage", {
                     user: item.visiter,
                   })
                 }
+                containerStyle={{ backgroundColor: color }}
               >
                 <Icon
                   name="user"

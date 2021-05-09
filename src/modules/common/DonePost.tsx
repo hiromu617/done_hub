@@ -5,7 +5,7 @@ import { useNavigation } from "@react-navigation/native";
 import firebase from "firebase";
 import axios from "../../constants/axios";
 import { FlatList } from "react-native-gesture-handler";
-
+import { sendPushNotification } from "../../constants/pushNotificationFunc";
 type Props = {
   post;
   userData;
@@ -92,6 +92,13 @@ const DonePost: React.FC<Props> = (props) => {
           setLikeNum(res.data.length);
         }
       });
+    if (post.user.id === userData.id) return;
+    sendPushNotification(
+      post.user.expo_push_token,
+      "Done Hub",
+      `${userData.name}さんが投稿にいいねしました`
+    );
+    // sendPushNotification(userData.expo_push_token, 'Done Hub', `${userData.name}さんが投稿にいいねしました`)
   };
 
   const unlike = async () => {
@@ -134,13 +141,13 @@ const DonePost: React.FC<Props> = (props) => {
                 uri: imageSrc,
               }}
               containerStyle={{ backgroundColor: "gray", marginRight: 10 }}
-              onPress={() =>{
-                if(userData.id === post.user.id){
-                  navigation.navigate("Profile")
-                }else{
+              onPress={() => {
+                if (userData.id === post.user.id) {
+                  navigation.navigate("Profile");
+                } else {
                   navigation.push("UserPage", {
                     user: post.user,
-                  })
+                  });
                 }
               }}
             />
@@ -150,13 +157,13 @@ const DonePost: React.FC<Props> = (props) => {
               rounded
               title={post.user.name[0]}
               containerStyle={{ backgroundColor: "gray", marginRight: 10 }}
-              onPress={() =>{
-                if(userData.id === post.user.id){
-                  navigation.navigate("Profile")
-                }else{
+              onPress={() => {
+                if (userData.id === post.user.id) {
+                  navigation.navigate("Profile");
+                } else {
                   navigation.push("UserPage", {
                     user: post.user,
-                  })
+                  });
                 }
               }}
             />

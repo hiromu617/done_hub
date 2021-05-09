@@ -14,6 +14,7 @@ import { AntDesign } from "@expo/vector-icons";
 import { Input, Button, Icon } from "react-native-elements";
 import axios from "../../constants/axios";
 import Toast from "react-native-root-toast";
+import { sendPushNotification } from "../../constants/pushNotificationFunc";
 
 type Props = {
   post;
@@ -56,6 +57,28 @@ const ReplyModal: React.FC<Props> = (props) => {
           position: 50,
         });
       });
+    if (post.user.id !== userData.id) {
+      sendPushNotification(
+        post.user.expo_push_token,
+        "Done Hub",
+        `${userData.name}さんが投稿に返信しました`
+      );
+    }
+    let hash = {};
+    for (let i = 0; i < post.reply.length; i++) {
+      if (hash[post.reply[i].user.id] === post.user.id) continue;
+
+      if (hash[post.reply[i].user.id] === undefined)
+        hash[post.reply[i].user.id] = 1;
+      else hash[post.reply[i].user.id]++;
+
+      if (hash[post.reply[i].user.id] > 1) continue;
+      sendPushNotification(
+        post.reply[i].user.expo_push_token,
+        "Done Hub",
+        `${userData.name}さんが投稿に返信しました`
+      );
+    }
   };
 
   return (

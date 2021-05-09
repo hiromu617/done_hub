@@ -1,4 +1,10 @@
-import React, { useState, useEffect, useRef, useReducer, useContext } from "react";
+import React, {
+  useState,
+  useEffect,
+  useRef,
+  useReducer,
+  useContext,
+} from "react";
 import { StyleSheet, Text, View } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
@@ -19,9 +25,9 @@ import firebase from "firebase";
 import User from "./src/modules/Profile/objects/User";
 import { storeUser, getUser } from "./src/modules/Todo/Storage";
 import { RootSiblingParent } from "react-native-root-siblings";
-import {Icon} from 'react-native-elements'
-import { Subscription } from '@unimodules/core'
-import * as Notifications from 'expo-notifications';
+import { Icon } from "react-native-elements";
+import { Subscription } from "@unimodules/core";
+import * as Notifications from "expo-notifications";
 
 const initialUser: User = {
   uid: null,
@@ -127,7 +133,12 @@ function MyTabs() {
         options={{
           tabBarLabel: "Notification",
           tabBarIcon: ({ color, size }) => (
-            <Icon name="bell-outline" size={size} color={color} type='material-community'/>
+            <Icon
+              name="bell-outline"
+              size={size}
+              color={color}
+              type="material-community"
+            />
           ),
         }}
       />
@@ -146,40 +157,48 @@ function MyTabs() {
 }
 
 export default function App() {
-  const [notification, setNotification] = useState<Notifications.Notification>()
-  const notificationListener = useRef<Subscription>()
-  const responseListener = useRef<Subscription>()
-  
+  const [
+    notification,
+    setNotification,
+  ] = useState<Notifications.Notification>();
+  const notificationListener = useRef<Subscription>();
+  const responseListener = useRef<Subscription>();
+
   useEffect(() => {
     // 通知を受信した時の振る舞いを設定
     Notifications.setNotificationHandler({
       handleNotification: async () => ({
         shouldShowAlert: true,
-        shouldPlaySound: false,
-        shouldSetBadge: false
-      })
-    })
+        shouldPlaySound: true,
+        shouldSetBadge: false,
+      }),
+    });
 
     // アプリがフォアグラウンドの状態で通知を受信したときに起動
-    notificationListener.current = Notifications.addNotificationReceivedListener(notification => {
-      setNotification(notification)
-    })
+    notificationListener.current = Notifications.addNotificationReceivedListener(
+      (notification) => {
+        setNotification(notification);
+      }
+    );
 
     // ユーザーが通知をタップまたは操作したときに発生します
     // （アプリがフォアグラウンド、バックグラウンド、またはキルされたときに動作します）
-    responseListener.current = Notifications.addNotificationResponseReceivedListener(response => {
-      alert('ユーザーが通知をタップしました')
-      console.log(response)
-    })
+    responseListener.current = Notifications.addNotificationResponseReceivedListener(
+      (response) => {
+        // alert('ユーザーが通知をタップしました')
+        console.log(response);
+      }
+    );
 
     // アンマウント時にリスナーを削除
     return () => {
-      const notification = notificationListener.current
-      notification && Notifications.removeNotificationSubscription(notification)
-      const response = responseListener.current
-      response && Notifications.removeNotificationSubscription(response)
-    }
-  }, [])
+      const notification = notificationListener.current;
+      notification &&
+        Notifications.removeNotificationSubscription(notification);
+      const response = responseListener.current;
+      response && Notifications.removeNotificationSubscription(response);
+    };
+  }, []);
 
   return (
     <RootSiblingParent>
