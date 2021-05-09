@@ -44,7 +44,7 @@ function NotificationHome() {
 
   const refreshData = () => {
     setRefreshData(true);
-    setNotificationData([]);
+    // setNotificationData([]);
     getUser().then((data) => {
       if (data.uid !== undefined) {
         setData(data);

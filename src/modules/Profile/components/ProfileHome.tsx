@@ -64,7 +64,7 @@ function ProfileHome() {
     });
   };
   const refreshData = () => {
-    setUserPostData(null);
+    // setUserPostData(null);
     setImageSrc(null);
     getSource(userData);
 

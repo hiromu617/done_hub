@@ -78,7 +78,7 @@ function UserPage({ route }) {
     });
   };
   const refreshData = () => {
-    setUserPostData(null);
+    // setUserPostData(null);
     setImageSrc(null);
     getSource(userData);
 

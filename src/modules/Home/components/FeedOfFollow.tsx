@@ -96,7 +96,7 @@ function FeedOfFollowScreen() {
   }, []);
 
   const refreshData = () => {
-    setFeed(null);
+    // setFeed(null);
     setImageSrc(null);
     setRefreshData(true);
     getUser().then((data) => {
@@ -114,7 +114,7 @@ function FeedOfFollowScreen() {
         })
         .then((res) => {
           setPageData(2);
-          console.log(res.data);
+          // console.log(res.data);
           // console.log("----------------------")
           // let postsData = res.data.done_posts.reverse()
           // setUserPostData(postsData)

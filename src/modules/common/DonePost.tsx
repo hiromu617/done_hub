@@ -28,6 +28,10 @@ const DonePost: React.FC<Props> = (props) => {
     isLike();
   }, []);
 
+  useEffect(() => {
+    isLike();
+  }, [post.likes]);
+
   const getAvatar = (post) => {
     return new Promise((resolve) => {
       var storage = firebase.storage();
@@ -70,12 +74,21 @@ const DonePost: React.FC<Props> = (props) => {
   };
   const isLike = () => {
     setLikeNum(post.likes.length);
+    setLikeState(false);
     post.likes.map((p) => {
       if (p.user_id === userData.id) {
         setLikeState(true);
         return;
       }
     });
+    // for(let i = 0; i < post.likes; i++) {
+    //   if(post.likes[i].user_id === userData.id){
+    //     console.log(post.likes[i].user_id)
+    //     setLikeState(true);
+    //     return;
+    //   }
+    // }
+    // setLikeState(false)
   };
   const like = async () => {
     setLikeState(true);

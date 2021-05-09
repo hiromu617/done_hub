@@ -82,7 +82,7 @@ function FeedOfHubScreen() {
   }, []);
 
   const refreshData = () => {
-    setFeed(null);
+    // setFeed(null);
     setImageSrc(null);
     setRefreshData(true);
     getUser().then((data) => {
