@@ -67,7 +67,15 @@ function ProfileInfo(props) {
               paddingHorizontal: 12,
               backgroundColor: "white",
             }}
-            titleStyle={{ fontSize: 16 }}
+            icon={
+              <Icon
+                name="cog"
+                type='font-awesome'
+                size={18}
+                color="#3B82F6"
+              />
+            }
+            titleStyle={{ fontSize: 16, marginLeft: 3}}
             type="outline"
             onPress={toggleModal}
           />

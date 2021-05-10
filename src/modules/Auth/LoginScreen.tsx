@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {ActivityIndicator,TouchableOpacity, Image, View, StyleSheet, Button,SafeAreaView } from 'react-native';
+import {Platform, PlatformIOSStatic, ActivityIndicator,TouchableOpacity, Image, View, StyleSheet, Button,SafeAreaView } from 'react-native';
 import * as Google from 'expo-google-app-auth';
 import firebase from 'firebase';
 import {  SocialIcon, Text } from 'react-native-elements'
@@ -10,7 +10,14 @@ import * as Crypto from 'expo-crypto';
 class LoginScreen extends Component{
   constructor(props) {
     super(props);
-    this.state = {loading: true};
+    if (Platform.OS === 'ios') {
+      const platformIOS = Platform as PlatformIOSStatic
+      if (platformIOS.isPad){
+        this.state = {loading: true, isPad: true};
+      }else{
+        this.state = {loading: true, isPad: false};
+      }
+    }
   }
   isUserEqual = (googleUser, firebaseUser) => {
     if (firebaseUser) {
@@ -58,6 +65,7 @@ class LoginScreen extends Component{
 
       } else {
         console.log('User already signed-in Firebase.');
+        this.props.navigation.navigate('LoadingScreen')
       }
     }.bind(this));
   }
@@ -183,7 +191,7 @@ class LoginScreen extends Component{
           {!this.state.loading && 
             <ActivityIndicator size='large'/>
           }
-          {this.state.loading &&
+          {this.state.loading && !this.state.isPad &&
           <AppleAuthentication.AppleAuthenticationButton
             buttonType={AppleAuthentication.AppleAuthenticationButtonType.SIGN_IN}
             buttonStyle={AppleAuthentication.AppleAuthenticationButtonStyle.WHITE_OUTLINE}
@@ -191,6 +199,9 @@ class LoginScreen extends Component{
             style={{ width: 240, height: 54}}
             onPress={() => this.signInWithApple()}
           />
+          }
+          {this.state.loading && this.state.isPad &&
+          <Text>現在iPadではsign in with Googleのみ可能です。</Text>
           }
           
       </SafeAreaView>
