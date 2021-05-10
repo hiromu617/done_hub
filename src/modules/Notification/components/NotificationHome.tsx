@@ -115,8 +115,10 @@ function NotificationHome() {
               <ListItem
                 key={item.id}
                 bottomDivider
-                onPress={() => {
-                  axios.put("/api/notifications/" + item.id);
+                onPress={async () => {
+                  if(!item.checked){
+                    await axios.put("/api/notifications/" + item.id)
+                  }
                   navigation.navigate("Detail", {
                     post: item.done_post,
                     userData: userData,
@@ -150,8 +152,10 @@ function NotificationHome() {
               <ListItem
                 key={item.id}
                 bottomDivider
-                onPress={() => {
-                  axios.put("/api/notifications/" + item.id);
+                onPress={async () => {
+                  if(!item.checked){
+                    await axios.put("/api/notifications/" + item.id)
+                  }
                   navigation.navigate("Detail", {
                     post: item.done_post,
                     userData: userData,
@@ -185,8 +189,10 @@ function NotificationHome() {
               <ListItem
                 key={item.id}
                 bottomDivider
-                onPress={() => {
-                  axios.put("/api/notifications/" + item.id)
+                onPress={async () => {
+                  if(!item.checked){
+                    await axios.put("/api/notifications/" + item.id)
+                  }
                   navigation.navigate("UserPage", {
                     user: item.visiter,
                   });
