@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "Done Hub",
+    "name": "DoneHub",
     "version": "1.0.0",
     "ios": {
       "bundleIdentifier": "com.done-hub",

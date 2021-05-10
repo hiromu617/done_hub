@@ -28,6 +28,8 @@ import { RootSiblingParent } from "react-native-root-siblings";
 import { Icon } from "react-native-elements";
 import { Subscription } from "@unimodules/core";
 import * as Notifications from "expo-notifications";
+import axios from "./src/constants/axios";
+import reducer from "./notificationReducer"
 
 const initialUser: User = {
   uid: null,
@@ -88,7 +90,30 @@ const AppSwitchNavigator = createSwitchNavigator({
 });
 
 const Tab = createBottomTabNavigator();
+
+const initialState = {count: 0};
+
 function MyTabs() {
+  // const [state, dispatch] = useReducer(reducer, initialState);
+  const [notificationCount, setNotificationCount] = useState(0)
+  // const navigation = useNavigation
+
+  // useEffect(() => {
+  //   fetchNotificationCount()
+  // },[]);
+
+  const fetchNotificationCount =  async () => {
+    getUser().then((data) => {
+      axios
+        .get("/api/notifications_count/" + data.uid)
+        .then((res) => {
+          console.log('---------------')
+          console.log(res.data);
+          // dispatch({type: 'set', count: res.data})
+          setNotificationCount(res.data)
+        }).catch(e => console.log(e))
+    });
+  }
   return (
     <Tab.Navigator
       initialRouteName="Todo"
@@ -131,6 +156,7 @@ function MyTabs() {
         name="Notification"
         component={NotificationScreen}
         options={{
+          // tabBarBadge: notificationCount,
           tabBarLabel: "Notification",
           tabBarIcon: ({ color, size }) => (
             <Icon

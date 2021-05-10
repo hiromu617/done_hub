@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useReducer } from "react";
 import {
   Text,
   FlatList,
@@ -15,6 +15,9 @@ import axios from "../../../constants/axios";
 import { ListItem, Divider, Overlay, Icon } from "react-native-elements";
 import firebase from "firebase";
 import { useFocusEffect } from "@react-navigation/native";
+import reducer from '../../../../notificationReducer'
+
+const initialState = {count: 0};
 
 function NotificationHome() {
   // const {state} = useContext(SiteContext);
@@ -23,6 +26,8 @@ function NotificationHome() {
   const [refreshState, setRefreshData] = useState(false);
   const [notificationData, setNotificationData] = useState([]);
   const [pageData, setPageData] = useState(2);
+  const [state, dispatch] = useReducer(reducer, initialState);
+
   useEffect(() => {
     refreshData();
   }, []);
@@ -110,13 +115,14 @@ function NotificationHome() {
               <ListItem
                 key={item.id}
                 bottomDivider
-                onPress={() =>
+                onPress={() => {
+                  axios.put("/api/notifications/" + item.id);
                   navigation.navigate("Detail", {
                     post: item.done_post,
                     userData: userData,
                     initialLikeNum: item.done_post.likes.length,
-                  })
-                }
+                  });
+                }}
                 containerStyle={{ backgroundColor: color }}
               >
                 <Icon
@@ -144,13 +150,14 @@ function NotificationHome() {
               <ListItem
                 key={item.id}
                 bottomDivider
-                onPress={() =>
+                onPress={() => {
+                  axios.put("/api/notifications/" + item.id);
                   navigation.navigate("Detail", {
                     post: item.done_post,
                     userData: userData,
                     initialLikeNum: item.done_post.likes.length,
-                  })
-                }
+                  });
+                }}
                 containerStyle={{ backgroundColor: color }}
               >
                 <Icon
@@ -178,11 +185,12 @@ function NotificationHome() {
               <ListItem
                 key={item.id}
                 bottomDivider
-                onPress={() =>
+                onPress={() => {
+                  axios.put("/api/notifications/" + item.id)
                   navigation.navigate("UserPage", {
                     user: item.visiter,
-                  })
-                }
+                  });
+                }}
                 containerStyle={{ backgroundColor: color }}
               >
                 <Icon
