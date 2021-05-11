@@ -60,7 +60,7 @@ function ProfileInfo(props) {
             {userData.name}
           </Text>
         </View>
-        <View>
+        <View style={{position: 'absolute', right: 0}}>
           <Button
             title="変更"
             style={{ margin: 10 }}

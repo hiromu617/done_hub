@@ -31,7 +31,7 @@ function OtherProfileInfo(props) {
     unblockUser,
     blockState,
     reportUser,
-    toggleCalendar 
+    toggleCalendar,
   } = props;
   const [blockMenu, setBlockMenu] = useState(false);
   const navigation = useNavigation();
@@ -79,26 +79,30 @@ function OtherProfileInfo(props) {
               justifyContent: "space-between",
             }}
           >
-            <Text h4 style={{ fontWeight: "bold", margin: 5 }}>
-              {userData.name}
-            </Text>
-            {blockMenu ? (
-              <Icon
-                size={20}
-                style={{ marginLeft: 20 }}
-                name="caret-up"
-                type="font-awesome"
-                onPress={() => setBlockMenu(!blockMenu)}
-              />
-            ) : (
-              <Icon
-                style={{ marginLeft: 20 }}
-                size={20}
-                name="caret-down"
-                type="font-awesome"
-                onPress={() => setBlockMenu(!blockMenu)}
-              />
-            )}
+            <View style={{maxWidth: '85%'}}>
+              <Text h4 style={{ fontWeight: "bold", margin: 5 }}>
+                {userData.name}
+              </Text>
+            </View>
+            <View>
+              {blockMenu ? (
+                <Icon
+                  size={20}
+                  style={{ paddingLeft: 20 }}
+                  name="caret-up"
+                  type="font-awesome"
+                  onPress={() => setBlockMenu(!blockMenu)}
+                />
+              ) : (
+                <Icon
+                  style={{ paddingLeft: 20 }}
+                  size={20}
+                  name="caret-down"
+                  type="font-awesome"
+                  onPress={() => setBlockMenu(!blockMenu)}
+                />
+              )}
+            </View>
           </View>
           {!blockState.block && blockMenu && (
             <Button
@@ -125,7 +129,7 @@ function OtherProfileInfo(props) {
             />
           )}
         </View>
-        <View>
+        <View style={{ position: "absolute", right: 0 }}>
           {blockState.block && (
             <Button
               title="ブロック中"
@@ -232,9 +236,7 @@ function OtherProfileInfo(props) {
               {followData.follower.length} フォロワー
             </Text>
           </TouchableOpacity>
-          <TouchableOpacity
-          onPress={() => toggleCalendar()}
-          >
+          <TouchableOpacity onPress={() => toggleCalendar()}>
             <Text style={{ fontWeight: "bold" }}> {doneCounts} Done</Text>
           </TouchableOpacity>
         </Text>
