@@ -25,6 +25,9 @@ function reducer(state: Task[], action) {
           // console.log(t)
         }
       });
+      // 完了したタスクを除外
+      let yetCheckedState = checkedState.filter((t) => !t.checked)
+
       // console.log(checkedTask)
       getUser().then((data) => {
         if (data.uid !== undefined) {
@@ -44,8 +47,9 @@ function reducer(state: Task[], action) {
           .catch((e) => console.log(e));
       });
 
-      storeTasks(checkedState);
-      return checkedState;
+      // storeTasks(checkedState);
+      storeTasks(yetCheckedState);
+      return yetCheckedState;
     case "share":
       console.log("----");
       console.log(JSON.stringify(state));

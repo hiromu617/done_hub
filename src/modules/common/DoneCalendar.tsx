@@ -21,6 +21,7 @@ const DoneCalendar: React.FC<Props> = (props) => {
   const { userData } = props;
   const [DoneLog, setDonelog] = useState({});
   const [loading, setLoading] = useState(false);
+  const [month, setMonth] = useState();
   useEffect(() => {
     fetchDoneCalendarData();
   }, []);
@@ -56,17 +57,30 @@ const DoneCalendar: React.FC<Props> = (props) => {
   };
 
   return (
-    <SafeAreaView style={{backgroundColor: "white", padding: 15, height: 330}}>
+    <SafeAreaView
+      style={{ backgroundColor: "white", padding: 15, height: 330 }}
+    >
       {loading ? (
-        <View style={{width: '100%', height: '100%',flex: 1,
-        alignItems: 'center',
-        justifyContent: 'center'}}>
+        <View
+          style={{
+            width: "100%",
+            height: "100%",
+            flex: 1,
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
           <ActivityIndicator />
         </View>
       ) : (
         <Calendar
           markingType={"period"}
           markedDates={DoneLog}
+          onPressArrowLeft={(subtractMonth) => {
+            subtractMonth();
+          }}
+          // Handler which gets executed when press arrow icon right. It receive a callback can go next month
+          onPressArrowRight={(addMonth) => addMonth()}
         />
       )}
     </SafeAreaView>
