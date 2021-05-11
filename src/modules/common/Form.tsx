@@ -29,7 +29,6 @@ const ReplyModal: React.FC<Props> = (props) => {
   const { control, handleSubmit, errors, setValue } = useForm();
   const [loading, setLoading] = useState(false);
   const commentRef = useRef<HTMLInputElement | null>(null);
-
   useEffect(() => {
     if (autoFocus && commentRef.current) {
       commentRef.current.focus();
@@ -64,20 +63,29 @@ const ReplyModal: React.FC<Props> = (props) => {
         `${userData.name}さんが投稿に返信しました`
       );
     }
+
+    let users = post.replys.map((r) => {
+      return r.user;
+    })
+
     let hash = {};
-    for (let i = 0; i < post.reply.length; i++) {
-      if (hash[post.reply[i].user.id] === post.user.id) continue;
+    for (let i = 0; i < users.length; i++) {
+      if (hash[users[i].id] === post.user.id) continue;
 
-      if (hash[post.reply[i].user.id] === undefined)
-        hash[post.reply[i].user.id] = 1;
-      else hash[post.reply[i].user.id]++;
-
-      if (hash[post.reply[i].user.id] > 1) continue;
-      sendPushNotification(
-        post.reply[i].user.expo_push_token,
+      if (hash[users[i].id] === undefined)
+        hash[users[i].id] = users[i];
+    }
+    let keys = Object.keys(hash)
+    let values = Object.values(hash)
+    for(let i = 0; i < keys[i].length; i++){
+      if(keys[i] == post.user.id || keys[i] == userData.id) continue
+      else {
+        sendPushNotification(
+        values[i].expo_push_token,
         "Done Hub",
         `${userData.name}さんが投稿に返信しました`
       );
+      } 
     }
   };
 
