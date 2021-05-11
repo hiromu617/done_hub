@@ -17,6 +17,8 @@ import { Divider, Overlay } from "react-native-elements";
 import firebase from "firebase";
 import { StatusBar } from "expo-status-bar";
 import DonePost from "../../common/DonePost";
+import Modal from "react-native-modal";
+import DoneCalendar from '../../common/DoneCalendar'
 
 function ProfileHome() {
   // const {state} = useContext(SiteContext);
@@ -26,6 +28,7 @@ function ProfileHome() {
   const [userPostsData, setUserPostData] = useState();
   const [pageData, setPageData] = useState(2);
   const [isModalVisible, setModalVisible] = useState(false);
+  const [isShowCalendar, setIsShowCalendar] = useState(false);
   const [imageSrc, setImageSrc] = useState(null);
   const [followData, setFollowData] = useState({ following: 0, follower: 0 });
   const [doneCounts, setDoneCounts] = useState(0);
@@ -33,6 +36,10 @@ function ProfileHome() {
 
   const toggleModal = () => {
     setModalVisible(!isModalVisible);
+  };
+
+  const toggleCalendar = () => {
+    setIsShowCalendar(!isShowCalendar);
   };
 
   useEffect(() => {
@@ -132,7 +139,14 @@ function ProfileHome() {
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <StatusBar style="dark" />
-
+      <Modal
+        isVisible={isShowCalendar}
+        onBackdropPress={toggleCalendar}
+        animationIn="zoomInUp"
+        animationOut="zoomOut"
+      >
+        <DoneCalendar userData={userData}/>
+      </Modal>
       <Overlay isVisible={isModalVisible} fullScreen>
         <EditProfile
           toggleModal={toggleModal}
@@ -149,6 +163,7 @@ function ProfileHome() {
             toggleModal={toggleModal}
             imageSrc={imageSrc}
             doneCounts={doneCounts}
+            toggleCalendar={toggleCalendar}
           />
         }
         refreshControl={

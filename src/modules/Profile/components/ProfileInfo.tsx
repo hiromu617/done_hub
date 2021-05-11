@@ -13,8 +13,9 @@ import { useNavigation } from "@react-navigation/native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { LinearGradient } from "expo-linear-gradient";
 import { deleteData } from "../../Todo/Storage";
+
 function ProfileInfo(props) {
-  const { userData, toggleModal, imageSrc, followData, doneCounts } = props;
+  const { userData, toggleModal, imageSrc, followData, doneCounts, toggleCalendar } = props;
   // console.log(followData.following)
   // console.log(followData.follower)
   const navigation = useNavigation();
@@ -27,6 +28,7 @@ function ProfileInfo(props) {
   }
   return (
     <View style={{ backgroundColor: "white" }}>
+      
       <View
         style={{
           padding: 10,
@@ -168,9 +170,11 @@ function ProfileInfo(props) {
               {followData.follower.length} フォロワー
             </Text>
           </TouchableOpacity>
-          <View>
+          <TouchableOpacity
+          onPress={() => toggleCalendar()}
+          >
             <Text style={{ fontWeight: "bold" }}> {doneCounts} Done</Text>
-          </View>
+          </TouchableOpacity>
         </Text>
       </View>
     </View>

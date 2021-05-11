@@ -31,6 +31,7 @@ function OtherProfileInfo(props) {
     unblockUser,
     blockState,
     reportUser,
+    toggleCalendar 
   } = props;
   const [blockMenu, setBlockMenu] = useState(false);
   const navigation = useNavigation();
@@ -231,9 +232,11 @@ function OtherProfileInfo(props) {
               {followData.follower.length} フォロワー
             </Text>
           </TouchableOpacity>
-          <View>
+          <TouchableOpacity
+          onPress={() => toggleCalendar()}
+          >
             <Text style={{ fontWeight: "bold" }}> {doneCounts} Done</Text>
-          </View>
+          </TouchableOpacity>
         </Text>
       </View>
     </View>

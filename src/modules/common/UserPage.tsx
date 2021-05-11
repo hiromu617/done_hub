@@ -23,6 +23,8 @@ import EditProfile from "../Profile/components/EditProfile";
 import Toast from "react-native-root-toast";
 import { slackToken } from "../../../config";
 import { sendPushNotification } from "../../constants/pushNotificationFunc";
+import Modal from "react-native-modal";
+import DoneCalendar from './DoneCalendar'
 
 function UserPage({ route }) {
   const { user } = route.params;
@@ -44,6 +46,11 @@ function UserPage({ route }) {
     blocked: false,
   });
   const [reportState, setReportState] = useState(false);
+  const [isShowCalendar, setIsShowCalendar] = useState(false);
+
+  const toggleCalendar = () => {
+    setIsShowCalendar(!isShowCalendar);
+  };
   const toggleModal = () => {
     setModalVisible(!isModalVisible);
   };
@@ -266,6 +273,14 @@ function UserPage({ route }) {
   if (blockState.block || blockState.blocked) {
     return (
       <SafeAreaView style={{ flex: 1 }}>
+        <Modal
+        isVisible={isShowCalendar}
+        onBackdropPress={toggleCalendar}
+        animationIn="zoomInUp"
+        animationOut="zoomOut"
+      >
+        <DoneCalendar userData={userInfo}/>
+      </Modal>
         <OtherProfileInfo
           userData={userInfo}
           followData={followData}
@@ -279,6 +294,7 @@ function UserPage({ route }) {
           unblockUser={unblockUser}
           blockState={blockState}
           reportUser={reportUser}
+          toggleCalendar={toggleCalendar} 
         />
         <View style={{ flex: 1 }}>
           <View
@@ -341,6 +357,14 @@ function UserPage({ route }) {
           imageSrc={imageSrc}
         />
       </Overlay>
+      <Modal
+        isVisible={isShowCalendar}
+        onBackdropPress={toggleCalendar}
+        animationIn="zoomInUp"
+        animationOut="zoomOut"
+      >
+        <DoneCalendar userData={userInfo}/>
+      </Modal>
       <FlatList
         ListHeaderComponent={
           isCurrentUser ? (
@@ -365,6 +389,7 @@ function UserPage({ route }) {
               unblockUser={unblockUser}
               blockState={blockState}
               reportUser={reportUser}
+              toggleCalendar={toggleCalendar} 
             />
           )
         }
