@@ -33,19 +33,30 @@ const TaskList: React.FC = () => {
 
   return (
     <Card>
-      <Card.Title>
+      {/* <Card.Title>
         TODO LIST {new Date().getMonth() + 1}/{new Date().getDate()}
       </Card.Title>
-      <Card.Divider />
+      <Card.Divider /> */}
       <FlatList
+        ListHeaderComponent={
+        <View style={{padding: 10}}>
+          <Text style={{textAlign: 'center', fontWeight: 'bold', color: '#374151'}}>TODO LIST {new Date().getMonth() + 1}/{new Date().getDate()}</Text>
+        </View>
+        }
+        ListEmptyComponent={
+          <View style={{padding: 10}}>
+            <Card.Divider />
+            <Text style={{textAlign: 'center', color: '#374151'}}>No Tasks</Text>
+          </View>
+        }
         showsVerticalScrollIndicator={false}
         data={tasksData}
         keyExtractor={(item) => item?.id?.toString()}
         renderItem={({ item }) => {
           return (
             <View>
-              <TaskCard task={item} />
               <Card.Divider />
+              <TaskCard task={item} />
             </View>
           );
         }}
