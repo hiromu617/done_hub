@@ -50,7 +50,7 @@ function ProfileHome() {
     return new Promise((resolve) => {
       var storage = firebase.storage();
       var storageRef = storage.ref();
-      var spaceRef = storageRef.child(`images/${userData.uid}.jpg`);
+      var spaceRef = storageRef.child(`images/${userData.uid}_200x200.jpg`);
       spaceRef
         .getDownloadURL()
         .then(function (url) {

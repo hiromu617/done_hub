@@ -64,7 +64,7 @@ function UserPage({ route }) {
     return new Promise((resolve) => {
       var storage = firebase.storage();
       var storageRef = storage.ref();
-      var spaceRef = storageRef.child(`images/${user.uid}.jpg`);
+      var spaceRef = storageRef.child(`images/${user.uid}_200x200.jpg`);
       spaceRef
         .getDownloadURL()
         .then(function (url) {
