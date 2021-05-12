@@ -29,7 +29,7 @@ import { Icon } from "react-native-elements";
 import { Subscription } from "@unimodules/core";
 import * as Notifications from "expo-notifications";
 import axios from "./src/constants/axios";
-import reducer from "./notificationReducer"
+import reducer from "./notificationReducer";
 
 const initialUser: User = {
   uid: null,
@@ -91,102 +91,110 @@ const AppSwitchNavigator = createSwitchNavigator({
 
 const Tab = createBottomTabNavigator();
 
-const initialState = {count: 0};
+export const CountContext = React.createContext(
+  {} as {
+    notificationCount: number;
+    setNotificationCount: React.Dispatch<React.SetStateAction<number>>;
+  }
+);
 
 function MyTabs() {
-  // const [state, dispatch] = useReducer(reducer, initialState);
-  const [notificationCount, setNotificationCount] = useState(0)
-  // const navigation = useNavigation
+  const [notificationCount, setNotificationCount] = useState(0);
 
-  // useEffect(() => {
-  //   fetchNotificationCount()
-  // },[]);
+  useEffect(() => {
+    fetchNotificationCount()
+  },[]);
 
-  const fetchNotificationCount =  async () => {
+  const fetchNotificationCount = async () => {
     getUser().then((data) => {
       axios
         .get("/api/notifications_count/" + data.uid)
         .then((res) => {
-          console.log('---------------')
+          console.log("---------------");
           console.log(res.data);
           // dispatch({type: 'set', count: res.data})
-          setNotificationCount(res.data)
-        }).catch(e => console.log(e))
+          setNotificationCount(res.data);
+        })
+        .catch((e) => console.log(e));
     });
-  }
+  };
   return (
-    <Tab.Navigator
-      initialRouteName="Todo"
-      tabBarOptions={{
-        activeTintColor: "#3B82F6",
-        showLabel: false,
-      }}
-    >
-      <Tab.Screen
-        name="Home"
-        component={HomeScreen}
-        options={{
-          tabBarLabel: "Home",
-          tabBarIcon: ({ color, size }) => (
-            <MaterialCommunityIcons name="home" color={color} size={size} />
-          ),
+    <CountContext.Provider value={{ notificationCount, setNotificationCount }}>
+      <Tab.Navigator
+        initialRouteName="Todo"
+        tabBarOptions={{
+          activeTintColor: "#3B82F6",
+          showLabel: false,
         }}
-      />
-      <Tab.Screen
-        name="Search"
-        component={SearchScreen}
-        options={{
-          tabBarLabel: "Search",
-          tabBarIcon: ({ color, size }) => (
-            <FontAwesome name="search" size={size} color={color} />
-          ),
-        }}
-      />
-      <Tab.Screen
-        name="Todo"
-        component={TodoScreen}
-        options={{
-          tabBarLabel: "Todo",
-          tabBarIcon: ({ color, size }) => (
-            <FontAwesome name="check-square-o" size={size} color={color} />
-          ),
-        }}
-      />
-      <Tab.Screen
-        name="Notification"
-        component={NotificationScreen}
-        options={{
-          // tabBarBadge: notificationCount,
-          tabBarLabel: "Notification",
-          tabBarIcon: ({ color, size }) => (
-            <Icon
-              name="bell-outline"
-              size={size}
-              color={color}
-              type="material-community"
-            />
-          ),
-        }}
-      />
-      <Tab.Screen
-        name="Profile"
-        component={ProfileScreen}
-        options={{
-          tabBarLabel: "Profile",
-          tabBarIcon: ({ color, size }) => (
-            <MaterialCommunityIcons name="account" color={color} size={size} />
-          ),
-        }}
-      />
-    </Tab.Navigator>
+      >
+        <Tab.Screen
+          name="Home"
+          component={HomeScreen}
+          options={{
+            tabBarLabel: "Home",
+            tabBarIcon: ({ color, size }) => (
+              <MaterialCommunityIcons name="home" color={color} size={size} />
+            ),
+          }}
+        />
+        <Tab.Screen
+          name="Search"
+          component={SearchScreen}
+          options={{
+            tabBarLabel: "Search",
+            tabBarIcon: ({ color, size }) => (
+              <FontAwesome name="search" size={size} color={color} />
+            ),
+          }}
+        />
+        <Tab.Screen
+          name="Todo"
+          component={TodoScreen}
+          options={{
+            tabBarLabel: "Todo",
+            tabBarIcon: ({ color, size }) => (
+              <FontAwesome name="check-square-o" size={size} color={color} />
+            ),
+          }}
+        />
+        <Tab.Screen
+          name="Notification"
+          component={NotificationScreen}
+          options={{
+            tabBarBadge: notificationCount,
+            tabBarLabel: "Notification",
+            tabBarIcon: ({ color, size }) => (
+              <Icon
+                name="bell-outline"
+                size={size}
+                color={color}
+                type="material-community"
+              />
+            ),
+          }}
+        />
+        <Tab.Screen
+          name="Profile"
+          component={ProfileScreen}
+          options={{
+            tabBarLabel: "Profile",
+            tabBarIcon: ({ color, size }) => (
+              <MaterialCommunityIcons
+                name="account"
+                color={color}
+                size={size}
+              />
+            ),
+          }}
+        />
+      </Tab.Navigator>
+    </CountContext.Provider>
   );
 }
 
 export default function App() {
-  const [
-    notification,
-    setNotification,
-  ] = useState<Notifications.Notification>();
+  const [notification, setNotification] =
+    useState<Notifications.Notification>();
   const notificationListener = useRef<Subscription>();
   const responseListener = useRef<Subscription>();
 
@@ -201,20 +209,18 @@ export default function App() {
     });
 
     // アプリがフォアグラウンドの状態で通知を受信したときに起動
-    notificationListener.current = Notifications.addNotificationReceivedListener(
-      (notification) => {
+    notificationListener.current =
+      Notifications.addNotificationReceivedListener((notification) => {
         setNotification(notification);
-      }
-    );
+      });
 
     // ユーザーが通知をタップまたは操作したときに発生します
     // （アプリがフォアグラウンド、バックグラウンド、またはキルされたときに動作します）
-    responseListener.current = Notifications.addNotificationResponseReceivedListener(
-      (response) => {
+    responseListener.current =
+      Notifications.addNotificationResponseReceivedListener((response) => {
         // alert('ユーザーが通知をタップしました')
         console.log(response);
-      }
-    );
+      });
 
     // アンマウント時にリスナーを削除
     return () => {

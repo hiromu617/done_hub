@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useReducer } from "react";
+import React, { useState, useEffect, useReducer, useContext } from "react";
 import {
   Text,
   FlatList,
@@ -15,9 +15,7 @@ import axios from "../../../constants/axios";
 import { ListItem, Divider, Overlay, Icon } from "react-native-elements";
 import firebase from "firebase";
 import { useFocusEffect } from "@react-navigation/native";
-import reducer from '../../../../notificationReducer'
-
-const initialState = {count: 0};
+import { CountContext } from "../../../../App";
 
 function NotificationHome() {
   // const {state} = useContext(SiteContext);
@@ -26,7 +24,7 @@ function NotificationHome() {
   const [refreshState, setRefreshData] = useState(false);
   const [notificationData, setNotificationData] = useState([]);
   const [pageData, setPageData] = useState(2);
-  const [state, dispatch] = useReducer(reducer, initialState);
+  const { notificationCount, setNotificationCount } = useContext(CountContext);
 
   useEffect(() => {
     refreshData();
@@ -68,12 +66,17 @@ function NotificationHome() {
           setPageData(2);
           setRefreshData(false);
           setNotificationData(res.data);
-          console.log(res.data);
         });
+
+      axios
+        .get("/api/notifications_count/" + data.uid)
+        .then((res) => {
+          setNotificationCount(res.data);
+        })
+        .catch((e) => console.log(e));
     });
   };
   const fetchData = () => {
-    console.log(userData.uid);
     axios
       .get("/api/notifications", {
         params: {
@@ -84,8 +87,6 @@ function NotificationHome() {
       .then((res) => {
         if (res.data.length === 0) return;
         setPageData(pageData + 1);
-        console.log("----------------------");
-        console.log(res.data);
         let Data = notificationData;
         if (Data !== undefined) {
           let newData = Data.concat(res.data);
@@ -116,8 +117,9 @@ function NotificationHome() {
                 key={item.id}
                 bottomDivider
                 onPress={async () => {
-                  if(!item.checked){
-                    await axios.put("/api/notifications/" + item.id)
+                  if (!item.checked) {
+                    setNotificationCount(notificationCount - 1);
+                    await axios.put("/api/notifications/" + item.id);
                   }
                   navigation.navigate("Detail", {
                     post: item.done_post,
@@ -153,8 +155,9 @@ function NotificationHome() {
                 key={item.id}
                 bottomDivider
                 onPress={async () => {
-                  if(!item.checked){
-                    await axios.put("/api/notifications/" + item.id)
+                  if (!item.checked) {
+                    setNotificationCount(notificationCount - 1);
+                    await axios.put("/api/notifications/" + item.id);
                   }
                   navigation.navigate("Detail", {
                     post: item.done_post,
@@ -190,8 +193,9 @@ function NotificationHome() {
                 key={item.id}
                 bottomDivider
                 onPress={async () => {
-                  if(!item.checked){
-                    await axios.put("/api/notifications/" + item.id)
+                  if (!item.checked) {
+                    setNotificationCount(notificationCount - 1);
+                    await axios.put("/api/notifications/" + item.id);
                   }
                   navigation.navigate("UserPage", {
                     user: item.visiter,
