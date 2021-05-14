@@ -25,7 +25,7 @@ import firebase from "firebase";
 import User from "./src/modules/Profile/objects/User";
 import { storeUser, getUser } from "./src/modules/Todo/Storage";
 import { RootSiblingParent } from "react-native-root-siblings";
-import { Icon } from "react-native-elements";
+import { Icon, Badge } from "react-native-elements";
 import { Subscription } from "@unimodules/core";
 import * as Notifications from "expo-notifications";
 import axios from "./src/constants/axios";
@@ -102,8 +102,8 @@ function MyTabs() {
   const [notificationCount, setNotificationCount] = useState(0);
 
   useEffect(() => {
-    fetchNotificationCount()
-  },[]);
+    fetchNotificationCount();
+  }, []);
 
   const fetchNotificationCount = async () => {
     getUser().then((data) => {
@@ -161,15 +161,23 @@ function MyTabs() {
           name="Notification"
           component={NotificationScreen}
           options={{
-            tabBarBadge: notificationCount,
+            // tabBarBadge: notificationCount,
             tabBarLabel: "Notification",
             tabBarIcon: ({ color, size }) => (
-              <Icon
-                name="bell-outline"
-                size={size}
-                color={color}
-                type="material-community"
-              />
+              <View>
+                {notificationCount > 0 &&
+                <Badge
+                  status="primary"
+                  containerStyle={{ position: "absolute", top: 0, right: 0 }}
+                />
+                }
+                <Icon
+                  name="bell-outline"
+                  size={size}
+                  color={color}
+                  type="material-community"
+                />
+              </View>
             ),
           }}
         />

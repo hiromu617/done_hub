@@ -27,6 +27,7 @@ function NotificationHome() {
   const { notificationCount, setNotificationCount } = useContext(CountContext);
 
   useEffect(() => {
+    setNotificationCount(0)
     refreshData();
   }, []);
 
@@ -47,7 +48,6 @@ function NotificationHome() {
 
   const refreshData = () => {
     setRefreshData(true);
-    // setNotificationData([]);
     getUser().then((data) => {
       if (data.uid !== undefined) {
         setCurrentUser(data);
@@ -67,13 +67,6 @@ function NotificationHome() {
           setRefreshData(false);
           setNotificationData(res.data);
         });
-
-      axios
-        .get("/api/notifications_count/" + data.uid)
-        .then((res) => {
-          setNotificationCount(res.data);
-        })
-        .catch((e) => console.log(e));
     });
   };
   const fetchData = () => {
@@ -117,10 +110,6 @@ function NotificationHome() {
                 key={item.id}
                 bottomDivider
                 onPress={async () => {
-                  if (!item.checked) {
-                    setNotificationCount(notificationCount - 1);
-                    await axios.put("/api/notifications/" + item.id);
-                  }
                   navigation.navigate("Detail", {
                     post: item.done_post,
                     currentUser: currentUser,
@@ -155,10 +144,6 @@ function NotificationHome() {
                 key={item.id}
                 bottomDivider
                 onPress={async () => {
-                  if (!item.checked) {
-                    setNotificationCount(notificationCount - 1);
-                    await axios.put("/api/notifications/" + item.id);
-                  }
                   navigation.navigate("Detail", {
                     post: item.done_post,
                     currentUser: currentUser,
@@ -193,10 +178,6 @@ function NotificationHome() {
                 key={item.id}
                 bottomDivider
                 onPress={async () => {
-                  if (!item.checked) {
-                    setNotificationCount(notificationCount - 1);
-                    await axios.put("/api/notifications/" + item.id);
-                  }
                   navigation.navigate("UserPage", {
                     user: item.visiter,
                   });
