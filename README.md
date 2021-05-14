@@ -5,11 +5,11 @@ DoneHubは、勉強の予定、成果をシェアできる大学生向けSNSア�
 
 ## 使用技術
 
-###　メイン技術
+### メイン技術
 - [Expo](https://docs.expo.io/)
 - TypeScript
 
-###　認証
+### 認証
 - [firebase Authentication](https://firebase.google.com/docs/auth)
 
 ### ナビゲーション
