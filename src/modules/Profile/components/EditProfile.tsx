@@ -18,13 +18,13 @@ import { useNavigation } from "@react-navigation/native";
 import firebase from "firebase";
 
 function EditProfile(props) {
-  const { toggleModal, userData, imageSrc, blockUsers } = props;
+  const { toggleModal, currentUser, imageSrc, blockUsers } = props;
   const { control, handleSubmit, errors, setValue } = useForm();
   const navigation = useNavigation();
   const onSubmit = (data) => {
     // console.log(data)
     axios
-      .post("/api/users/" + userData.uid, {
+      .post("/api/users/" + currentUser.uid, {
         user: {
           name: data.name,
           profile: data.profile,
@@ -58,12 +58,12 @@ function EditProfile(props) {
       </View>
       <Avatar
         rounded
-        title={userData.name[0]}
+        title={currentUser.name[0]}
         source={{ uri: imageSrc }}
         size="large"
         containerStyle={{ backgroundColor: "gray", margin: 10 }}
       />
-      <ImagePick userData={userData} toggleModal={toggleModal} />
+      <ImagePick currentUser={currentUser} toggleModal={toggleModal} />
       <Controller
         control={control}
         render={({ onChange, value }) => (
@@ -76,7 +76,7 @@ function EditProfile(props) {
           />
         )}
         name="name"
-        defaultValue={userData.name}
+        defaultValue={currentUser.name}
         rules={{
           maxLength: 20,
         }}
@@ -98,7 +98,7 @@ function EditProfile(props) {
           />
         )}
         name="profile"
-        defaultValue={userData.profile}
+        defaultValue={currentUser.profile}
         rules={{
           maxLength: 140,
         }}

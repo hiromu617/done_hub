@@ -9,7 +9,7 @@ import Toast from "react-native-root-toast";
 
 export default function ImagePick(props) {
   const [image, setImage] = useState(null);
-  const { userData, toggleModal } = props;
+  const { currentUser, toggleModal } = props;
 
   useEffect(() => {
     (async () => {
@@ -50,7 +50,7 @@ export default function ImagePick(props) {
     //  ストレージ全体の参照を取得する
     var storageRef = firebase.storage().ref();
     //  保存先の参照：そのchildの参照を作成・取得するフォルダ名/ファイル名.拡張子
-    var mountainsRef = storageRef.child(`images/${userData.uid}.jpg`);
+    var mountainsRef = storageRef.child(`images/${currentUser.uid}.jpg`);
 
     // アップロード実施
     //  blobのデータを、保存先の参照にputする
@@ -66,7 +66,7 @@ export default function ImagePick(props) {
   const deleteAvatar = async () => {
     var storageRef = firebase.storage().ref();
     // Create a reference to the file to delete
-    var desertRef = storageRef.child(`images/${userData.uid}.jpg`);
+    var desertRef = storageRef.child(`images/${currentUser.uid}.jpg`);
 
     // Delete the file
     desertRef

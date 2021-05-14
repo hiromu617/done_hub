@@ -15,11 +15,11 @@ import { LinearGradient } from "expo-linear-gradient";
 import { deleteData } from "../../Todo/Storage";
 
 function ProfileInfo(props) {
-  const { userData, toggleModal, imageSrc, followData, doneCounts, toggleCalendar } = props;
+  const { currentUser, toggleModal, imageSrc, followData, doneCounts, toggleCalendar } = props;
   // console.log(followData.following)
   // console.log(followData.follower)
   const navigation = useNavigation();
-  if (!userData) {
+  if (!currentUser) {
     return (
       <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
         <ActivityIndicator size="large" />
@@ -51,13 +51,13 @@ function ProfileInfo(props) {
           {!imageSrc && (
             <Avatar
               rounded
-              title={userData.name[0]}
+              title={currentUser.name[0]}
               size="large"
               containerStyle={{ backgroundColor: "gray" }}
             />
           )}
           <Text h4 style={{ fontWeight: "bold", margin: 5 }}>
-            {userData.name}
+            {currentUser.name}
           </Text>
         </View>
         <View style={{position: 'absolute', right: 0}}>
@@ -85,7 +85,7 @@ function ProfileInfo(props) {
       </View>
       <View style={{ paddingHorizontal: 12, paddingBottom: 10 }}>
         <Text>
-          {userData.hub_list.map((l, i) => (
+          {currentUser.hub_list.map((l, i) => (
             <TouchableOpacity>
               <LinearGradient
                 start={[0, 1]}
@@ -117,7 +117,7 @@ function ProfileInfo(props) {
           <TouchableOpacity
             onPress={() =>
               navigation.push("HubSelect", {
-                user: userData,
+                user: currentUser,
               })
             }
           >
@@ -148,7 +148,7 @@ function ProfileInfo(props) {
           </TouchableOpacity>
         </Text>
 
-        <Text style={{ paddingVertical: 10 }}>{userData.profile}</Text>
+        <Text style={{ paddingVertical: 10 }}>{currentUser.profile}</Text>
         <Text>
           <TouchableOpacity
             onPress={() =>

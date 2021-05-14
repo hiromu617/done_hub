@@ -68,7 +68,7 @@ function FeedOfHub() {
 
 function FeedOfHubScreen() {
   const navigation = useNavigation();
-  const [userData, setData] = useState(null);
+  const [currentUser, setCurrentUser] = useState(null);
   const [refreshState, setRefreshData] = useState(false);
   const [feed, setFeed] = useState();
   const [pageData, setPageData] = useState(2);
@@ -87,7 +87,7 @@ function FeedOfHubScreen() {
     setRefreshData(true);
     getUser().then((data) => {
       if (data.uid !== undefined) {
-        setData(data);
+        setCurrentUser(data);
       }
       // console.log("----------------------")
       // console.log(data)
@@ -110,10 +110,10 @@ function FeedOfHubScreen() {
   };
 
   const fetchData = async () => {
-    // console.log(userData)
+    // console.log(currentUser)
     console.log("----------------------");
     axios
-      .get("/api/users/" + userData.uid + "/feed_by_hub", {
+      .get("/api/users/" + currentUser.uid + "/feed_by_hub", {
         params: {
           page: pageData,
         },
@@ -143,7 +143,7 @@ function FeedOfHubScreen() {
         data={feed}
         keyExtractor={(item) => item?.id?.toString()}
         renderItem={({ item }) => {
-          return <DonePost post={item} currentUser={userData} image={null} />;
+          return <DonePost post={item} currentUser={currentUser} image={null} />;
         }}
         onEndReached={fetchData}
         onEndReachedThreshold={0.5}

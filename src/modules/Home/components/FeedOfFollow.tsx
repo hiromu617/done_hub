@@ -82,7 +82,7 @@ function FeedOfFollow() {
 
 function FeedOfFollowScreen() {
   const navigation = useNavigation();
-  const [userData, setData] = useState(null);
+  const [currentUser, setCurrentUser] = useState(null);
   const [refreshState, setRefreshData] = useState(false);
   const [feed, setFeed] = useState();
   const [pageData, setPageData] = useState(2);
@@ -101,7 +101,7 @@ function FeedOfFollowScreen() {
     setRefreshData(true);
     getUser().then((data) => {
       if (data.uid !== undefined) {
-        setData(data);
+        setCurrentUser(data);
         // console.log(data)
       }
       // console.log("----------------------")
@@ -127,7 +127,7 @@ function FeedOfFollowScreen() {
 
   const fetchData = async () => {
     axios
-      .get("/api/users/" + userData.uid + "/feed", {
+      .get("/api/users/" + currentUser.uid + "/feed", {
         params: {
           page: pageData,
         },
@@ -157,7 +157,7 @@ function FeedOfFollowScreen() {
         data={feed}
         keyExtractor={(item) => item?.id?.toString()}
         renderItem={({ item }) => {
-          return <DonePost post={item} currentUser={userData} image={null} />;
+          return <DonePost post={item} currentUser={currentUser} image={null} />;
         }}
         onEndReached={fetchData}
         onEndReachedThreshold={0.5}

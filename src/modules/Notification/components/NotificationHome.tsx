@@ -20,7 +20,7 @@ import { CountContext } from "../../../../App";
 function NotificationHome() {
   // const {state} = useContext(SiteContext);
   const navigation = useNavigation();
-  const [userData, setData] = useState();
+  const [currentUser, setCurrentUser] = useState();
   const [refreshState, setRefreshData] = useState(false);
   const [notificationData, setNotificationData] = useState([]);
   const [pageData, setPageData] = useState(2);
@@ -50,7 +50,7 @@ function NotificationHome() {
     // setNotificationData([]);
     getUser().then((data) => {
       if (data.uid !== undefined) {
-        setData(data);
+        setCurrentUser(data);
         console.log(data);
       }
       console.log("----------------------");
@@ -80,7 +80,7 @@ function NotificationHome() {
     axios
       .get("/api/notifications", {
         params: {
-          uid: userData.uid,
+          uid: currentUser.uid,
           page: pageData,
         },
       })
@@ -123,7 +123,7 @@ function NotificationHome() {
                   }
                   navigation.navigate("Detail", {
                     post: item.done_post,
-                    currentUser: userData,
+                    currentUser: currentUser,
                     initialLikeNum: item.done_post.likes.length,
                   });
                 }}
@@ -161,7 +161,7 @@ function NotificationHome() {
                   }
                   navigation.navigate("Detail", {
                     post: item.done_post,
-                    currentUser: userData,
+                    currentUser: currentUser,
                     initialLikeNum: item.done_post.likes.length,
                   });
                 }}

@@ -19,6 +19,7 @@ import { StatusBar } from "expo-status-bar";
 import DonePost from "../../common/DonePost";
 import Modal from "react-native-modal";
 import DoneCalendar from '../../common/DoneCalendar'
+import { getAvatar } from "../../common/CommonUtil";
 
 function ProfileHome() {
   // const {state} = useContext(SiteContext);
@@ -150,7 +151,7 @@ function ProfileHome() {
       <Overlay isVisible={isModalVisible} fullScreen>
         <EditProfile
           toggleModal={toggleModal}
-          userData={userData}
+          currentUser={userData}
           imageSrc={imageSrc}
           blockUsers={blockUsers}
         />
@@ -158,7 +159,7 @@ function ProfileHome() {
       <FlatList
         ListHeaderComponent={
           <ProfileInfo
-            userData={userData}
+            currentUser={userData}
             followData={followData}
             toggleModal={toggleModal}
             imageSrc={imageSrc}
