@@ -14,20 +14,20 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { useNavigation } from "@react-navigation/native";
 import axios from "../../constants/axios";
 import Reply from "./Reply";
-import Form from "./Form";
-import firebase from "firebase";
+import ReplyForm from "./ReplyForm";
 import Modal from "react-native-modal";
 import Toast from "react-native-root-toast";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { slackToken } from "../../../config";
 import { sendPushNotification } from "../../constants/pushNotificationFunc";
+import { getAvatar } from "./CommonUtil";
 
 const Detail: React.FC = ({ route }) => {
   const navigation = useNavigation();
   const {
     post,
     initialImageSrc,
-    userData,
+    currentUser,
     initialLikeState,
     initialLikeNum,
   } = route.params;
@@ -35,23 +35,22 @@ const Detail: React.FC = ({ route }) => {
   const [likeNum, setLikeNum] = useState(initialLikeNum);
   const [refreshState, setRefreshData] = useState(false);
   const [postData, setPostData] = useState(post);
-  const [replyData, setReplyData] = useState(post.replys);
+  const [replyData, setReplyData] = useState(post.replys); //投稿への返信のデータ
   const [imageSrc, setImageSrc] = useState(initialImageSrc);
-  const [autoFocusState, setAutoFocusState] = useState(false);
-  const [deleteModalState, setDeleteModalState] = useState(false);
+  const [autoFocusState, setAutoFocusState] = useState(false);　//フォームにフォーカスするかどうか
+  const [deleteModalState, setDeleteModalState] = useState(false);　//削除のモーダルを表示するかどうか
   const [likedUsers, setLikedUsers] = useState(
     postData.likes.map((l) => l.user)
-  );
-  const [reportState, setReportState] = useState(false);
+  );　//likeしているユーザーs
+  const [reportState, setReportState] = useState(false);　//currentuserが報告したかどうか
+
   useEffect(() => {
     if (initialLikeState === undefined) {
       isLike();
     }
     if (initialImageSrc === undefined) {
-      getSource(post);
+      getSource();
     }
-    // isLike()
-    // refreshData()
   }, []);
 
   const deletePost = async () => {
@@ -79,31 +78,13 @@ const Detail: React.FC = ({ route }) => {
     ]);
   };
 
-  const getAvatar = (post) => {
-    return new Promise((resolve) => {
-      var storage = firebase.storage();
-      var storageRef = storage.ref();
-      var spaceRef = storageRef.child(`images/${post.user.uid}_200x200.jpg`);
-      spaceRef
-        .getDownloadURL()
-        .then(function (url) {
-          console.log("ファイルURLを取得");
-          console.log(url);
-          resolve(url);
-        })
-        .catch(function (error) {
-          // Handle any errors
-          console.log("getTokoImage 画像を取得する");
-          console.log(error);
-        });
-    });
-  };
 
-  const getSource = (userData) => {
-    getAvatar(userData).then((res) => {
+  const getSource = () => {
+    getAvatar(post.user.uid).then((res) => {
       setImageSrc(res);
     });
   };
+
   const refreshData = () => {
     setRefreshData(true);
     axios.get("/api/done_posts/" + post.id).then((res) => {
@@ -113,6 +94,7 @@ const Detail: React.FC = ({ route }) => {
     });
   };
 
+  // インディケータ無しで更新
   const refreshWithOutIndicator = () => {
     axios.get("/api/done_posts/" + post.id).then((res) => {
       setPostData(res.data);
@@ -120,7 +102,8 @@ const Detail: React.FC = ({ route }) => {
     });
   };
 
-  const parseDate = (val) => {
+  // 詳しい日付を取得
+  const parseDetailDate = (val) => {
     return val
       .toString()
       .replace(
@@ -129,10 +112,11 @@ const Detail: React.FC = ({ route }) => {
       );
   };
 
+  // currentUserがlikeしているかどうか
   const isLike = () => {
     setLikeNum(postData.likes.length);
     postData.likes.map((p) => {
-      if (p.user_id === userData.id) {
+      if (p.user_id === currentUser.id) {
         setLikeState(true);
         return;
       }
@@ -145,7 +129,7 @@ const Detail: React.FC = ({ route }) => {
     axios
       .post("/api/likes/", {
         like: {
-          user_id: userData.id,
+          user_id: currentUser.id,
           done_post_id: postData.id,
         },
       })
@@ -154,11 +138,11 @@ const Detail: React.FC = ({ route }) => {
           setLikeNum(res.data.length);
         }
       });
-    if (post.user.id === userData.id) return;
+    if (post.user.id === currentUser.id) return;
     sendPushNotification(
       post.user.expo_push_token,
       "Done Hub",
-      `${userData.name}さんが投稿にいいねしました`
+      `${currentUser.name}さんが投稿にいいねしました`
     );
   };
 
@@ -168,7 +152,7 @@ const Detail: React.FC = ({ route }) => {
     axios
       .delete("/api/likes/", {
         params: {
-          user_id: userData.id,
+          user_id: currentUser.id,
           done_post_id: postData.id,
         },
       })
@@ -205,10 +189,10 @@ const Detail: React.FC = ({ route }) => {
             method: "POST",
             data: {
               channel: "#report",
-              text: `id:${post.id}\n name: ${post.user.name}\n comment: ${post.comment}\n title: ${post.title}\n tasks: ${post.tasks}\nreport from: ${userData.id} ${userData.name}`,
+              text: `id:${post.id}\n name: ${post.user.name}\n comment: ${post.comment}\n title: ${post.title}\n tasks: ${post.tasks}\nreport from: ${currentUser.id} ${currentUser.name}`,
             },
           });
-          console.log(result.data);
+          // console.log(result.data);
           setDeleteModalState(false);
           setReportState(true);
           Toast.show("Thank you!", {
@@ -237,7 +221,8 @@ const Detail: React.FC = ({ route }) => {
         }}
       >
         <View style={{ backgroundColor: "white" }}>
-          {userData.id == postData.user.id ? (
+          {currentUser.id == postData.user.id ? (
+            // 投稿がcurrentUserの時,削除ボタンを表示、そうでない時、報告ボタンを表示
             <Button
               icon={
                 <Icon
@@ -298,7 +283,7 @@ const Detail: React.FC = ({ route }) => {
                         marginRight: 10,
                       }}
                       onPress={() => {
-                        if (userData.id === post.user.id) {
+                        if (currentUser.id === post.user.id) {
                           navigation.navigate("Profile");
                         } else {
                           navigation.push("UserPage", {
@@ -318,7 +303,7 @@ const Detail: React.FC = ({ route }) => {
                         marginRight: 10,
                       }}
                       onPress={() => {
-                        if (userData.id === post.user.id) {
+                        if (currentUser.id === post.user.id) {
                           navigation.navigate("Profile");
                         } else {
                           navigation.push("UserPage", {
@@ -420,7 +405,6 @@ const Detail: React.FC = ({ route }) => {
                       color="#F87171"
                       containerStyle={{ padding: 10 }}
                       onPress={() => like()}
-                      // onPress={() => alert('sorry, debug now')}
                     />
                   )}
                   {likeState && (
@@ -432,7 +416,6 @@ const Detail: React.FC = ({ route }) => {
                       solid
                       containerStyle={{ padding: 10 }}
                       onPress={() => unlike()}
-                      // onPress={() => alert('sorry, debug now')}
                     />
                   )}
                   <TouchableOpacity
@@ -454,7 +437,7 @@ const Detail: React.FC = ({ route }) => {
                       textAlign: "right",
                     }}
                   >
-                    {parseDate(post.created_at)}
+                    {parseDetailDate(post.created_at)}
                   </Text>
                 </View>
               </View>
@@ -469,7 +452,7 @@ const Detail: React.FC = ({ route }) => {
                 return (
                   <Reply
                     reply={item}
-                    userData={userData}
+                    currentUser={currentUser}
                     refreshData={refreshWithOutIndicator}
                   />
                 );
@@ -490,9 +473,9 @@ const Detail: React.FC = ({ route }) => {
           onPress={() => navigation.goBack()}
         />
       </KeyboardAvoidingView>
-      <Form
+      <ReplyForm
         post={postData}
-        userData={userData}
+        currentUser={currentUser}
         refreshData={refreshWithOutIndicator}
         autoFocus={autoFocusState}
         setAutoFocusState={setAutoFocusState}

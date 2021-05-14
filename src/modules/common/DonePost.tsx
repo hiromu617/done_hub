@@ -6,64 +6,39 @@ import firebase from "firebase";
 import axios from "../../constants/axios";
 import { FlatList } from "react-native-gesture-handler";
 import { sendPushNotification } from "../../constants/pushNotificationFunc";
+import { getAvatar } from "./CommonUtil";
+
 type Props = {
   post;
-  userData;
+  currentUser;
   image;
 };
 
 const DonePost: React.FC<Props> = (props) => {
-  const { post, userData, image } = props;
+  const { post, currentUser, image } = props;
   const [imageSrc, setImageSrc] = useState(image);
-  const [likeState, setLikeState] = useState(false);
-  const [likeNum, setLikeNum] = useState(0);
+  const [likeState, setLikeState] = useState(false); //currentUserがlikeしているかどうか
+  const [likeNum, setLikeNum] = useState(0); //投稿へのlikeの数
   const navigation = useNavigation();
-  // console.log(post)
 
   useEffect(() => {
+    // imageがnullの時imageを取得
     if (!image) {
-      getSource(post);
-      console.log(post.id);
+      getSource();
     }
-    isLike();
   }, []);
 
   useEffect(() => {
     isLike();
   }, [post.likes]);
 
-  const getAvatar = (post) => {
-    return new Promise((resolve) => {
-      var storage = firebase.storage();
-      var storageRef = storage.ref();
-      var spaceRef = storageRef.child(`images/${post.user.uid}_200x200.jpg`);
-      spaceRef
-        .getDownloadURL()
-        .then(function (url) {
-          console.log("ファイルURLを取得");
-          console.log(url);
-          resolve(url);
-        })
-        .catch(function (error) {
-          // Handle any errors
-          console.log("getTokoImage 画像を取得する");
-          console.log(error);
-        });
-    });
-  };
-  // const getSource = (userData) => {
-  //   getAvatar(userData)
-  //   .then(res => {
-  //     setImageSrc(res)
-  //   })
-  // }
-
-  const getSource = useCallback(async (userData) => {
-    getAvatar(userData).then((res) => {
+  const getSource = useCallback(async () => {
+    getAvatar(post.user.uid).then((res) => {
       setImageSrc(res);
     });
   }, []);
 
+  // 日付のフォーマットを変更
   const parseDate = (val) => {
     return val
       .toString()
@@ -72,31 +47,26 @@ const DonePost: React.FC<Props> = (props) => {
         "$4:$5"
       );
   };
+
+  // CurrentUserがlikeしているかチェック
   const isLike = () => {
     setLikeNum(post.likes.length);
     setLikeState(false);
     post.likes.map((p) => {
-      if (p.user_id === userData.id) {
+      if (p.user_id === currentUser.id) {
         setLikeState(true);
         return;
       }
     });
-    // for(let i = 0; i < post.likes; i++) {
-    //   if(post.likes[i].user_id === userData.id){
-    //     console.log(post.likes[i].user_id)
-    //     setLikeState(true);
-    //     return;
-    //   }
-    // }
-    // setLikeState(false)
   };
+
   const like = async () => {
     setLikeState(true);
     setLikeNum(likeNum + 1);
     axios
       .post("/api/likes/", {
         like: {
-          user_id: userData.id,
+          user_id: currentUser.id,
           done_post_id: post.id,
         },
       })
@@ -105,13 +75,12 @@ const DonePost: React.FC<Props> = (props) => {
           setLikeNum(res.data.length);
         }
       });
-    if (post.user.id === userData.id) return;
+    if (post.user.id === currentUser.id) return;
     sendPushNotification(
       post.user.expo_push_token,
       "Done Hub",
-      `${userData.name}さんが投稿にいいねしました`
+      `${currentUser.name}さんが投稿にいいねしました`
     );
-    // sendPushNotification(userData.expo_push_token, 'Done Hub', `${userData.name}さんが投稿にいいねしました`)
   };
 
   const unlike = async () => {
@@ -120,7 +89,7 @@ const DonePost: React.FC<Props> = (props) => {
     axios
       .delete("/api/likes/", {
         params: {
-          user_id: userData.id,
+          user_id: currentUser.id,
           done_post_id: post.id,
         },
       })
@@ -139,7 +108,7 @@ const DonePost: React.FC<Props> = (props) => {
         navigation.push("Detail", {
           post: post,
           initialImageSrc: imageSrc,
-          userData: userData,
+          currentUser: currentUser,
           initialLikeState: likeState,
           initialLikeNum: likeNum,
         })
@@ -155,7 +124,8 @@ const DonePost: React.FC<Props> = (props) => {
               }}
               containerStyle={{ backgroundColor: "gray", marginRight: 10 }}
               onPress={() => {
-                if (userData.id === post.user.id) {
+                // 遷移先がCurrentUserならProfileのTabに遷移
+                if (currentUser.id === post.user.id) {
                   navigation.navigate("Profile");
                 } else {
                   navigation.push("UserPage", {
@@ -171,7 +141,8 @@ const DonePost: React.FC<Props> = (props) => {
               title={post.user.name[0]}
               containerStyle={{ backgroundColor: "gray", marginRight: 10 }}
               onPress={() => {
-                if (userData.id === post.user.id) {
+                // 遷移先がCurrentUserならProfileのTabに遷移
+                if (currentUser.id === post.user.id) {
                   navigation.navigate("Profile");
                 } else {
                   navigation.push("UserPage", {

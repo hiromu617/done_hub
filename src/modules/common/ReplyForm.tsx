@@ -18,17 +18,18 @@ import { sendPushNotification } from "../../constants/pushNotificationFunc";
 
 type Props = {
   post;
-  userData;
+  currentUser;
   refreshData;
   autoFocus;
   setAutoFocusState;
 };
 
-const ReplyModal: React.FC<Props> = (props) => {
-  const { post, userData, refreshData, autoFocus, setAutoFocusState } = props;
+const ReplyForm: React.FC<Props> = (props) => {
+  const { post, currentUser, refreshData, autoFocus, setAutoFocusState } = props;
   const { control, handleSubmit, errors, setValue } = useForm();
   const [loading, setLoading] = useState(false);
   const commentRef = useRef<HTMLInputElement | null>(null);
+
   useEffect(() => {
     if (autoFocus && commentRef.current) {
       commentRef.current.focus();
@@ -43,7 +44,7 @@ const ReplyModal: React.FC<Props> = (props) => {
     axios
       .post("/api/replys", {
         reply: {
-          user_id: userData.id,
+          user_id: currentUser.id,
           done_post_id: post.id,
           content: data.content,
         },
@@ -56,11 +57,11 @@ const ReplyModal: React.FC<Props> = (props) => {
           position: 50,
         });
       });
-    if (post.user.id !== userData.id) {
+    if (post.user.id !== currentUser.id) {
       sendPushNotification(
         post.user.expo_push_token,
         "Done Hub",
-        `${userData.name}さんが投稿に返信しました`
+        `${currentUser.name}さんが投稿に返信しました`
       );
     }
 
@@ -78,12 +79,12 @@ const ReplyModal: React.FC<Props> = (props) => {
     let keys = Object.keys(hash)
     let values = Object.values(hash)
     for(let i = 0; i < keys[i].length; i++){
-      if(keys[i] == post.user.id || keys[i] == userData.id) continue
+      if(keys[i] == post.user.id || keys[i] == currentUser.id) continue
       else {
         sendPushNotification(
         values[i].expo_push_token,
         "Done Hub",
-        `${userData.name}さんが投稿に返信しました`
+        `${currentUser.name}さんが投稿に返信しました`
       );
       } 
     }
@@ -149,7 +150,7 @@ const ReplyModal: React.FC<Props> = (props) => {
   );
 };
 
-export default ReplyModal;
+export default ReplyForm;
 
 const styles = StyleSheet.create({
   input: {

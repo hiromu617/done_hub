@@ -123,7 +123,7 @@ function NotificationHome() {
                   }
                   navigation.navigate("Detail", {
                     post: item.done_post,
-                    userData: userData,
+                    currentUser: userData,
                     initialLikeNum: item.done_post.likes.length,
                   });
                 }}
@@ -161,7 +161,7 @@ function NotificationHome() {
                   }
                   navigation.navigate("Detail", {
                     post: item.done_post,
-                    userData: userData,
+                    currentUser: userData,
                     initialLikeNum: item.done_post.likes.length,
                   });
                 }}

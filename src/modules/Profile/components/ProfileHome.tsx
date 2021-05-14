@@ -176,23 +176,11 @@ function ProfileHome() {
         data={userPostsData}
         keyExtractor={(item) => item?.id?.toString()}
         renderItem={({ item }) => {
-          return <DonePost post={item} userData={userData} image={imageSrc} />;
+          return <DonePost post={item} currentUser={userData} image={imageSrc} />;
         }}
         onEndReached={fetchData}
         onEndReachedThreshold={0.5}
       />
-      {/* <ScrollView
-          refreshControl={
-            <RefreshControl
-              refreshing={refreshState}
-              onRefresh={() => refreshData()}
-            />
-          }
-        >
-        <ProfileInfo userData={userData} followData={followData} toggleModal={toggleModal} imageSrc={imageSrc} doneCounts={doneCounts}/>
-        <Divider style={{ marginTop: 10}} />
-          <UserPostList posts={userPostsData} fetchData={fetchData} imageSrc={imageSrc} userData={userData}/>
-        </ScrollView> */}
     </SafeAreaView>
   );
 }

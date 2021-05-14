@@ -53,26 +53,6 @@ function UserPage({ route }) {
     refreshData();
   }, []);
 
-  // const getAvatar = (userData) => {
-  //   return new Promise((resolve) => {
-  //     var storage = firebase.storage();
-  //     var storageRef = storage.ref();
-  //     var spaceRef = storageRef.child(`images/${userData.uid}_200x200.jpg`);
-  //     spaceRef
-  //       .getDownloadURL()
-  //       .then(function (url) {
-  //         console.log("ファイルURLを取得");
-  //         console.log(url);
-  //         resolve(url);
-  //       })
-  //       .catch(function (error) {
-  //         // Handle any errors
-  //         console.log("getTokoImage 画像を取得する");
-  //         console.log(error);
-  //       });
-  //   });
-  // };
-
   // プロフィール画像を取得
   const getSource = () => {
     getAvatar(user.uid).then((res) => {
@@ -289,7 +269,7 @@ function UserPage({ route }) {
           <DoneCalendar userData={userInfo} />
         </Modal>
         <OtherProfileInfo
-          userData={userInfo}
+          userInfo={userInfo}
           followData={followData}
           imageSrc={imageSrc}
           isFollowed={isFollowed}
@@ -368,7 +348,7 @@ function UserPage({ route }) {
       <FlatList
         ListHeaderComponent={
           <OtherProfileInfo
-            userData={userInfo}
+            userInfo={userInfo}
             followData={followData}
             imageSrc={imageSrc}
             isFollowed={isFollowed}
@@ -393,7 +373,7 @@ function UserPage({ route }) {
         keyExtractor={(item) => item?.id?.toString()}
         renderItem={({ item }) => {
           return (
-            <DonePost post={item} userData={currentUser} image={imageSrc} />
+            <DonePost post={item} currentUser={currentUser} image={imageSrc} />
           );
         }}
         onEndReached={fetchData}

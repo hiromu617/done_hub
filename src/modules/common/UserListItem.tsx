@@ -15,46 +15,32 @@ import {
   SafeAreaView,
 } from "react-native";
 import { getUser } from "../Todo/Storage";
+import { getAvatar } from "./CommonUtil";
 
-const UserListItem: React.FC = (props) => {
-  const [imageSrc, setImageSrc] = useState(null);
-  const [userData, setData] = useState(user);
-  const navigation = useNavigation();
+type Props = {
+  user;
+  // currentUser;
+};
+
+const UserListItem: React.FC<Props>  = (props) => {
   const { user } = props;
+  const [imageSrc, setImageSrc] = useState(null);
+  const [currentUser, setCurrentUser] = useState();
+  const navigation = useNavigation();
 
   useEffect(() => {
     getSource();
-    getUserData();
+    getCurrentUser();
   }, []);
 
-  const getUserData = useCallback(() => {
+  const getCurrentUser = useCallback(() => {
     getUser().then((data) => {
-      setData(data);
+      setCurrentUser(data);
     });
-  }, [userData]);
-
-  const getAvatar = () => {
-    return new Promise((resolve) => {
-      var storage = firebase.storage();
-      var storageRef = storage.ref();
-      var spaceRef = storageRef.child(`images/${user.uid}_200x200.jpg`);
-      spaceRef
-        .getDownloadURL()
-        .then(function (url) {
-          console.log("ファイルURLを取得");
-          console.log(url);
-          resolve(url);
-        })
-        .catch(function (error) {
-          // Handle any errors
-          console.log("getTokoImage 画像を取得する");
-          console.log(error);
-        });
-    });
-  };
+  }, [currentUser]);
 
   const getSource = () => {
-    getAvatar().then((res) => {
+    getAvatar(user.uid).then((res) => {
       setImageSrc(res);
     });
   };
@@ -66,7 +52,7 @@ const UserListItem: React.FC = (props) => {
       //   })
       // }
       onPress={() => {
-        if (userData.id === user.id) {
+        if (currentUser.id === user.id) {
           navigation.navigate("Profile");
         } else {
           navigation.push("UserPage", {

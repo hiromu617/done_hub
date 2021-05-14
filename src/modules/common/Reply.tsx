@@ -11,30 +11,29 @@ import { Button, ListItem, Avatar, Icon } from "react-native-elements";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useNavigation } from "@react-navigation/native";
 import axios from "../../constants/axios";
-import firebase from "firebase";
 import Modal from "react-native-modal";
 import Toast from "react-native-root-toast";
 import { slackToken } from "../../../config";
+import { getAvatar } from "./CommonUtil";
 
 type Props = {
   reply;
-  userData;
+  currentUser;
   refreshData;
 };
 
 const Reply: React.FC<Props> = (props) => {
-  const { reply, userData, refreshData } = props;
+  const { reply, currentUser, refreshData } = props;
   const [imageSrc, setImageSrc] = useState(null);
-  const [loading, setLoading] = useState(false);
   const [deleteModalState, setDeleteModalState] = useState(false);
   const [reportState, setReportState] = useState(false);
   const navigation = useNavigation();
 
   useEffect(() => {
-    getSource(reply);
+    getSource();
   }, []);
 
-  const deletePost = async () => {
+  const deleteReply = async () => {
     Alert.alert("返信の削除", "本当に削除してもよろしいですか？", [
       {
         text: "Cancel",
@@ -59,27 +58,8 @@ const Reply: React.FC<Props> = (props) => {
     ]);
   };
 
-  const getAvatar = (post) => {
-    return new Promise((resolve) => {
-      var storage = firebase.storage();
-      var storageRef = storage.ref();
-      var spaceRef = storageRef.child(`images/${post.user.uid}_200x200.jpg`);
-      spaceRef
-        .getDownloadURL()
-        .then(function (url) {
-          console.log("ファイルURLを取得");
-          console.log(url);
-          resolve(url);
-        })
-        .catch(function (error) {
-          // Handle any errors
-          console.log("getTokoImage 画像を取得する");
-          console.log(error);
-        });
-    });
-  };
-  const getSource = (userData) => {
-    getAvatar(userData).then((res) => {
+  const getSource = () => {
+    getAvatar(reply.user.uid).then((res) => {
       setImageSrc(res);
     });
   };
@@ -118,7 +98,7 @@ const Reply: React.FC<Props> = (props) => {
             method: "POST",
             data: {
               channel: "#report",
-              text: `reply_id:${reply.id}\n name: ${reply.user.name}\n content: ${reply.content}\n report from: ${userData.id} ${userData.name}`,
+              text: `reply_id:${reply.id}\n name: ${reply.user.name}\n content: ${reply.content}\n report from: ${currentUser.id} ${currentUser.name}`,
             },
           });
           console.log(result.data);
@@ -150,7 +130,7 @@ const Reply: React.FC<Props> = (props) => {
         }}
       >
         <View style={{ backgroundColor: "white" }}>
-          {userData.id == reply.user.id ? (
+          {currentUser.id == reply.user.id ? (
             <Button
               icon={
                 <Icon
@@ -163,7 +143,7 @@ const Reply: React.FC<Props> = (props) => {
               title="削除"
               type="clear"
               titleStyle={{ color: "#EF4444", marginLeft: 10 }}
-              onPress={() => deletePost()}
+              onPress={() => deleteReply()}
             />
           ) : (
             <Button
@@ -197,7 +177,7 @@ const Reply: React.FC<Props> = (props) => {
                 }}
                 containerStyle={{ backgroundColor: "gray", marginRight: 10 }}
                 onPress={() => {
-                  if (userData.id === reply.user.id) {
+                  if (currentUser.id === reply.user.id) {
                     navigation.navigate("Profile");
                   } else {
                     navigation.push("UserPage", {

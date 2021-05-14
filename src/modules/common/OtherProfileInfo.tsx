@@ -19,7 +19,7 @@ import Toast from "react-native-root-toast";
 
 function OtherProfileInfo(props) {
   const {
-    userData,
+    userInfo,
     imageSrc,
     followData,
     isFollowed,
@@ -35,7 +35,7 @@ function OtherProfileInfo(props) {
   const [blockMenu, setBlockMenu] = useState(false);
   const navigation = useNavigation();
 
-  if (!userData) {
+  if (!userInfo) {
     return (
       <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
         <ActivityIndicator size="large" />
@@ -66,7 +66,7 @@ function OtherProfileInfo(props) {
           {!imageSrc && (
             <Avatar
               rounded
-              title={userData.name[0]}
+              title={userInfo.name[0]}
               size="large"
               containerStyle={{ backgroundColor: "gray" }}
             />
@@ -80,7 +80,7 @@ function OtherProfileInfo(props) {
           >
             <View style={{maxWidth: '85%'}}>
               <Text h4 style={{ fontWeight: "bold", margin: 5 }}>
-                {userData.name}
+                {userInfo.name}
               </Text>
             </View>
             <View>
@@ -177,11 +177,11 @@ function OtherProfileInfo(props) {
       </View>
       <View style={{ paddingHorizontal: 12, paddingBottom: 10 }}>
         <Text>
-          {userData.hub_list.map((l, i) => (
+          {userInfo.hub_list.map((l, i) => (
             <TouchableOpacity
               onPress={() =>
                 navigation.push("HubSelect", {
-                  user: userData,
+                  user: userInfo,
                 })
               }
             >
@@ -213,7 +213,7 @@ function OtherProfileInfo(props) {
             </TouchableOpacity>
           ))}
         </Text>
-        <Text style={{ paddingVertical: 10 }}>{userData.profile}</Text>
+        <Text style={{ paddingVertical: 10 }}>{userInfo.profile}</Text>
         <Text>
           <TouchableOpacity
             onPress={() =>

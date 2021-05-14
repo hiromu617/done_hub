@@ -157,7 +157,7 @@ function FeedOfFollowScreen() {
         data={feed}
         keyExtractor={(item) => item?.id?.toString()}
         renderItem={({ item }) => {
-          return <DonePost post={item} userData={userData} image={null} />;
+          return <DonePost post={item} currentUser={userData} image={null} />;
         }}
         onEndReached={fetchData}
         onEndReachedThreshold={0.5}
