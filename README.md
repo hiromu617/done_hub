@@ -1,34 +1,47 @@
-# [TypeScript Example](https://www.typescriptlang.org/)
+# DoneHub
+DoneHubは、勉強の予定、成果をシェアできる大学生向けSNSアプリです。
 
-<p>
-  <!-- iOS -->
-  <img alt="Supports Expo iOS" longdesc="Supports Expo iOS" src="https://img.shields.io/badge/iOS-4630EB.svg?style=flat-square&logo=APPLE&labelColor=999999&logoColor=fff" />
-  <!-- Android -->
-  <img alt="Supports Expo Android" longdesc="Supports Expo Android" src="https://img.shields.io/badge/Android-4630EB.svg?style=flat-square&logo=ANDROID&labelColor=A4C639&logoColor=fff" />
-  <!-- Web -->
-  <img alt="Supports Expo Web" longdesc="Supports Expo Web" src="https://img.shields.io/badge/web-4630EB.svg?style=flat-square&logo=GOOGLE-CHROME&labelColor=4285F4&logoColor=fff" />
-</p>
+[App Store URL](https://apps.apple.com/us/app/donehub/id1565814912)
 
-```sh
-npx create-react-native-app -t with-typescript
-```
+## 使用技術
 
-TypeScript is a superset of JavaScript which gives you static types and powerful tooling in Visual Studio Code including autocompletion and useful inline warnings for type errors.
+###　メイン技術
+- [Expo](https://docs.expo.io/)
+- TypeScript
 
-## 🚀 How to use
+###　認証
+- [firebase Authentication](https://firebase.google.com/docs/auth)
 
-#### Creating a new project
+### ナビゲーション
+- [React Navigation](https://reactnavigation.org/)
 
-- Install the CLI: `npm i -g expo-cli`
-- Create a project: `expo init --template expo-template-blank-typescript`
-- `cd` into the project
+### UI
+- [React Native Elements](https://reactnativeelements.com/)
 
-### Adding TypeScript to existing projects
+### modal
+- [React Native Modal](https://github.com/react-native-modal/react-native-modal)
 
-- Create a blank TypeScript config: `touch tsconfig.json`
-- Run `expo start` to automatically configure TypeScript
-- Rename files to TypeScript, `.tsx` for React components and `.ts` for plain typescript files
+### 画像ストレージ
+- [firebase Cloud Storage](https://firebase.google.com/docs/storage)
 
-## 📝 Notes
+### 状態管理
+- [Hooks](https://reactjs.org/docs/hooks-intro.html)
 
-- [Expo TypeScript guide](https://docs.expo.io/versions/latest/guides/typescript/)
+### データ永続化
+- [React Native Async Storage](https://github.com/react-native-async-storage/async-storage)
+
+### フォーム
+- [React Hook Form](https://react-hook-form.com/)
+
+### フラッシュメッセージ
+- [React Native Root Toast](https://github.com/magicismight/react-native-root-toast)
+
+### カレンダー
+- [React Native Calendar](https://github.com/wix/react-native-calendars)
+
+### 広告
+- [AdMob](https://admob.google.com/home/)
+
+その他Expo SDK
+
+
