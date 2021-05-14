@@ -18,80 +18,76 @@ import DonePost from "./DonePost";
 import { Icon, Divider, Overlay, Button } from "react-native-elements";
 import firebase from "firebase";
 import OtherProfileInfo from "./OtherProfileInfo";
-import ProfileInfo from "../Profile/components/ProfileInfo";
-import EditProfile from "../Profile/components/EditProfile";
 import Toast from "react-native-root-toast";
 import { slackToken } from "../../../config";
 import { sendPushNotification } from "../../constants/pushNotificationFunc";
 import Modal from "react-native-modal";
-import DoneCalendar from './DoneCalendar'
+import DoneCalendar from "./DoneCalendar";
+import { getAvatar } from "./CommonUtil";
 
 function UserPage({ route }) {
   const { user } = route.params;
   const navigation = useNavigation();
-  const [userData, setData] = useState(user);
-  const [userInfo, setUserInfo] = useState(null);
-  const [refreshState, setRefreshData] = useState(false);
-  const [userPostsData, setUserPostData] = useState();
-  const [pageData, setPageData] = useState(2);
-  const [isFollowed, setIsFollowed] = useState(false);
-  const [currentUserUid, setCurrentUserUid] = useState(0);
-  const [isCurrentUser, setisCurrentUser] = useState(false);
-  const [isModalVisible, setModalVisible] = useState(false);
-  const [imageSrc, setImageSrc] = useState(null);
-  const [followData, setFollowData] = useState({ following: [], follower: [] });
+  const [currentUser, setCurrentUser] = useState(user); //ログイン中のユーザー
+  const [userInfo, setUserInfo] = useState(null); //表示するユーザー
+  const [refreshState, setRefreshData] = useState(false); //データーをロード中かどうか
+  const [userPostsData, setUserPostData] = useState(); //ユーザーの投稿データ
+  const [pageData, setPageData] = useState(2); //APIに送るパラメータ
+  const [isFollowed, setIsFollowed] = useState(false); //CurrentUserがフォローされているかどうか
+  const [currentUserUid, setCurrentUserUid] = useState(0); //CurrentUserのUID
+  const [imageSrc, setImageSrc] = useState(null); //ユーザーのプロフィール画像
+  const [followData, setFollowData] = useState({ following: [], follower: [] }); //ユーザーのフォロー、フォロワー
   const [doneCounts, setDoneCounts] = useState(0);
   const [blockState, setBlockState] = useState({
     block: false,
     blocked: false,
-  });
-  const [reportState, setReportState] = useState(false);
-  const [isShowCalendar, setIsShowCalendar] = useState(false);
+  }); //CurrentUserがブロックしているかどうか、ブロックされているかどうか
+  const [reportState, setReportState] = useState(false); //CurrentUserが報告したかどうか
+  const [isShowCalendar, setIsShowCalendar] = useState(false); //カレンダーを表示しているかどうか
 
   const toggleCalendar = () => {
     setIsShowCalendar(!isShowCalendar);
   };
-  const toggleModal = () => {
-    setModalVisible(!isModalVisible);
-  };
 
   useEffect(() => {
     refreshData();
-    // getSource(userData)
   }, []);
 
-  const getAvatar = (userData) => {
-    return new Promise((resolve) => {
-      var storage = firebase.storage();
-      var storageRef = storage.ref();
-      var spaceRef = storageRef.child(`images/${user.uid}_200x200.jpg`);
-      spaceRef
-        .getDownloadURL()
-        .then(function (url) {
-          console.log("ファイルURLを取得");
-          console.log(url);
-          resolve(url);
-        })
-        .catch(function (error) {
-          // Handle any errors
-          console.log("getTokoImage 画像を取得する");
-          console.log(error);
-        });
-    });
-  };
-  const getSource = (userData) => {
-    getAvatar(userData).then((res) => {
+  // const getAvatar = (userData) => {
+  //   return new Promise((resolve) => {
+  //     var storage = firebase.storage();
+  //     var storageRef = storage.ref();
+  //     var spaceRef = storageRef.child(`images/${userData.uid}_200x200.jpg`);
+  //     spaceRef
+  //       .getDownloadURL()
+  //       .then(function (url) {
+  //         console.log("ファイルURLを取得");
+  //         console.log(url);
+  //         resolve(url);
+  //       })
+  //       .catch(function (error) {
+  //         // Handle any errors
+  //         console.log("getTokoImage 画像を取得する");
+  //         console.log(error);
+  //       });
+  //   });
+  // };
+
+  // プロフィール画像を取得
+  const getSource = () => {
+    getAvatar(user.uid).then((res) => {
       setImageSrc(res);
     });
   };
+
   const refreshData = () => {
-    // setUserPostData(null);
+    // imageを再取得
     setImageSrc(null);
-    getSource(userData);
+    getSource();
 
     setRefreshData(true);
     getUser().then((data) => {
-      setData(data);
+      setCurrentUser(data);
       setCurrentUserUid(data.uid);
       axios
         .get("/api/users/" + user.uid, {
@@ -100,12 +96,12 @@ function UserPage({ route }) {
           },
         })
         .then((res) => {
-          console.log(res.data);
+          // console.log(res.data);
+
           setUserInfo(res.data.user);
           setDoneCounts(res.data.done_counts);
           setIsFollowed(res.data.isFollowed);
           setBlockState(res.data.blockState);
-          if (user.uid === currentUserUid) setisCurrentUser(true);
           setFollowData({
             following: res.data.following,
             follower: res.data.follower,
@@ -130,6 +126,7 @@ function UserPage({ route }) {
       .catch((e) => console.log(e));
   };
 
+  // 端までスクロールした時に投稿データを取得
   const fetchData = () => {
     axios
       .get("/api/done_posts", {
@@ -149,6 +146,8 @@ function UserPage({ route }) {
         setUserPostData(newData);
       });
   };
+
+  // フォローを外す処理
   const unfollow = async () => {
     axios.delete("/api/relationships/" + userInfo.id, {
       params: {
@@ -158,6 +157,8 @@ function UserPage({ route }) {
     setIsFollowed(false);
     console.log("succsess unfollow");
   };
+
+  // フォローする処理
   const follow = async () => {
     if (user.uid === currentUserUid) return;
     axios.get("/api/relationships", {
@@ -171,10 +172,11 @@ function UserPage({ route }) {
     sendPushNotification(
       userInfo.expo_push_token,
       "Done Hub",
-      `${userData.name}さんがフォローしました`
+      `${currentUser.name}さんがフォローしました`
     );
   };
 
+  // ブロック解除する処理
   const unblockUser = async () => {
     Alert.alert("ブロック解除", `ブロックを解除しますか？`, [
       {
@@ -197,6 +199,8 @@ function UserPage({ route }) {
       },
     ]);
   };
+
+  // ブロックする処理
   const blockUser = async () => {
     if (user.uid === currentUserUid) return;
     Alert.alert("ブロック", `${user.name}を本当にブロックしますか？`, [
@@ -221,6 +225,8 @@ function UserPage({ route }) {
       },
     ]);
   };
+
+  // ユーザーを報告する処理
   const reportUser = async () => {
     if (reportState) {
       Toast.show("既に報告済みです！", {
@@ -249,7 +255,7 @@ function UserPage({ route }) {
               method: "POST",
               data: {
                 channel: "#report",
-                text: `id:${userInfo.id}\n name: ${userInfo.name}\nreport from: ${userData.id} ${userData.name}`,
+                text: `id:${userInfo.id}\n name: ${userInfo.name}\nreport from: ${currentUser.id} ${currentUser.name}`,
               },
             });
             console.log(result.data);
@@ -263,24 +269,25 @@ function UserPage({ route }) {
     );
   };
 
-  if (!userData) {
+  if (!currentUser) {
     return (
       <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
         <ActivityIndicator size="large" />
       </View>
     );
   }
+  // ブロックしている、またはされている時のUI
   if (blockState.block || blockState.blocked) {
     return (
       <SafeAreaView style={{ flex: 1 }}>
         <Modal
-        isVisible={isShowCalendar}
-        onBackdropPress={toggleCalendar}
-        animationIn="zoomInUp"
-        animationOut="zoomOut"
-      >
-        <DoneCalendar userData={userInfo}/>
-      </Modal>
+          isVisible={isShowCalendar}
+          onBackdropPress={toggleCalendar}
+          animationIn="zoomInUp"
+          animationOut="zoomOut"
+        >
+          <DoneCalendar userData={userInfo} />
+        </Modal>
         <OtherProfileInfo
           userData={userInfo}
           followData={followData}
@@ -289,12 +296,11 @@ function UserPage({ route }) {
           follow={follow}
           unfollow={unfollow}
           doneCounts={doneCounts}
-          isCurrentUser={isCurrentUser}
           blockUser={blockUser}
           unblockUser={unblockUser}
           blockState={blockState}
           reportUser={reportUser}
-          toggleCalendar={toggleCalendar} 
+          toggleCalendar={toggleCalendar}
         />
         <View style={{ flex: 1 }}>
           <View
@@ -348,50 +354,33 @@ function UserPage({ route }) {
       </SafeAreaView>
     );
   }
+
   return (
     <SafeAreaView style={{ flex: 1 }}>
-      <Overlay isVisible={isModalVisible} fullScreen>
-        <EditProfile
-          toggleModal={toggleModal}
-          userData={userData}
-          imageSrc={imageSrc}
-        />
-      </Overlay>
       <Modal
         isVisible={isShowCalendar}
         onBackdropPress={toggleCalendar}
         animationIn="zoomInUp"
         animationOut="zoomOut"
       >
-        <DoneCalendar userData={userInfo}/>
+        <DoneCalendar userData={userInfo} />
       </Modal>
       <FlatList
         ListHeaderComponent={
-          isCurrentUser ? (
-            <ProfileInfo
-              userData={userInfo}
-              followData={followData}
-              toggleModal={toggleModal}
-              imageSrc={imageSrc}
-              doneCounts={doneCounts}
-            />
-          ) : (
-            <OtherProfileInfo
-              userData={userInfo}
-              followData={followData}
-              imageSrc={imageSrc}
-              isFollowed={isFollowed}
-              follow={follow}
-              unfollow={unfollow}
-              doneCounts={doneCounts}
-              isCurrentUser={isCurrentUser}
-              blockUser={blockUser}
-              unblockUser={unblockUser}
-              blockState={blockState}
-              reportUser={reportUser}
-              toggleCalendar={toggleCalendar} 
-            />
-          )
+          <OtherProfileInfo
+            userData={userInfo}
+            followData={followData}
+            imageSrc={imageSrc}
+            isFollowed={isFollowed}
+            follow={follow}
+            unfollow={unfollow}
+            doneCounts={doneCounts}
+            blockUser={blockUser}
+            unblockUser={unblockUser}
+            blockState={blockState}
+            reportUser={reportUser}
+            toggleCalendar={toggleCalendar}
+          />
         }
         refreshControl={
           <RefreshControl
@@ -403,7 +392,9 @@ function UserPage({ route }) {
         data={userPostsData}
         keyExtractor={(item) => item?.id?.toString()}
         renderItem={({ item }) => {
-          return <DonePost post={item} userData={userData} image={imageSrc} />;
+          return (
+            <DonePost post={item} userData={currentUser} image={imageSrc} />
+          );
         }}
         onEndReached={fetchData}
         onEndReachedThreshold={0.5}

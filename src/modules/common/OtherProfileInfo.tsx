@@ -25,7 +25,6 @@ function OtherProfileInfo(props) {
     isFollowed,
     follow,
     unfollow,
-    isCurrentUser,
     doneCounts,
     blockUser,
     unblockUser,
@@ -144,7 +143,7 @@ function OtherProfileInfo(props) {
               disabled
             />
           )}
-          {!isCurrentUser &&
+          {
             isFollowed &&
             !blockState.block &&
             !blockState.blocked && (
@@ -161,7 +160,7 @@ function OtherProfileInfo(props) {
                 onPress={() => unfollow()}
               />
             )}
-          {!isCurrentUser &&
+          {
             !isFollowed &&
             !blockState.block &&
             !blockState.blocked && (
