@@ -17,6 +17,10 @@
         "image": "./assets/splash.png",
         "resizeMode": "cover",
         "backgroundColor": "#fff"
+      },
+      "infoPlist": {
+        "NSCameraUsageDescription": "プロフィール画像のための写真をアップロードするためにカメラを使用します",
+        "NSPhotoLibraryUsageDescription": "プロフィール画像をアップロードするためにフォトライブラリを使用します"
       }
     },
     "extra": {
