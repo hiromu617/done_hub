@@ -63,7 +63,15 @@ const TaskCard: React.FC<Props> = (props) => {
         ></CheckTaskModal>
       </Modal>
       <View style={styles.taskCard}>
-        <TaskCheckBox checked={task.checked} onCheck={checkTask} />
+        <View style={{flexDirection: 'row', alignItems: 'center'}}>
+          <TaskCheckBox checked={task.checked} onCheck={checkTask} />
+          {task.expired && (
+            <Text style={{ color: "#1F2937" }}>
+              ~{new Date(task.expired).getMonth() + 1}/
+              {new Date(task.expired).getDate()}
+            </Text>
+          )}
+        </View>
         <TouchableOpacity onPress={onPressTask} style={{ maxWidth: "70%" }}>
           <Text style={{ color: "#1F2937" }}>{task.name}</Text>
         </TouchableOpacity>

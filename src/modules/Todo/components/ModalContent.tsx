@@ -13,6 +13,7 @@ import { SiteContext } from "./TodoScreen";
 import { AntDesign } from "@expo/vector-icons";
 import { Input, Button, Icon } from "react-native-elements";
 import Toast from "react-native-root-toast";
+import DateTimePicker from '@react-native-community/datetimepicker';
 
 type Props = {
   CloseModal: () => void;
@@ -22,16 +23,26 @@ const ModalContent: React.FC<Props> = (props) => {
   const { CloseModal } = props;
   const { control, handleSubmit, errors, setValue } = useForm<TaskForm>();
   const { dispatch } = useContext(SiteContext);
+  const [date, setDate] = useState(new Date());
+
   const onSubmit = (data: TaskForm) => {
-    dispatch({ type: "create", data: data });
+    dispatch({ type: "create", data: data, expired: date });
     CloseModal();
     Toast.show("タスクを追加しました", {
       position: 50,
     });
   };
 
+  const onChange = (event, selectedDate) => {
+    const currentDate = selectedDate || date;
+    console.log(currentDate)
+    // setShow(Platform.OS === 'ios');
+    setDate(currentDate);
+  };
+
   return (
     <View style={{ borderRadius: 20 }}>
+      
       <View
         style={{
           justifyContent: "center",
@@ -43,14 +54,6 @@ const ModalContent: React.FC<Props> = (props) => {
           borderTopEndRadius: 10,
         }}
       >
-        <View style={styles.btnWrap}>
-          {/* <TouchableOpacity 
-            style={styles.btn}
-            onPress={CloseModal} 
-          >
-            <AntDesign name="close" size={30} color="grey" />
-          </TouchableOpacity> */}
-        </View>
         <Controller
           control={control}
           render={({ onChange, value }) => (
@@ -77,7 +80,16 @@ const ModalContent: React.FC<Props> = (props) => {
           </Text>
         )}
       </View>
-
+      <View style={{backgroundColor: 'white', justifyContent: 'center', paddingBottom: 20, paddingHorizontal: '30%'}}>
+        <DateTimePicker
+          testID="dateTimePicker"
+          value={date}
+          mode="date"
+          is24Hour={true}
+          display="default"
+          onChange={onChange}
+        />
+      </View>
       <TouchableOpacity
         style={{
           backgroundColor: "#3B82F6",

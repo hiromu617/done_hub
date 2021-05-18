@@ -110,7 +110,9 @@ function reducer(state: Task[], action) {
         name: action.data.name,
         checked: false,
         comment: "",
+        expired: action.expired,
       };
+      console.log(newTask)
       let newState: Task[] = state.slice();
       newState.push(newTask);
       storeTasks(newState);

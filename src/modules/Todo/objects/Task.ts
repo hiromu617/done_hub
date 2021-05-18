@@ -7,6 +7,8 @@ type Task = {
   checked: boolean;
 
   comment: string;
+
+  expired: Date;
 };
   
 export default Task;

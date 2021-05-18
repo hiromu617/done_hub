@@ -26,18 +26,20 @@ const TaskList: React.FC = () => {
   // console.log(tasksData)
   useEffect(() => {
     getTasks().then((data) => {
-      // console.log(data)
+      console.log(data)
+      data.sort(function(a,b){
+        if(a.expired < b.expired) return -1;
+        if(a.expired > b.expired) return 1;
+        return 0;
+      });
+      // let newData = data.filter((t) => new Date(t.expired) > new Date())
       setTask(data);
     });
   }, [state]);
 
   return (
-    <Card>
-      {/* <Card.Title>
-        TODO LIST {new Date().getMonth() + 1}/{new Date().getDate()}
-      </Card.Title>
-      <Card.Divider /> */}
       <FlatList
+       style={{backgroundColor: 'white', position: 'absolute', top: '14%', bottom: '12%', width: '100%'}}
         ListHeaderComponent={
         <View style={{padding: 10}}>
           <Text style={{textAlign: 'center', fontWeight: 'bold', color: '#374151'}}>TODO LIST {new Date().getMonth() + 1}/{new Date().getDate()}</Text>
@@ -61,7 +63,6 @@ const TaskList: React.FC = () => {
           );
         }}
       />
-    </Card>
   );
 };
 
