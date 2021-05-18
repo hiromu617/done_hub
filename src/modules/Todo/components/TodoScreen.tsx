@@ -39,7 +39,7 @@ const TodoScreen: React.FC = () => {
   return (
     <SiteProvider>
       <StatusBar style="dark" />
-      <View style={{ position: "absolute", top: "6%" }}>
+      <View style={{ position: "absolute", top: "6%", zIndex: 100 }}>
         <AdMobBanner
           style={{ width: "100%" }}
           adUnitID="ca-app-pub-2508838902910991/8671220332" // Test ID, Replace with your-admob-unit-id
@@ -66,7 +66,7 @@ const TodoScreen: React.FC = () => {
         <ShareModal CloseModal={toggleShareModal}></ShareModal>
       </Modal>
 
-      <SafeAreaView style={{ flex: 1, justifyContent: "center" }}>
+      <SafeAreaView style={{ flex: 1, justifyContent: "center", backgroundColor: 'transparent', zIndex: 99 }}>
         <TaskList />
 
         <ShareBtn onPressBtn={toggleShareModal} />

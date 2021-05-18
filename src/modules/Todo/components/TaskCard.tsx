@@ -7,7 +7,7 @@ import { reflectDeleteToList, reflectEditToList } from "../TaskUtil";
 import { Alert } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
 import CheckTaskModal from "./CheckTaskModal";
-import { Button, Overlay } from "react-native-elements";
+import { Button, Overlay, Icon } from "react-native-elements";
 import Modal from "react-native-modal";
 import Toast from "react-native-root-toast";
 
@@ -20,6 +20,20 @@ const TaskCard: React.FC<Props> = (props) => {
   const { dispatch } = useContext(SiteContext);
   const onPressTask = () => {};
   const [isModalVisible, setModalVisible] = useState(false);
+  const [dateState, setDateState] = useState(() => {
+    if (
+      new Date(Date.now()) > new Date(task.expired) &&
+      new Date(Date.now()).getDate() != new Date(task.expired).getDate()
+    ) {
+      return "expired";
+    } else if (
+      new Date(Date.now()).getDate() == new Date(task.expired).getDate()
+    ) {
+      return "today";
+    } else {
+      return "notExpired";
+    }
+  });
   const toggleModal = () => {
     setModalVisible(!isModalVisible);
   };
@@ -63,21 +77,47 @@ const TaskCard: React.FC<Props> = (props) => {
         ></CheckTaskModal>
       </Modal>
       <View style={styles.taskCard}>
-        <View style={{flexDirection: 'row', alignItems: 'center'}}>
+        <View style={{ flexDirection: "row", alignItems: "center" }}>
           <TaskCheckBox checked={task.checked} onCheck={checkTask} />
-          {task.expired && (
+          {/* {task.expired && (
             <Text style={{ color: "#1F2937" }}>
               ~{new Date(task.expired).getMonth() + 1}/
               {new Date(task.expired).getDate()}
             </Text>
-          )}
+          )} */}
         </View>
-        <TouchableOpacity onPress={onPressTask} style={{ maxWidth: "70%" }}>
-          <Text style={{ color: "#1F2937" }}>{task.name}</Text>
+        <TouchableOpacity onPress={onPressTask} style={{ maxWidth: "65%", paddingHorizontal: 5 }}>
+          <Text style={{ color: "#1F2937", fontWeight: 'bold', fontSize: 18 }}>{task.name}</Text>
         </TouchableOpacity>
-        <TouchableOpacity onPress={deleteTask}>
+        {/* <TouchableOpacity onPress={deleteTask}>
           <AntDesign name="close" size={24} color="#EF4444" />
-        </TouchableOpacity>
+        </TouchableOpacity> */}
+        {task.expired && (
+          <View style={{ flexDirection: "row", alignItems: "center" }}>
+            <Icon
+              name="clock"
+              type="font-awesome-5"
+              size={12}
+              color={dateState == "expired" ? "red" : "#6B7280"}
+              style={{ marginRight: 5 }}
+            />
+            <Text
+              style={{
+                color: dateState == "expired" ? "red" : "#6B7280",
+                fontSize: 12,
+              }}
+            >
+              {dateState == "expired" && <Text>expired</Text>}
+              {dateState == "today" && <Text style={{fontWeight: 'bold'}}>Today</Text>}
+              {dateState == "notExpired" && (
+                <Text>
+                  Due on {new Date(task.expired).getMonth() + 1}/
+                  {new Date(task.expired).getDate()}
+                </Text>
+              )}
+            </Text>
+          </View>
+        )}
       </View>
     </View>
   );
