@@ -187,6 +187,12 @@ const DonePost: React.FC<Props> = (props) => {
                     <ListItem.Content>
                       <Text>{item.name}</Text>
                     </ListItem.Content>
+                    {item.expired && (
+                      <Text style={{fontSize: 11}}>
+                        ~{new Date(item.expired).getMonth() + 1}/
+                        {new Date(item.expired).getDate()}
+                      </Text>
+                    )}
                   </ListItem>
                 );
               }}

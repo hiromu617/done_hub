@@ -30,6 +30,7 @@ import { Subscription } from "@unimodules/core";
 import * as Notifications from "expo-notifications";
 import axios from "./src/constants/axios";
 import reducer from "./notificationReducer";
+import { useNavigation } from '@react-navigation/native';
 
 const initialUser: User = {
   uid: null,
@@ -100,9 +101,47 @@ export const CountContext = React.createContext(
 
 function MyTabs() {
   const [notificationCount, setNotificationCount] = useState(0);
+  const notificationListener = useRef<Subscription>();
+  const responseListener = useRef<Subscription>();
+  const navigation = useNavigation()
 
   useEffect(() => {
     fetchNotificationCount();
+  }, []);
+
+  useEffect(() => {
+    // 通知を受信した時の振る舞いを設定
+    Notifications.setNotificationHandler({
+      handleNotification: async () => ({
+        shouldShowAlert: true,
+        shouldPlaySound: true,
+        shouldSetBadge: false,
+      }),
+    });
+
+    // アプリがフォアグラウンドの状態で通知を受信したときに起動
+    notificationListener.current =
+      Notifications.addNotificationReceivedListener((notification) => {
+        setNotificationCount(1);
+      });
+
+    // ユーザーが通知をタップまたは操作したときに発生します
+    // （アプリがフォアグラウンド、バックグラウンド、またはキルされたときに動作します）
+    responseListener.current =
+      Notifications.addNotificationResponseReceivedListener((response) => {
+        // alert('ユーザーが通知をタップしました')
+        navigation.navigate('Notification')
+        console.log(response);
+      });
+
+    // アンマウント時にリスナーを削除
+    return () => {
+      const notification = notificationListener.current;
+      notification &&
+        Notifications.removeNotificationSubscription(notification);
+      const response = responseListener.current;
+      response && Notifications.removeNotificationSubscription(response);
+    };
   }, []);
 
   const fetchNotificationCount = async () => {
@@ -203,42 +242,6 @@ function MyTabs() {
 export default function App() {
   const [notification, setNotification] =
     useState<Notifications.Notification>();
-  const notificationListener = useRef<Subscription>();
-  const responseListener = useRef<Subscription>();
-
-  useEffect(() => {
-    // 通知を受信した時の振る舞いを設定
-    Notifications.setNotificationHandler({
-      handleNotification: async () => ({
-        shouldShowAlert: true,
-        shouldPlaySound: true,
-        shouldSetBadge: false,
-      }),
-    });
-
-    // アプリがフォアグラウンドの状態で通知を受信したときに起動
-    notificationListener.current =
-      Notifications.addNotificationReceivedListener((notification) => {
-        setNotification(notification);
-      });
-
-    // ユーザーが通知をタップまたは操作したときに発生します
-    // （アプリがフォアグラウンド、バックグラウンド、またはキルされたときに動作します）
-    responseListener.current =
-      Notifications.addNotificationResponseReceivedListener((response) => {
-        // alert('ユーザーが通知をタップしました')
-        console.log(response);
-      });
-
-    // アンマウント時にリスナーを削除
-    return () => {
-      const notification = notificationListener.current;
-      notification &&
-        Notifications.removeNotificationSubscription(notification);
-      const response = responseListener.current;
-      response && Notifications.removeNotificationSubscription(response);
-    };
-  }, []);
 
   return (
     <RootSiblingParent>

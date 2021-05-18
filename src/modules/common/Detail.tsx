@@ -37,13 +37,12 @@ const Detail: React.FC = ({ route }) => {
   const [postData, setPostData] = useState(post);
   const [replyData, setReplyData] = useState(post.replys); //投稿への返信のデータ
   const [imageSrc, setImageSrc] = useState(initialImageSrc);
-  const [autoFocusState, setAutoFocusState] = useState(false);　//フォームにフォーカスするかどうか
-  const [deleteModalState, setDeleteModalState] = useState(false);　//削除のモーダルを表示するかどうか
+  const [autoFocusState, setAutoFocusState] = useState(false); //フォームにフォーカスするかどうか
+  const [deleteModalState, setDeleteModalState] = useState(false); //削除のモーダルを表示するかどうか
   const [likedUsers, setLikedUsers] = useState(
     postData.likes.map((l) => l.user)
-  );　//likeしているユーザーs
-  const [reportState, setReportState] = useState(false);　//currentuserが報告したかどうか
-
+  ); //likeしているユーザーs
+  const [reportState, setReportState] = useState(false); //currentuserが報告したかどうか
   useEffect(() => {
     if (initialLikeState === undefined) {
       isLike();
@@ -77,7 +76,6 @@ const Detail: React.FC = ({ route }) => {
       },
     ]);
   };
-
 
   const getSource = () => {
     getAvatar(post.user.uid).then((res) => {
@@ -374,6 +372,12 @@ const Detail: React.FC = ({ route }) => {
                           <ListItem.Content>
                             <Text>{item.name}</Text>
                           </ListItem.Content>
+                          {item.expired && (
+                            <Text style={{ fontSize: 11 }}>
+                              ~{new Date(item.expired).getMonth() + 1}/
+                              {new Date(item.expired).getDate()}
+                            </Text>
+                          )}
                         </ListItem>
                       );
                     }}
