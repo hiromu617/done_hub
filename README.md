@@ -3,6 +3,10 @@ DoneHubは、勉強の予定、成果をシェアできる大学生向けSNSア�
 
 [App Store URL](https://apps.apple.com/us/app/donehub/id1565814912)
 
+![S__35913731](https://user-images.githubusercontent.com/64679766/118754288-b0c6dc00-b8a1-11eb-9524-21ffe8735ff7.jpg)
+
+![S__35913733](https://user-images.githubusercontent.com/64679766/118754319-c0debb80-b8a1-11eb-8761-8dc9944bd94f.jpg)
+
 ## 使用技術
 
 ### メイン技術
