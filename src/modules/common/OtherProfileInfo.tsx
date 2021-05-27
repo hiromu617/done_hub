@@ -178,13 +178,7 @@ function OtherProfileInfo(props) {
       <View style={{ paddingHorizontal: 12, paddingBottom: 10 }}>
         <Text>
           {userInfo.hub_list.map((l, i) => (
-            <TouchableOpacity
-              onPress={() =>
-                navigation.push("HubSelect", {
-                  user: userInfo,
-                })
-              }
-            >
+            <TouchableOpacity>
               <LinearGradient
                 start={[0, 1]}
                 end={[1, 0]}
