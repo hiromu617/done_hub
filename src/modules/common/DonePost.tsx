@@ -7,6 +7,8 @@ import axios from "../../constants/axios";
 import { FlatList } from "react-native-gesture-handler";
 import { sendPushNotification } from "../../constants/pushNotificationFunc";
 import { getAvatar } from "./CommonUtil";
+import formatDistanceToNow from "date-fns/formatDistanceToNow";
+import { ja } from "date-fns/locale";
 
 type Props = {
   post;
@@ -37,16 +39,6 @@ const DonePost: React.FC<Props> = (props) => {
       setImageSrc(res);
     });
   }, []);
-
-  // 日付のフォーマットを変更
-  const parseDate = (val) => {
-    return val
-      .toString()
-      .replace(
-        /([0-9]{4})-([0-9]{2})-([0-9]{2})T([0-9]{2}):([0-9]{2})([\w|:|.|+]*)/,
-        "$4:$5"
-      );
-  };
 
   // CurrentUserがlikeしているかチェック
   const isLike = () => {
@@ -188,7 +180,7 @@ const DonePost: React.FC<Props> = (props) => {
                       <Text>{item.name}</Text>
                     </ListItem.Content>
                     {item.expired && (
-                      <Text style={{fontSize: 11}}>
+                      <Text style={{ fontSize: 11 }}>
                         ~{new Date(item.expired).getMonth() + 1}/
                         {new Date(item.expired).getDate()}
                       </Text>
@@ -239,7 +231,9 @@ const DonePost: React.FC<Props> = (props) => {
                 textAlign: "right",
               }}
             >
-              {parseDate(post.created_at)}
+              {formatDistanceToNow(new Date(post.created_at), {
+                locale: ja,
+              })}
             </Text>
           </View>
         </View>
