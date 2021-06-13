@@ -77,15 +77,14 @@ function SearchHome() {
           ListHeaderComponent={
             <View
               style={{
-                padding: 20,
+                padding: 10,
                 backgroundColor: "white",
                 flexDirection: "row",
                 alignItems: "center",
               }}
             >
-              <Icon name="history" type="font-awesome" color="#1F2937" />
-              <Text style={{ fontSize: 18, marginLeft: 10, color: "#1F2937" }}>
-                最近登録したユーザー
+              <Text style={{ fontSize: 18, marginLeft: 10, color: "#374151" }}>
+                ⚡️最近登録したユーザー
               </Text>
             </View>
           }

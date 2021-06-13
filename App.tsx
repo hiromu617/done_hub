@@ -30,12 +30,15 @@ import { Subscription } from "@unimodules/core";
 import * as Notifications from "expo-notifications";
 import axios from "./src/constants/axios";
 import reducer from "./notificationReducer";
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation } from "@react-navigation/native";
 
 const initialUser: User = {
   uid: null,
   name: null,
   profile: null,
+  college: null,
+  faculty: null,
+  department: null,
   hub_list: [],
   id: 0,
 };
@@ -46,6 +49,9 @@ function userReducer(state, action) {
         uid: action.data.uid,
         name: action.data.displayName,
         profile: "",
+        college: "",
+        faculty: "",
+        department: "",
         hub_list: [],
         id: 1,
       };
@@ -103,7 +109,7 @@ function MyTabs() {
   const [notificationCount, setNotificationCount] = useState(0);
   const notificationListener = useRef<Subscription>();
   const responseListener = useRef<Subscription>();
-  const navigation = useNavigation()
+  const navigation = useNavigation();
 
   useEffect(() => {
     fetchNotificationCount();
@@ -130,7 +136,7 @@ function MyTabs() {
     responseListener.current =
       Notifications.addNotificationResponseReceivedListener((response) => {
         // alert('ユーザーが通知をタップしました')
-        navigation.navigate('Notification')
+        navigation.navigate("Notification");
         console.log(response);
       });
 
@@ -204,12 +210,12 @@ function MyTabs() {
             tabBarLabel: "Notification",
             tabBarIcon: ({ color, size }) => (
               <View>
-                {notificationCount > 0 &&
-                <Badge
-                  status="primary"
-                  containerStyle={{ position: "absolute", top: 0, right: 0 }}
-                />
-                }
+                {notificationCount > 0 && (
+                  <Badge
+                    status="primary"
+                    containerStyle={{ position: "absolute", top: 0, right: 0 }}
+                  />
+                )}
                 <Icon
                   name="bell-outline"
                   size={size}

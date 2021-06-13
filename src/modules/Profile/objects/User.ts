@@ -7,8 +7,11 @@ type User = {
   name: string;
 
   profile: string;
+  college: string;
+  faculty: string;
+  department: string;
 
   hub_list: string[];
 };
-  
+
 export default User;

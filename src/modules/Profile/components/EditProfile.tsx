@@ -28,6 +28,9 @@ function EditProfile(props) {
         user: {
           name: data.name,
           profile: data.profile,
+          college: data.college,
+          faculty: data.faculty,
+          department: data.department,
         },
       })
       .then((res) => {
@@ -37,6 +40,9 @@ function EditProfile(props) {
           uid: res.data.uid,
           name: res.data.name,
           profile: res.data.profile,
+          college: res.data.college,
+          faculty: res.data.faculty,
+          department: res.data.department,
           hub_list: res.data.hub_list,
           id: res.data.id,
         };
@@ -106,6 +112,69 @@ function EditProfile(props) {
       {errors.name && errors.name.type === "maxLength" && (
         <Text style={styles.errorText}>
           タイトルは140文字以内で入力してください。
+        </Text>
+      )}
+      <Controller
+        control={control}
+        render={({ onChange, value }) => (
+          <Input
+            label="大学名"
+            placeholder="hogehoge大学"
+            onChangeText={(value) => onChange(value)}
+            value={value}
+          />
+        )}
+        name="college"
+        defaultValue={currentUser.college}
+        rules={{
+          maxLength: 20,
+        }}
+      />
+      {errors.name && errors.name.type === "maxLength" && (
+        <Text style={styles.errorText}>
+         大学名は20文字以内で入力してください。
+        </Text>
+      )}
+      <Controller
+        control={control}
+        render={({ onChange, value }) => (
+          <Input
+            label="学部名"
+            placeholder="foo学部"
+            onChangeText={(value) => onChange(value)}
+            value={value}
+          />
+        )}
+        name="faculty"
+        defaultValue={currentUser.faculty}
+        rules={{
+          maxLength: 20,
+        }}
+      />
+      {errors.name && errors.name.type === "maxLength" && (
+        <Text style={styles.errorText}>
+         学部名は20文字以内で入力してください。
+        </Text>
+      )}
+      <Controller
+        control={control}
+        render={({ onChange, value }) => (
+          <Input
+            label="学科名"
+            placeholder="bar学科"
+            onChangeText={(value) => onChange(value)}
+            value={value}
+          />
+        )}
+        name="department"
+        defaultValue={currentUser.department}
+        rules={{
+          maxLength: 20,
+        }}
+      />
+      {errors.name && errors.name.type === "maxLength" && (
+        <Text style={styles.errorText}>
+         大学名は20文字以内で入力してください。
         </Text>
       )}
       <Button

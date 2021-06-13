@@ -15,7 +15,14 @@ import { LinearGradient } from "expo-linear-gradient";
 import { deleteData } from "../../Todo/Storage";
 
 function ProfileInfo(props) {
-  const { currentUser, toggleModal, imageSrc, followData, doneCounts, toggleCalendar } = props;
+  const {
+    currentUser,
+    toggleModal,
+    imageSrc,
+    followData,
+    doneCounts,
+    toggleCalendar,
+  } = props;
   // console.log(followData.following)
   // console.log(followData.follower)
   const navigation = useNavigation();
@@ -28,7 +35,6 @@ function ProfileInfo(props) {
   }
   return (
     <View style={{ backgroundColor: "white" }}>
-      
       <View
         style={{
           padding: 10,
@@ -60,7 +66,7 @@ function ProfileInfo(props) {
             {currentUser.name}
           </Text>
         </View>
-        <View style={{position: 'absolute', right: 0}}>
+        <View style={{ position: "absolute", right: 0 }}>
           <Button
             title="変更"
             style={{ margin: 10 }}
@@ -70,14 +76,9 @@ function ProfileInfo(props) {
               backgroundColor: "white",
             }}
             icon={
-              <Icon
-                name="cog"
-                type='font-awesome'
-                size={18}
-                color="#3B82F6"
-              />
+              <Icon name="cog" type="font-awesome" size={18} color="#3B82F6" />
             }
-            titleStyle={{ fontSize: 16, marginLeft: 3}}
+            titleStyle={{ fontSize: 16, marginLeft: 3 }}
             type="outline"
             onPress={toggleModal}
           />
@@ -147,8 +148,14 @@ function ProfileInfo(props) {
             </LinearGradient>
           </TouchableOpacity>
         </Text>
-
-        <Text style={{ paddingVertical: 10 }}>{currentUser.profile}</Text>
+        <Text style={{ paddingTop: 10}}>
+          {currentUser.college && <Text style={{color: "#4B5563" }}>🏫{currentUser.college} </Text>}
+          {currentUser.faculty && <Text style={{color: "#4B5563" }}>{currentUser.faculty} </Text>}
+          {currentUser.department && <Text style={{color: "#4B5563" }}>{currentUser.department}</Text>}
+        </Text>
+        <Text style={{ paddingTop: 5, paddingBottom: 10 }}>
+          {currentUser.profile}
+        </Text>
         <Text>
           <TouchableOpacity
             onPress={() =>
@@ -170,10 +177,8 @@ function ProfileInfo(props) {
               {followData.follower.length} フォロワー
             </Text>
           </TouchableOpacity>
-          <TouchableOpacity
-          onPress={() => toggleCalendar()}
-          >
-            <Text style={{ fontWeight: "bold" }}> {doneCounts} Done</Text>
+          <TouchableOpacity onPress={() => toggleCalendar()}>
+            <Text style={{ fontWeight: "bold" }}>  {doneCounts} Done🗓</Text>
           </TouchableOpacity>
         </Text>
       </View>

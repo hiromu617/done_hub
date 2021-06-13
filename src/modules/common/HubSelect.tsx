@@ -42,6 +42,9 @@ function HubSelect({ route }) {
           name: res.data.name,
           profile: res.data.profile,
           hub_list: res.data.hub_list,
+          college: res.data.college,
+          faculty: res.data.faculty,
+          department: res.data.department,
           id: res.data.id,
         };
         console.log("--------------------");

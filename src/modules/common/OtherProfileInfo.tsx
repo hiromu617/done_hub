@@ -207,7 +207,14 @@ function OtherProfileInfo(props) {
             </TouchableOpacity>
           ))}
         </Text>
-        <Text style={{ paddingVertical: 10 }}>{userInfo.profile}</Text>
+        <Text style={{ paddingTop: 10}}>
+          {userInfo.college && <Text style={{color: "#4B5563" }}>🏫{userInfo.college} </Text>}
+          {userInfo.faculty && <Text style={{color: "#4B5563" }}>{userInfo.faculty} </Text>}
+          {userInfo.department && <Text style={{color: "#4B5563" }}>{userInfo.department}</Text>}
+        </Text>
+        <Text style={{ paddingTop: 5, paddingBottom: 10 }}>
+          {userInfo.profile}
+        </Text>
         <Text>
           <TouchableOpacity
             onPress={() =>
@@ -230,7 +237,7 @@ function OtherProfileInfo(props) {
             </Text>
           </TouchableOpacity>
           <TouchableOpacity onPress={() => toggleCalendar()}>
-            <Text style={{ fontWeight: "bold" }}> {doneCounts} Done</Text>
+            <Text style={{ fontWeight: "bold" }}> {doneCounts} Done🗓</Text>
           </TouchableOpacity>
         </Text>
       </View>

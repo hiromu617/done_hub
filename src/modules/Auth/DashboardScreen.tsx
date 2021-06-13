@@ -32,6 +32,9 @@ function DashboardScreen(){
           uid: res.data.uid,
           name: res.data.name,
           profile: res.data.profile,
+          college: res.data.college,
+          faculty: res.data.faculty,
+          department: res.data.department,
           hub_list: res.data.hub_list,
           id: res.data.id
         }
