@@ -20,7 +20,7 @@ const DonePost: React.FC<Props> = (props) => {
   const { post, currentUser, image } = props;
   const [imageSrc, setImageSrc] = useState(image);
   const [likeState, setLikeState] = useState(false); //currentUserがlikeしているかどうか
-  const [likeLoading, setLikeLoading] = useState(false); //currentUserがlikeしているかどうか
+  const [likeLoading, setLikeLoading] = useState(false); 
   const [likeNum, setLikeNum] = useState(0); //投稿へのlikeの数
   const navigation = useNavigation();
   const likeAnimation = useRef(null);

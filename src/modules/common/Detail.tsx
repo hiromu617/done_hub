@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import {
   Alert,
   FlatList,
@@ -8,6 +8,7 @@ import {
   ScrollView,
   RefreshControl,
   KeyboardAvoidingView,
+  Pressable
 } from "react-native";
 import { ListItem, Avatar, Icon, Overlay, Button } from "react-native-elements";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -21,6 +22,7 @@ import { TouchableOpacity } from "react-native-gesture-handler";
 import { slackToken } from "../../../config";
 import { sendPushNotification } from "../../constants/pushNotificationFunc";
 import { getAvatar } from "./CommonUtil";
+import LottieView from "lottie-react-native";
 
 const Detail: React.FC = ({ route }) => {
   const navigation = useNavigation();
@@ -43,10 +45,13 @@ const Detail: React.FC = ({ route }) => {
     postData.likes.map((l) => l.user)
   ); //likeしているユーザーs
   const [reportState, setReportState] = useState(false); //currentuserが報告したかどうか
+  const [likeLoading, setLikeLoading] = useState(false);
+  const likeAnimation = useRef(null);
+
   useEffect(() => {
-    if (initialLikeState === undefined) {
-      isLike();
-    }
+    // if (initialLikeState === undefined) {
+    isLike();
+    // }
     if (initialImageSrc === undefined) {
       getSource();
     }
@@ -111,20 +116,27 @@ const Detail: React.FC = ({ route }) => {
   };
 
   // currentUserがlikeしているかどうか
-  const isLike = () => {
-    setLikeNum(postData.likes.length);
-    postData.likes.map((p) => {
+  const isLike = async () => {
+    setLikeNum(post.likes.length);
+    setLikeState(false);
+    await post.likes.map((p) => {
       if (p.user_id === currentUser.id) {
         setLikeState(true);
-        return;
+        likeAnimation.current.play(66, 66);
       }
     });
+    if (likeState) {
+      likeAnimation.current.play(66, 66);
+    } else {
+      likeAnimation.current.play(19, 19);
+    }
   };
 
   const like = async () => {
+    likeAnimation.current.play(19, 50);
     setLikeState(true);
     setLikeNum(likeNum + 1);
-    axios
+    await axios
       .post("/api/likes/", {
         like: {
           user_id: currentUser.id,
@@ -145,9 +157,10 @@ const Detail: React.FC = ({ route }) => {
   };
 
   const unlike = async () => {
+    likeAnimation.current.play(0, 19);
     setLikeNum(likeNum - 1);
     setLikeState(false);
-    axios
+    await axios
       .delete("/api/likes/", {
         params: {
           user_id: currentUser.id,
@@ -258,7 +271,7 @@ const Detail: React.FC = ({ route }) => {
         style={{ flex: 1 }}
       >
         <View>
-          <ListItem bottomDivider>
+          <ListItem bottomDivider containerStyle={{ paddingBottom: 0 }}>
             <ListItem.Content>
               <View
                 style={{
@@ -390,54 +403,81 @@ const Detail: React.FC = ({ route }) => {
                     alignItems: "center",
                   }}
                 >
-                  <Icon
-                    name="comment"
-                    type="font-awesome-5"
-                    size={20}
-                    color="gray"
-                    containerStyle={{ padding: 10 }}
-                    onPress={() => setAutoFocusState(true)}
-                  />
-                  <Text style={{ color: "gray", marginHorizontal: 7 }}>
-                    {replyData.length}
-                  </Text>
-                  {!likeState && (
-                    <Icon
-                      name="heart"
-                      type="font-awesome-5"
-                      size={20}
-                      color="#F87171"
-                      containerStyle={{ padding: 10 }}
-                      onPress={() => like()}
-                    />
-                  )}
-                  {likeState && (
-                    <Icon
-                      name="heart"
-                      type="font-awesome-5"
-                      size={20}
-                      color="#F87171"
-                      solid
-                      containerStyle={{ padding: 10 }}
-                      onPress={() => unlike()}
-                    />
-                  )}
-                  <TouchableOpacity
-                    onPress={() =>
-                      navigation.push("LikedUsers", {
-                        following: likedUsers,
-                      })
-                    }
+                  <View
+                    style={{
+                      flexDirection: "row",
+                      justifyContent: "space-between",
+                      alignItems: "center",
+                      width: "25%",
+                    }}
                   >
-                    <Text style={{ color: "#F87171", marginHorizontal: 7 }}>
-                      {likeNum}
+                    <Icon
+                      name="comment"
+                      type="font-awesome-5"
+                      size={20}
+                      color="gray"
+                      containerStyle={{ padding: 10 }}
+                      onPress={() => setAutoFocusState(true)}
+                    />
+                    <Text
+                      style={{
+                        color: "gray",
+                        marginLeft: 7,
+                        fontSize: 14,
+                      }}
+                    >
+                      {replyData.length}
                     </Text>
-                  </TouchableOpacity>
+                    <TouchableOpacity
+                      onPress={() => {
+                        // アニメーションが終わるまで押せないようにする
+                        if (likeLoading) {
+                          return;
+                        } else {
+                          setLikeLoading(true);
+                          if (likeState) unlike();
+                          else like();
+                        }
+                      }}
+                    >
+                      <LottieView
+                        style={{
+                          width: 70,
+                          height: 70,
+                          backgroundColor: "#fff",
+                        }}
+                        source={require("../../../assets/44921-like-animation.json")}
+                        ref={likeAnimation}
+                        autoPlay={false}
+                        loop={false}
+                        onAnimationFinish={() => setLikeLoading(false)}
+                      />
+                    </TouchableOpacity>
+                    <Pressable
+                      onPress={() =>{
+                        navigation.push("LikedUsers", {
+                          following: likedUsers,
+                        })
+                      }
+                    }
+                    hitSlop={20}
+                    >
+                      <Text
+                        style={{
+                          color: "gray",
+                          marginHorizontal: 0,
+                          fontSize: 16,
+                        }}
+                      >
+                        {likeNum} 件のいいね
+                      </Text>
+                    </Pressable>
+                  </View>
                   <Text
                     style={{
                       fontSize: 10,
                       color: "gray",
-                      width: "60%",
+                      width: "75%",
                       textAlign: "right",
                     }}
                   >
