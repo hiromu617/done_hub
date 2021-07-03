@@ -86,7 +86,7 @@ const UserListItem: React.FC<Props>  = (props) => {
                   paddingVertical: 5,
                   margin: 1.5,
                 }}
-                colors={["#0EA5E9", "#60A5FA"]}
+                colors={["#2563EB", "#1D4ED8"]}
               >
                 <Icon name="tag" color="white" size={16} />
                 <Text

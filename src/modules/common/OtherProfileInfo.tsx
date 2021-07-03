@@ -78,7 +78,7 @@ function OtherProfileInfo(props) {
               justifyContent: "space-between",
             }}
           >
-            <View style={{maxWidth: '85%'}}>
+            <View style={{ maxWidth: "85%" }}>
               <Text h4 style={{ fontWeight: "bold", margin: 5 }}>
                 {userInfo.name}
               </Text>
@@ -143,36 +143,30 @@ function OtherProfileInfo(props) {
               disabled
             />
           )}
-          {
-            isFollowed &&
-            !blockState.block &&
-            !blockState.blocked && (
-              <Button
-                title="follow中"
-                style={{ margin: 10 }}
-                buttonStyle={{
-                  borderRadius: 18,
-                  paddingHorizontal: 10,
-                  backgroundColor: "#3B82F6",
-                }}
-                titleStyle={{ fontSize: 16 }}
-                type="solid"
-                onPress={() => unfollow()}
-              />
-            )}
-          {
-            !isFollowed &&
-            !blockState.block &&
-            !blockState.blocked && (
-              <Button
-                title="followする"
-                style={{ margin: 10 }}
-                buttonStyle={{ borderRadius: 18, paddingHorizontal: 10 }}
-                titleStyle={{ fontSize: 16 }}
-                type="outline"
-                onPress={() => follow()}
-              />
-            )}
+          {isFollowed && !blockState.block && !blockState.blocked && (
+            <Button
+              title="follow中"
+              style={{ margin: 10 }}
+              buttonStyle={{
+                borderRadius: 18,
+                paddingHorizontal: 10,
+                backgroundColor: "#3B82F6",
+              }}
+              titleStyle={{ fontSize: 16 }}
+              type="solid"
+              onPress={() => unfollow()}
+            />
+          )}
+          {!isFollowed && !blockState.block && !blockState.blocked && (
+            <Button
+              title="followする"
+              style={{ margin: 10 }}
+              buttonStyle={{ borderRadius: 18, paddingHorizontal: 10 }}
+              titleStyle={{ fontSize: 16 }}
+              type="outline"
+              onPress={() => follow()}
+            />
+          )}
         </View>
       </View>
       <View style={{ paddingHorizontal: 12, paddingBottom: 10 }}>
@@ -190,7 +184,7 @@ function OtherProfileInfo(props) {
                   paddingVertical: 5,
                   margin: 1.5,
                 }}
-                colors={["#0EA5E9", "#60A5FA"]}
+                colors={["#2563EB", "#1D4ED8"]}
               >
                 <Icon name="tag" color="white" size={16} />
                 <Text
@@ -207,10 +201,16 @@ function OtherProfileInfo(props) {
             </TouchableOpacity>
           ))}
         </Text>
-        <Text style={{ paddingTop: 10}}>
-          {userInfo.college && <Text style={{color: "#4B5563" }}>🏫{userInfo.college} </Text>}
-          {userInfo.faculty && <Text style={{color: "#4B5563" }}>{userInfo.faculty} </Text>}
-          {userInfo.department && <Text style={{color: "#4B5563" }}>{userInfo.department}</Text>}
+        <Text style={{ paddingTop: 10 }}>
+          {userInfo.college && (
+            <Text style={{ color: "#4B5563" }}>🏫{userInfo.college} </Text>
+          )}
+          {userInfo.faculty && (
+            <Text style={{ color: "#4B5563" }}>{userInfo.faculty} </Text>
+          )}
+          {userInfo.department && (
+            <Text style={{ color: "#4B5563" }}>{userInfo.department}</Text>
+          )}
         </Text>
         <Text style={{ paddingTop: 5, paddingBottom: 10 }}>
           {userInfo.profile}

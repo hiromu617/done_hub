@@ -378,6 +378,7 @@ function UserPage({ route }) {
         }}
         onEndReached={fetchData}
         onEndReachedThreshold={0.5}
+        ListEmptyComponent={<Text style={{padding: 30, textAlign: "center", color: "gray"}}>まだ投稿がありません</Text>}
       />
       <KeyboardAvoidingView>
         <Icon

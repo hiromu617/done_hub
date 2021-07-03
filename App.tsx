@@ -168,7 +168,7 @@ function MyTabs() {
       <Tab.Navigator
         initialRouteName="Todo"
         tabBarOptions={{
-          activeTintColor: "#3B82F6",
+          activeTintColor: "#1D4ED8",
           showLabel: false,
         }}
       >

@@ -69,16 +69,18 @@ function ProfileInfo(props) {
         <View style={{ position: "absolute", right: 0 }}>
           <Button
             title="変更"
-            style={{ margin: 10 }}
+            style={{ margin: 10}}
             buttonStyle={{
               borderRadius: 18,
               paddingHorizontal: 12,
               backgroundColor: "white",
+              borderColor: "#1D4ED8",
+              borderWidth: .8,
             }}
             icon={
-              <Icon name="cog" type="font-awesome" size={18} color="#3B82F6" />
+              <Icon name="cog" type="font-awesome" size={18} color="#1D4ED8" />
             }
-            titleStyle={{ fontSize: 16, marginLeft: 3 }}
+            titleStyle={{ color: "#1D4ED8", fontSize: 16, marginLeft: 3 }}
             type="outline"
             onPress={toggleModal}
           />
