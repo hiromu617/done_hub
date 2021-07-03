@@ -92,9 +92,10 @@ function HubSelect({ route }) {
                 borderRadius: 13,
                 paddingHorizontal: 11,
                 paddingVertical: 5,
-                margin: 0,
+                marginRight: 10,
+                marginBottom: 5,
               }}
-              colors={["#0EA5E9", "#60A5FA"]}
+              colors={["#2563EB", "#1D4ED8"]}
             >
               <Icon name="tag" color="white" size={16} />
               <Text
@@ -148,7 +149,7 @@ function HubSelect({ route }) {
                       paddingVertical: 5,
                       margin: 0,
                     }}
-                    colors={["#0EA5E9", "#60A5FA"]}
+                    colors={["#2563EB", "#1D4ED8"]}
                   >
                     <Icon name="tag" color="white" size={16} />
                     <Text

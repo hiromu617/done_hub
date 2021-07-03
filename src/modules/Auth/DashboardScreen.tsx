@@ -74,7 +74,7 @@ function DashboardScreen(){
            start={[0,1]}
            end={[1,0]}
            style={{flexDirection: 'row',alignItems: 'center', borderRadius: 13, paddingHorizontal: 11, paddingVertical: 5, margin: 1.5}}
-           colors={['#0EA5E9', '#60A5FA']}
+           colors={["#2563EB", "#1D4ED8"]}
             >
               <Icon
               name="tag"

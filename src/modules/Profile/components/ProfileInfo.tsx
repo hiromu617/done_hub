@@ -99,7 +99,7 @@ function ProfileInfo(props) {
                   paddingVertical: 5,
                   margin: 1.5,
                 }}
-                colors={["#0EA5E9", "#60A5FA"]}
+                colors={["#2563EB", "#1D4ED8"]}
               >
                 <Icon name="tag" color="white" size={16} />
                 <Text
@@ -115,6 +115,26 @@ function ProfileInfo(props) {
               </LinearGradient>
             </TouchableOpacity>
           ))}
+          {currentUser.hub_list.length == 0 && (
+            <View
+              style={{
+                backgroundColor: "#1D4ED8",
+                padding: 10,
+                borderRadius: 10,
+              }}
+            >
+              <Text
+                style={{
+                  color: "white",
+                  fontWeight: "bold",
+                  lineHeight: 16,
+                  fontSize: 16,
+                }}
+              >
+                Hubを設定すると自分と同じ勉強分野の人と繋がることができます。
+              </Text>
+            </View>
+          )}
           <TouchableOpacity
             onPress={() =>
               navigation.push("HubSelect", {
@@ -137,7 +157,7 @@ function ProfileInfo(props) {
             >
               <Text
                 style={{
-                  color: "#0EA5E9",
+                  color: "#1D4ED8",
                   fontWeight: "bold",
                   lineHeight: 14,
                   fontSize: 14,
@@ -148,10 +168,16 @@ function ProfileInfo(props) {
             </LinearGradient>
           </TouchableOpacity>
         </Text>
-        <Text style={{ paddingTop: 10}}>
-          {currentUser.college && <Text style={{color: "#4B5563" }}>🏫{currentUser.college} </Text>}
-          {currentUser.faculty && <Text style={{color: "#4B5563" }}>{currentUser.faculty} </Text>}
-          {currentUser.department && <Text style={{color: "#4B5563" }}>{currentUser.department}</Text>}
+        <Text style={{ paddingTop: 10 }}>
+          {currentUser.college && (
+            <Text style={{ color: "#4B5563" }}>🏫{currentUser.college} </Text>
+          )}
+          {currentUser.faculty && (
+            <Text style={{ color: "#4B5563" }}>{currentUser.faculty} </Text>
+          )}
+          {currentUser.department && (
+            <Text style={{ color: "#4B5563" }}>{currentUser.department}</Text>
+          )}
         </Text>
         <Text style={{ paddingTop: 5, paddingBottom: 10 }}>
           {currentUser.profile}
@@ -178,7 +204,7 @@ function ProfileInfo(props) {
             </Text>
           </TouchableOpacity>
           <TouchableOpacity onPress={() => toggleCalendar()}>
-            <Text style={{ fontWeight: "bold" }}>  {doneCounts} Done🗓</Text>
+            <Text style={{ fontWeight: "bold" }}> {doneCounts} Done🗓</Text>
           </TouchableOpacity>
         </Text>
       </View>
