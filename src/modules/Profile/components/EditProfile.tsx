@@ -58,145 +58,147 @@ function EditProfile(props) {
   };
   return (
     <SafeAreaView>
-      <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
-        <Button title="閉じる" type="clear" onPress={toggleModal} />
-        <Button title="保存" type="clear" onPress={handleSubmit(onSubmit)} />
-      </View>
-      <Avatar
-        rounded
-        title={currentUser.name[0]}
-        source={{ uri: imageSrc }}
-        size="large"
-        containerStyle={{ backgroundColor: "gray", margin: 10 }}
-      />
-      <ImagePick currentUser={currentUser} toggleModal={toggleModal} />
-      <Controller
-        control={control}
-        render={({ onChange, value }) => (
-          <Input
-            multiline={true}
-            label="名前"
-            placeholder="名前を追加"
-            onChangeText={(value) => onChange(value)}
-            value={value}
-          />
+      <ScrollView>
+        <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
+          <Button title="閉じる" type="clear" onPress={toggleModal} />
+          <Button title="保存" type="clear" onPress={handleSubmit(onSubmit)} />
+        </View>
+        <Avatar
+          rounded
+          title={currentUser.name[0]}
+          source={{ uri: imageSrc }}
+          size="large"
+          containerStyle={{ backgroundColor: "gray", margin: 10 }}
+        />
+        <ImagePick currentUser={currentUser} toggleModal={toggleModal} />
+        <Controller
+          control={control}
+          render={({ onChange, value }) => (
+            <Input
+              multiline={true}
+              label="名前"
+              placeholder="名前を追加"
+              onChangeText={(value) => onChange(value)}
+              value={value}
+            />
+          )}
+          name="name"
+          defaultValue={currentUser.name}
+          rules={{
+            maxLength: 20,
+          }}
+        />
+        {errors.name && errors.name.type === "maxLength" && (
+          <Text style={styles.errorText}>
+            名前は20文字以内で入力してください。
+          </Text>
         )}
-        name="name"
-        defaultValue={currentUser.name}
-        rules={{
-          maxLength: 20,
-        }}
-      />
-      {errors.name && errors.name.type === "maxLength" && (
-        <Text style={styles.errorText}>
-          名前は20文字以内で入力してください。
-        </Text>
-      )}
-      <Controller
-        control={control}
-        render={({ onChange, value }) => (
-          <Input
-            multiline={true}
-            label="自己紹介"
-            placeholder="プロフィールを追加"
-            onChangeText={(value) => onChange(value)}
-            value={value}
-          />
+        <Controller
+          control={control}
+          render={({ onChange, value }) => (
+            <Input
+              multiline={true}
+              label="自己紹介"
+              placeholder="プロフィールを追加"
+              onChangeText={(value) => onChange(value)}
+              value={value}
+            />
+          )}
+          name="profile"
+          defaultValue={currentUser.profile}
+          rules={{
+            maxLength: 140,
+          }}
+        />
+        {errors.name && errors.name.type === "maxLength" && (
+          <Text style={styles.errorText}>
+            タイトルは140文字以内で入力してください。
+          </Text>
         )}
-        name="profile"
-        defaultValue={currentUser.profile}
-        rules={{
-          maxLength: 140,
-        }}
-      />
-      {errors.name && errors.name.type === "maxLength" && (
-        <Text style={styles.errorText}>
-          タイトルは140文字以内で入力してください。
-        </Text>
-      )}
-      <Controller
-        control={control}
-        render={({ onChange, value }) => (
-          <Input
-            label="大学名"
-            placeholder="hogehoge大学"
-            onChangeText={(value) => onChange(value)}
-            value={value}
-          />
+        <Controller
+          control={control}
+          render={({ onChange, value }) => (
+            <Input
+              label="大学名"
+              placeholder="hogehoge大学"
+              onChangeText={(value) => onChange(value)}
+              value={value}
+            />
+          )}
+          name="college"
+          defaultValue={currentUser.college}
+          rules={{
+            maxLength: 20,
+          }}
+        />
+        {errors.name && errors.name.type === "maxLength" && (
+          <Text style={styles.errorText}>
+            大学名は20文字以内で入力してください。
+          </Text>
         )}
-        name="college"
-        defaultValue={currentUser.college}
-        rules={{
-          maxLength: 20,
-        }}
-      />
-      {errors.name && errors.name.type === "maxLength" && (
-        <Text style={styles.errorText}>
-         大学名は20文字以内で入力してください。
-        </Text>
-      )}
-      <Controller
-        control={control}
-        render={({ onChange, value }) => (
-          <Input
-            label="学部名"
-            placeholder="foo学部"
-            onChangeText={(value) => onChange(value)}
-            value={value}
-          />
+        <Controller
+          control={control}
+          render={({ onChange, value }) => (
+            <Input
+              label="学部名"
+              placeholder="foo学部"
+              onChangeText={(value) => onChange(value)}
+              value={value}
+            />
+          )}
+          name="faculty"
+          defaultValue={currentUser.faculty}
+          rules={{
+            maxLength: 20,
+          }}
+        />
+        {errors.name && errors.name.type === "maxLength" && (
+          <Text style={styles.errorText}>
+            学部名は20文字以内で入力してください。
+          </Text>
         )}
-        name="faculty"
-        defaultValue={currentUser.faculty}
-        rules={{
-          maxLength: 20,
-        }}
-      />
-      {errors.name && errors.name.type === "maxLength" && (
-        <Text style={styles.errorText}>
-         学部名は20文字以内で入力してください。
-        </Text>
-      )}
-      <Controller
-        control={control}
-        render={({ onChange, value }) => (
-          <Input
-            label="学科名"
-            placeholder="bar学科"
-            onChangeText={(value) => onChange(value)}
-            value={value}
-          />
+        <Controller
+          control={control}
+          render={({ onChange, value }) => (
+            <Input
+              label="学科名"
+              placeholder="bar学科"
+              onChangeText={(value) => onChange(value)}
+              value={value}
+            />
+          )}
+          name="department"
+          defaultValue={currentUser.department}
+          rules={{
+            maxLength: 20,
+          }}
+        />
+        {errors.name && errors.name.type === "maxLength" && (
+          <Text style={styles.errorText}>
+            大学名は20文字以内で入力してください。
+          </Text>
         )}
-        name="department"
-        defaultValue={currentUser.department}
-        rules={{
-          maxLength: 20,
-        }}
-      />
-      {errors.name && errors.name.type === "maxLength" && (
-        <Text style={styles.errorText}>
-         大学名は20文字以内で入力してください。
-        </Text>
-      )}
-      <Button
-        title="ブロックしたユーザー"
-        type="clear"
-        onPress={() => {
-          toggleModal();
-          navigation.push("BlockUsers", { follower: blockUsers });
-        }}
-      />
-      <Button
-        title="sign out"
-        type="clear"
-        containerStyle={{ paddingHorizontal: 50 }}
-        onPress={() => {
-          firebase.auth().signOut();
-          navigation.navigate("LoadingScreen");
-          Toast.show("sign outしました", {
-            position: 50,
-          });
-        }}
-      />
+        <Button
+          title="ブロックしたユーザー"
+          type="clear"
+          onPress={() => {
+            toggleModal();
+            navigation.push("BlockUsers", { follower: blockUsers });
+          }}
+        />
+        <Button
+          title="sign out"
+          type="clear"
+          containerStyle={{ paddingHorizontal: 50 }}
+          onPress={() => {
+            firebase.auth().signOut();
+            navigation.navigate("LoadingScreen");
+            Toast.show("sign outしました", {
+              position: 50,
+            });
+          }}
+        />
+      </ScrollView>
     </SafeAreaView>
   );
 }

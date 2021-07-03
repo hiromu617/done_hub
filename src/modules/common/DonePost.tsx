@@ -60,7 +60,7 @@ const DonePost: React.FC<Props> = (props) => {
   };
 
   const like = async () => {
-    likeAnimation.current.play(19, 50);
+    likeAnimation.current.play(29, 50);
     setLikeState(true);
     setLikeNum(likeNum + 1);
     await axios
