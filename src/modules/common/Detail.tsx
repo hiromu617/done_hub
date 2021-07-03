@@ -2,23 +2,20 @@ import React, { useEffect, useState, useRef } from "react";
 import {
   Alert,
   FlatList,
-  StyleSheet,
   Text,
   View,
   ScrollView,
   RefreshControl,
   KeyboardAvoidingView,
-  Pressable
+  Pressable,
 } from "react-native";
 import { ListItem, Avatar, Icon, Overlay, Button } from "react-native-elements";
-import { SafeAreaView } from "react-native-safe-area-context";
 import { useNavigation } from "@react-navigation/native";
 import axios from "../../constants/axios";
 import Reply from "./Reply";
 import ReplyForm from "./ReplyForm";
 import Modal from "react-native-modal";
 import Toast from "react-native-root-toast";
-import { TouchableOpacity } from "react-native-gesture-handler";
 import { slackToken } from "../../../config";
 import { sendPushNotification } from "../../constants/pushNotificationFunc";
 import { getAvatar } from "./CommonUtil";
@@ -428,7 +425,8 @@ const Detail: React.FC = ({ route }) => {
                     >
                       {replyData.length}
                     </Text>
-                    <TouchableOpacity
+                    <Pressable
+                      hitSlop={30}
                       onPress={() => {
                         // アニメーションが終わるまで押せないようにする
                         if (likeLoading) {
@@ -452,21 +450,20 @@ const Detail: React.FC = ({ route }) => {
                         loop={false}
                         onAnimationFinish={() => setLikeLoading(false)}
                       />
-                    </TouchableOpacity>
+                    </Pressable>
                     <Pressable
-                      onPress={() =>{
+                      onPress={() => {
                         navigation.push("LikedUsers", {
                           following: likedUsers,
-                        })
-                      }
-                    }
-                    hitSlop={20}
+                        });
+                      }}
+                      hitSlop={20}
                     >
                       <Text
                         style={{
                           color: "gray",
                           marginHorizontal: 0,
-                          fontSize: 16,
+                          fontSize: 12,
                         }}
                       >
                         {likeNum} 件のいいね

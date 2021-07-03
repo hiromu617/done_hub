@@ -1,8 +1,11 @@
 import React, { useEffect, useState, useCallback, useRef } from "react";
-import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
+import {
+  Text,
+  View,
+  Pressable,
+} from "react-native";
 import { ListItem, Avatar, Icon } from "react-native-elements";
 import { useNavigation } from "@react-navigation/native";
-import firebase from "firebase";
 import axios from "../../constants/axios";
 import { FlatList } from "react-native-gesture-handler";
 import { sendPushNotification } from "../../constants/pushNotificationFunc";
@@ -20,7 +23,7 @@ const DonePost: React.FC<Props> = (props) => {
   const { post, currentUser, image } = props;
   const [imageSrc, setImageSrc] = useState(image);
   const [likeState, setLikeState] = useState(false); //currentUserがlikeしているかどうか
-  const [likeLoading, setLikeLoading] = useState(false); 
+  const [likeLoading, setLikeLoading] = useState(false);
   const [likeNum, setLikeNum] = useState(0); //投稿へのlikeの数
   const navigation = useNavigation();
   const likeAnimation = useRef(null);
@@ -226,7 +229,8 @@ const DonePost: React.FC<Props> = (props) => {
               <Text style={{ color: "gray", marginLeft: 15 }}>
                 {post.replys.length}
               </Text>
-              <TouchableOpacity
+              <Pressable
+                hitSlop={50}
                 onPress={() => {
                   // アニメーションが終わるまで押せないようにする
                   if (likeLoading) {
@@ -237,6 +241,7 @@ const DonePost: React.FC<Props> = (props) => {
                     else like();
                   }
                 }}
+                style={{flexDirection: 'row', alignItems: 'center', zIndex: 100}}
               >
                 <LottieView
                   style={{ width: 60, height: 60, backgroundColor: "#fff" }}
@@ -246,7 +251,6 @@ const DonePost: React.FC<Props> = (props) => {
                   loop={false}
                   onAnimationFinish={() => setLikeLoading(false)}
                 />
-              </TouchableOpacity>
               <Text
                 style={{
                   color: likeState ? "#F87171" : "gray",
@@ -255,6 +259,7 @@ const DonePost: React.FC<Props> = (props) => {
               >
                 {likeNum}
               </Text>
+              </Pressable>
             </View>
             <Text
               style={{
