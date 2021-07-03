@@ -3,6 +3,8 @@ DoneHubは、勉強の予定、成果をシェアできる大学生向けSNSア�
 
 [App Store URL](https://apps.apple.com/us/app/donehub/id1565814912)
 
+react native 0.63
+
 <img src="https://user-images.githubusercontent.com/64679766/118754288-b0c6dc00-b8a1-11eb-9524-21ffe8735ff7.jpg" width="360">
 <img src="https://user-images.githubusercontent.com/64679766/118754319-c0debb80-b8a1-11eb-8761-8dc9944bd94f.jpg" width="360">
 ## 使用技術

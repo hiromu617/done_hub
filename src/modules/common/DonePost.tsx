@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from "react";
+import React, { useEffect, useState, useCallback, useRef } from "react";
 import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
 import { ListItem, Avatar, Icon } from "react-native-elements";
 import { useNavigation } from "@react-navigation/native";
@@ -8,7 +8,7 @@ import { FlatList } from "react-native-gesture-handler";
 import { sendPushNotification } from "../../constants/pushNotificationFunc";
 import { getAvatar } from "./CommonUtil";
 import formatDistanceToNow from "date-fns/formatDistanceToNow";
-import { ja } from "date-fns/locale";
+import LottieView from "lottie-react-native";
 
 type Props = {
   post;
@@ -20,8 +20,10 @@ const DonePost: React.FC<Props> = (props) => {
   const { post, currentUser, image } = props;
   const [imageSrc, setImageSrc] = useState(image);
   const [likeState, setLikeState] = useState(false); //currentUserがlikeしているかどうか
+  const [likeLoading, setLikeLoading] = useState(false); //currentUserがlikeしているかどうか
   const [likeNum, setLikeNum] = useState(0); //投稿へのlikeの数
   const navigation = useNavigation();
+  const likeAnimation = useRef(null);
 
   useEffect(() => {
     // imageがnullの時imageを取得
@@ -40,22 +42,28 @@ const DonePost: React.FC<Props> = (props) => {
     });
   }, []);
 
-  // CurrentUserがlikeしているかチェック
-  const isLike = () => {
+  // CurrentUserがlikeしているかチェック,それに合わせてアニメーションを変更
+  const isLike = async () => {
     setLikeNum(post.likes.length);
     setLikeState(false);
-    post.likes.map((p) => {
+    await post.likes.map((p) => {
       if (p.user_id === currentUser.id) {
         setLikeState(true);
-        return;
+        likeAnimation.current.play(66, 66);
       }
     });
+    if (likeState) {
+      likeAnimation.current.play(66, 66);
+    } else {
+      likeAnimation.current.play(19, 19);
+    }
   };
 
   const like = async () => {
+    likeAnimation.current.play(19, 50);
     setLikeState(true);
     setLikeNum(likeNum + 1);
-    axios
+    await axios
       .post("/api/likes/", {
         like: {
           user_id: currentUser.id,
@@ -68,17 +76,20 @@ const DonePost: React.FC<Props> = (props) => {
         }
       });
     if (post.user.id === currentUser.id) return;
-    sendPushNotification(
-      post.user.expo_push_token,
-      "Done Hub",
-      `${currentUser.name}さんが投稿にいいねしました`
-    );
+    else {
+      sendPushNotification(
+        post.user.expo_push_token,
+        "Done Hub",
+        `${currentUser.name}さんが投稿にいいねしました`
+      );
+    }
   };
 
   const unlike = async () => {
+    likeAnimation.current.play(0, 19);
     setLikeState(false);
     setLikeNum(likeNum - 1);
-    axios
+    await axios
       .delete("/api/likes/", {
         params: {
           user_id: currentUser.id,
@@ -105,6 +116,7 @@ const DonePost: React.FC<Props> = (props) => {
           initialLikeNum: likeNum,
         })
       }
+      containerStyle={{ paddingBottom: 0 }}
     >
       <ListItem.Content>
         <View style={{ flexDirection: "row", alignItems: "center" }}>
@@ -162,7 +174,7 @@ const DonePost: React.FC<Props> = (props) => {
             </Text>
           )}
           {post.title && (
-            <ListItem.Title style={{ paddingVertical: 15, fontWeight: "bold" }}>
+            <ListItem.Title style={{ paddingTop: 15, fontWeight: "bold" }}>
               「{post.title}」 DONE！✨
             </ListItem.Title>
           )}
@@ -197,43 +209,62 @@ const DonePost: React.FC<Props> = (props) => {
               alignItems: "center",
             }}
           >
-            <Icon name="comment" type="font-awesome-5" size={20} color="gray" />
-            <Text style={{ color: "gray", marginHorizontal: 0 }}>
-              {post.replys.length}
-            </Text>
-            {!likeState && (
+            <View
+              style={{
+                flexDirection: "row",
+                justifyContent: "space-between",
+                alignItems: "center",
+                width: "25%",
+              }}
+            >
               <Icon
-                name="heart"
+                name="comment"
                 type="font-awesome-5"
                 size={20}
-                color="#F87171"
-                onPress={() => like()}
+                color="gray"
               />
-            )}
-            {likeState && (
-              <Icon
-                name="heart"
-                type="font-awesome-5"
-                size={20}
-                color="#F87171"
-                solid
-                onPress={() => unlike()}
-              />
-            )}
-            <Text style={{ color: "#F87171", marginHorizontal: 0 }}>
-              {likeNum}
-            </Text>
+              <Text style={{ color: "gray", marginLeft: 15 }}>
+                {post.replys.length}
+              </Text>
+              <TouchableOpacity
+                onPress={() => {
+                  // アニメーションが終わるまで押せないようにする
+                  if (likeLoading) {
+                    return;
+                  } else {
+                    setLikeLoading(true);
+                    if (likeState) unlike();
+                    else like();
+                  }
+                }}
+              >
+                <LottieView
+                  style={{ width: 60, height: 60, backgroundColor: "#fff" }}
+                  source={require("../../../assets/44921-like-animation.json")}
+                  ref={likeAnimation}
+                  autoPlay={false}
+                  loop={false}
+                  onAnimationFinish={() => setLikeLoading(false)}
+                />
+              </TouchableOpacity>
+              <Text
+                style={{
+                  color: likeState ? "#F87171" : "gray",
+                  marginHorizontal: 0,
+                }}
+              >
+                {likeNum}
+              </Text>
+            </View>
             <Text
               style={{
                 fontSize: 10,
                 color: "gray",
-                width: "70%",
+                width: "75%",
                 textAlign: "right",
               }}
             >
-              {formatDistanceToNow(new Date(post.created_at), {
-                locale: ja,
-              })}
+              {formatDistanceToNow(new Date(post.created_at))}
             </Text>
           </View>
         </View>
