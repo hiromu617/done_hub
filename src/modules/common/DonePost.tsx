@@ -1,9 +1,5 @@
 import React, { useEffect, useState, useCallback, useRef } from "react";
-import {
-  Text,
-  View,
-  Pressable,
-} from "react-native";
+import { Text, View, Pressable } from "react-native";
 import { ListItem, Avatar, Icon } from "react-native-elements";
 import { useNavigation } from "@react-navigation/native";
 import axios from "../../constants/axios";
@@ -227,7 +223,7 @@ const DonePost: React.FC<Props> = (props) => {
                 color="gray"
               />
               <Text style={{ color: "gray", marginLeft: 15 }}>
-                {post.replys.length}
+                {post.replys.length >= 1 ? post.replys.length : " "}
               </Text>
               <Pressable
                 hitSlop={50}
@@ -241,7 +237,11 @@ const DonePost: React.FC<Props> = (props) => {
                     else like();
                   }
                 }}
-                style={{flexDirection: 'row', alignItems: 'center', zIndex: 100}}
+                style={{
+                  flexDirection: "row",
+                  alignItems: "center",
+                  zIndex: 100,
+                }}
               >
                 <LottieView
                   style={{ width: 60, height: 60, backgroundColor: "#fff" }}
@@ -251,14 +251,14 @@ const DonePost: React.FC<Props> = (props) => {
                   loop={false}
                   onAnimationFinish={() => setLikeLoading(false)}
                 />
-              <Text
-                style={{
-                  color: likeState ? "#F87171" : "gray",
-                  marginHorizontal: 0,
-                }}
-              >
-                {likeNum}
-              </Text>
+                <Text
+                  style={{
+                    color: likeState ? "#F87171" : "gray",
+                    marginHorizontal: 0,
+                  }}
+                >
+                  {likeNum >= 1 ? likeNum : " "}
+                </Text>
               </Pressable>
             </View>
             <Text

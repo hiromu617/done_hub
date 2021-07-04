@@ -1,10 +1,10 @@
 {
   "expo": {
     "name": "DoneHub",
-    "version": "1.0.1",
+    "version": "1.0.2",
     "ios": {
       "bundleIdentifier": "com.done-hub",
-      "buildNumber": "1.0.1",
+      "buildNumber": "1.0.0",
       "usesAppleSignIn": true,
       "config": {
         "googleMobileAdsAppId": "ca-app-pub-2508838902910991~1531096912",
