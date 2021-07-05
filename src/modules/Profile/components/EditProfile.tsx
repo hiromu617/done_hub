@@ -6,6 +6,8 @@ import {
   ScrollView,
   RefreshControl,
   SafeAreaView,
+  TouchableOpacity,
+  Image,
 } from "react-native";
 import { Avatar, Text, Button, Icon, Input } from "react-native-elements";
 import { useForm, Controller } from "react-hook-form";
@@ -16,6 +18,7 @@ import ImagePick from "./ImagePick";
 import Toast from "react-native-root-toast";
 import { useNavigation } from "@react-navigation/native";
 import firebase from "firebase";
+import * as Linking from 'expo-linking';
 
 function EditProfile(props) {
   const { toggleModal, currentUser, imageSrc, blockUsers } = props;
@@ -57,12 +60,12 @@ function EditProfile(props) {
       .catch((e) => console.log(e));
   };
   return (
-    <SafeAreaView>
+    <>
+      <SafeAreaView style={{ flexDirection: "row", justifyContent: "space-between" }}>
+        <Button title="閉じる" type="clear" onPress={toggleModal} />
+        <Button title="保存" type="clear" onPress={handleSubmit(onSubmit)} />
+      </SafeAreaView>
       <ScrollView>
-        <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
-          <Button title="閉じる" type="clear" onPress={toggleModal} />
-          <Button title="保存" type="clear" onPress={handleSubmit(onSubmit)} />
-        </View>
         <Avatar
           rounded
           title={currentUser.name[0]}
@@ -198,8 +201,25 @@ function EditProfile(props) {
             });
           }}
         />
+        <TouchableOpacity
+        style={{
+          width: '100%', 
+            paddingHorizontal: 70, 
+            marginTop: 20,
+            }}
+            onPress={() => Linking.openURL('https://www.buymeacoffee.com/hiromu')}
+        >
+            <Image
+              style={{
+                width: '100%',
+                height: undefined,
+                aspectRatio: 4 / 1,
+              }}
+              source={{uri: "https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png"}}
+              />
+        </TouchableOpacity>
       </ScrollView>
-    </SafeAreaView>
+    </>
   );
 }
 

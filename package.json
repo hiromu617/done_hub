@@ -40,7 +40,8 @@
     "react-native-screens": "~2.15.2",
     "react-native-swipe-list-view": "^3.2.7",
     "react-native-tab-view": "^2.16.0",
-    "react-native-web": "~0.13.12"
+    "react-native-web": "~0.13.12",
+    "react-native-webview": "11.0.0"
   },
   "devDependencies": {
     "@babel/core": "~7.9.0",

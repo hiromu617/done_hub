@@ -423,7 +423,7 @@ const Detail: React.FC = ({ route }) => {
                         fontSize: 14,
                       }}
                     >
-                      {replyData.length}
+                      {replyData.length >= 1 ? replyData.length : " "}
                     </Text>
                     <Pressable
                       hitSlop={30}
@@ -440,8 +440,8 @@ const Detail: React.FC = ({ route }) => {
                     >
                       <LottieView
                         style={{
-                          width: 70,
-                          height: 70,
+                          width: 55,
+                          height: 55,
                           backgroundColor: "#fff",
                         }}
                         source={require("../../../assets/44921-like-animation.json")}

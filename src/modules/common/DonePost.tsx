@@ -219,14 +219,14 @@ const DonePost: React.FC<Props> = (props) => {
               <Icon
                 name="comment"
                 type="font-awesome-5"
-                size={20}
+                size={18}
                 color="gray"
               />
-              <Text style={{ color: "gray", marginLeft: 15 }}>
+              <Text style={{ color: "gray"}}>
                 {post.replys.length >= 1 ? post.replys.length : " "}
               </Text>
               <Pressable
-                hitSlop={50}
+                hitSlop={20}
                 onPress={() => {
                   // アニメーションが終わるまで押せないようにする
                   if (likeLoading) {
@@ -244,7 +244,7 @@ const DonePost: React.FC<Props> = (props) => {
                 }}
               >
                 <LottieView
-                  style={{ width: 60, height: 60, backgroundColor: "#fff" }}
+                  style={{ width: 50, height: 50, backgroundColor: "#fff" }}
                   source={require("../../../assets/44921-like-animation.json")}
                   ref={likeAnimation}
                   autoPlay={false}
