@@ -213,6 +213,7 @@ function ProfileInfo(props) {
           </TouchableOpacity>
           <TouchableOpacity onPress={() => toggleCalendar()}>
             <Text style={{ fontWeight: "bold", fontSize: 14 }}>
+              {" "}
               {doneCounts} Done🗓
             </Text>
           </TouchableOpacity>
