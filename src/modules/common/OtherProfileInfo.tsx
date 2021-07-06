@@ -201,18 +201,24 @@ function OtherProfileInfo(props) {
             </TouchableOpacity>
           ))}
         </Text>
-        <Text style={{ paddingTop: 10 }}>
+        <Text>
           {userInfo.college && (
-            <Text style={{ color: "#4B5563" }}>🏫{userInfo.college} </Text>
+            <Text style={{ color: "#4B5563", lineHeight: 26 }}>
+              🏫{userInfo.college}{" "}
+            </Text>
           )}
           {userInfo.faculty && (
-            <Text style={{ color: "#4B5563" }}>{userInfo.faculty} </Text>
+            <Text style={{ color: "#4B5563", lineHeight: 26 }}>
+              {userInfo.faculty}{" "}
+            </Text>
           )}
           {userInfo.department && (
-            <Text style={{ color: "#4B5563" }}>{userInfo.department}</Text>
+            <Text style={{ color: "#4B5563", lineHeight: 26 }}>
+              {userInfo.department}
+            </Text>
           )}
         </Text>
-        <Text style={{ paddingTop: 5, paddingBottom: 10 }}>
+        <Text style={{ paddingTop: 10, paddingBottom: 15, fontSize: 15.5 }}>
           {userInfo.profile}
         </Text>
         <Text>
@@ -223,7 +229,7 @@ function OtherProfileInfo(props) {
               })
             }
           >
-            <Text style={{ fontWeight: "bold", marginRight: 10 }}>
+            <Text style={{ fontWeight: "bold", marginRight: 10, fontSize: 14 }}>
               {followData.following.length} フォロー
             </Text>
           </TouchableOpacity>
@@ -232,12 +238,15 @@ function OtherProfileInfo(props) {
               navigation.push("Follower", { follower: followData.follower })
             }
           >
-            <Text style={{ fontWeight: "bold" }}>
+            <Text style={{ fontWeight: "bold", fontSize: 14 }}>
               {followData.follower.length} フォロワー
             </Text>
           </TouchableOpacity>
           <TouchableOpacity onPress={() => toggleCalendar()}>
-            <Text style={{ fontWeight: "bold" }}> {doneCounts} Done🗓</Text>
+            <Text style={{ fontWeight: "bold", fontSize: 14 }}>
+              {" "}
+              {doneCounts} Done🗓
+            </Text>
           </TouchableOpacity>
         </Text>
       </View>

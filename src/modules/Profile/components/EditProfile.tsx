@@ -205,7 +205,7 @@ function EditProfile(props) {
         style={{
           width: '100%', 
             paddingHorizontal: 70, 
-            marginTop: 20,
+            marginVertical: 20,
             }}
             onPress={() => Linking.openURL('https://www.buymeacoffee.com/hiromu')}
         >

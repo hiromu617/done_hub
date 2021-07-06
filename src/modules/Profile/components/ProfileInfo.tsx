@@ -69,13 +69,13 @@ function ProfileInfo(props) {
         <View style={{ position: "absolute", right: 0 }}>
           <Button
             title="変更"
-            style={{ margin: 10}}
+            style={{ margin: 10 }}
             buttonStyle={{
               borderRadius: 18,
               paddingHorizontal: 12,
               backgroundColor: "white",
               borderColor: "#1D4ED8",
-              borderWidth: .8,
+              borderWidth: 0.8,
             }}
             icon={
               <Icon name="cog" type="font-awesome" size={18} color="#1D4ED8" />
@@ -170,18 +170,24 @@ function ProfileInfo(props) {
             </LinearGradient>
           </TouchableOpacity>
         </Text>
-        <Text style={{ paddingTop: 10 }}>
+        <Text>
           {currentUser.college && (
-            <Text style={{ color: "#4B5563" }}>🏫{currentUser.college} </Text>
+            <Text style={{ color: "#4B5563", lineHeight: 26 }}>
+              🏫{currentUser.college}{" "}
+            </Text>
           )}
           {currentUser.faculty && (
-            <Text style={{ color: "#4B5563" }}>{currentUser.faculty} </Text>
+            <Text style={{ color: "#4B5563", lineHeight: 26 }}>
+              {currentUser.faculty}{" "}
+            </Text>
           )}
           {currentUser.department && (
-            <Text style={{ color: "#4B5563" }}>{currentUser.department}</Text>
+            <Text style={{ color: "#4B5563", lineHeight: 26 }}>
+              {currentUser.department}
+            </Text>
           )}
         </Text>
-        <Text style={{ paddingTop: 5, paddingBottom: 10 }}>
+        <Text style={{ paddingTop: 10, paddingBottom: 15, fontSize: 15.5 }}>
           {currentUser.profile}
         </Text>
         <Text>
@@ -192,7 +198,7 @@ function ProfileInfo(props) {
               })
             }
           >
-            <Text style={{ fontWeight: "bold", marginRight: 10 }}>
+            <Text style={{ fontWeight: "bold", marginRight: 10, fontSize: 14 }}>
               {followData.following.length} フォロー
             </Text>
           </TouchableOpacity>
@@ -201,12 +207,14 @@ function ProfileInfo(props) {
               navigation.push("Follower", { follower: followData.follower })
             }
           >
-            <Text style={{ fontWeight: "bold" }}>
+            <Text style={{ fontWeight: "bold", fontSize: 14 }}>
               {followData.follower.length} フォロワー
             </Text>
           </TouchableOpacity>
           <TouchableOpacity onPress={() => toggleCalendar()}>
-            <Text style={{ fontWeight: "bold" }}> {doneCounts} Done🗓</Text>
+            <Text style={{ fontWeight: "bold", fontSize: 14 }}>
+              {doneCounts} Done🗓
+            </Text>
           </TouchableOpacity>
         </Text>
       </View>

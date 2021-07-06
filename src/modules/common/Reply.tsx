@@ -218,7 +218,7 @@ const Reply: React.FC<Props> = (props) => {
           </View>
         </View>
         <View style={{ width: "100%", paddingLeft: "12%" }}>
-          <ListItem.Title style={{ fontSize: 13 }}>
+          <ListItem.Title style={{ fontSize: 14, marginBottom: 15, marginRight: 20 }}>
             {reply.content}
           </ListItem.Title>
           <Text

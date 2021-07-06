@@ -419,14 +419,14 @@ const Detail: React.FC = ({ route }) => {
                     <Text
                       style={{
                         color: "gray",
-                        marginLeft: 7,
+                        marginLeft: 0,
                         fontSize: 14,
                       }}
                     >
                       {replyData.length >= 1 ? replyData.length : " "}
                     </Text>
                     <Pressable
-                      hitSlop={30}
+                      hitSlop={20}
                       onPress={() => {
                         // アニメーションが終わるまで押せないようにする
                         if (likeLoading) {
@@ -451,24 +451,25 @@ const Detail: React.FC = ({ route }) => {
                         onAnimationFinish={() => setLikeLoading(false)}
                       />
                     </Pressable>
-                    <Pressable
-                      onPress={() => {
-                        navigation.push("LikedUsers", {
-                          following: likedUsers,
-                        });
-                      }}
-                      hitSlop={20}
-                    >
-                      <Text
-                        style={{
-                          color: "gray",
-                          marginHorizontal: 0,
-                          fontSize: 12,
+                      <Pressable
+                        onPress={() => {
+                          if(likeNum == 0) return
+                          navigation.push("LikedUsers", {
+                            following: likedUsers,
+                          });
                         }}
+                        hitSlop={30}
                       >
-                        {likeNum} 件のいいね
-                      </Text>
-                    </Pressable>
+                        <Text
+                          style={{
+                            color: "gray",
+                            marginHorizontal: 0,
+                            fontSize: 12,
+                          }}
+                        >
+                          {likeNum} 件のいいね
+                        </Text>
+                      </Pressable>
                   </View>
                   <Text
                     style={{
